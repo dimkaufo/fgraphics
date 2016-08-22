@@ -10,11 +10,9 @@
     "noImplicitAny": false,
     "declaration": true,
 
-    "rootDir": "./src/",
     "outDir" : "./src/"
   },
   "exclude": [
-    "node_modules",
-    "build"
+    "node_modules"
   ]
 }

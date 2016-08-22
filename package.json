@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "tsc": "tsc",
-    "build-def": "tsc && gulp generate-definitions"
+    "build-def": "gulp generate-definitions && tsc"
   },
   "license": "MIT",
   "private": false,
@@ -11,7 +11,9 @@
     "type": "git",
     "url": "https://github.com/flashist/fgraphics"
   },
+  "typings": "./index.d.ts",
   "dependencies": {
+    "eventemitter3": "^1.2.0",
     "fcore": "",
     "gulp": "3.9.1",
     "gulp-typescript": "2.13.6",
