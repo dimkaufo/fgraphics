@@ -1,6 +1,6 @@
 {
   "name": "fgraphics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "tsc": "tsc",
     "build-def": "gulp generate-definitions && tsc"
