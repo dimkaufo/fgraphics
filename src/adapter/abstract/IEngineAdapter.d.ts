@@ -1,15 +1,15 @@
-import {IEventDispatcher, Point} from "fcore/src/index";
-import {ITickerWrapper} from "./wrapper/ticker/ITickerWrapper";
-import {IDisplayObjectWrapper} from "./wrapper/display/IDisplayObjectWrapper";
-import {IDisplayObjectContainerWrapper} from "./wrapper/display/IDisplayObjectContainerWrapper";
-import {IMovieClipWrapper} from "./wrapper/display/IDisplayMovieClipWrapper";
-import {ISpriteWrapper} from "./wrapper/display/ISpriteWrapper";
-import {IAnimatableSpriteWrapper} from "./wrapper/display/IAnimatableSpriteWrapper";
-import {ITextWrapper} from "./wrapper/display/ITextWrapper";
-import {IGraphicsWrapper} from "./wrapper/display/IGraphicsWrapper";
-import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
-import {ISpriteSheetRawData} from "./data/ISpriteSheetRawData";
-import {ISpriteSheetLoadedData} from "./data/ISpriteSheetLoadedData";
+import { IEventDispatcher, Point } from "fcore/src/index";
+import { ITickerWrapper } from "./wrapper/ticker/ITickerWrapper";
+import { IDisplayObjectWrapper } from "./wrapper/display/IDisplayObjectWrapper";
+import { IDisplayObjectContainerWrapper } from "./wrapper/display/IDisplayObjectContainerWrapper";
+import { IMovieClipWrapper } from "./wrapper/display/IDisplayMovieClipWrapper";
+import { ISpriteWrapper } from "./wrapper/display/ISpriteWrapper";
+import { IAnimatableSpriteWrapper } from "./wrapper/display/IAnimatableSpriteWrapper";
+import { ITextWrapper } from "./wrapper/display/ITextWrapper";
+import { IGraphicsWrapper } from "./wrapper/display/IGraphicsWrapper";
+import { DisplayObjectWithNameVO } from "../../tools/display/DisplayObjectWithNameVO";
+import { ISpriteSheetRawData } from "./data/ISpriteSheetRawData";
+import { ISpriteSheetLoadedData } from "./data/ISpriteSheetLoadedData";
 export interface IEngineAdapter extends IEventDispatcher<string> {
     customPreparation(canvas: HTMLElement): void;
     initGraphics(): void;

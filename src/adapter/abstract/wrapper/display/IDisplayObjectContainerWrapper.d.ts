@@ -1,4 +1,4 @@
-import {IDisplayObjectWrapper} from "./IDisplayObjectWrapper";
+import { IDisplayObjectWrapper } from "./IDisplayObjectWrapper";
 export interface IDisplayObjectContainerWrapper extends IDisplayObjectWrapper {
     isDisplayObjectContainerWrapper: boolean;
     addChild(child: IDisplayObjectWrapper): void;

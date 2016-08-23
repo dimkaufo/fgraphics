@@ -1,6 +1,6 @@
-import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
-import {IMovieClipWrapper} from "../../../abstract/wrapper/display/IDisplayMovieClipWrapper";
-import {IMovieClipLabel} from "../../../abstract/wrapper/display/IMovieClipLabel";
+import { PixiDisplayObjectContainerWrapper } from "./PixiDisplayObjectContainerWrapper";
+import { IMovieClipWrapper } from "../../../abstract/wrapper/display/IDisplayMovieClipWrapper";
+import { IMovieClipLabel } from "../../../abstract/wrapper/display/IMovieClipLabel";
 import MovieClip = pixiflash.MovieClip;
 export declare class PixiMovieClipWrapper extends PixiDisplayObjectContainerWrapper implements IMovieClipWrapper {
     isMovieClipWrapper: boolean;

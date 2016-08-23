@@ -1,5 +1,5 @@
-import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
-import {IMovieClipLabel} from "./IMovieClipLabel";
+import { IDisplayObjectContainerWrapper } from "./IDisplayObjectContainerWrapper";
+import { IMovieClipLabel } from "./IMovieClipLabel";
 export interface IMovieClipWrapper extends IDisplayObjectContainerWrapper {
     isMovieClipWrapper: boolean;
     gotoAndPlay(frame: number | string): void;

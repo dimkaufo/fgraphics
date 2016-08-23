@@ -1,6 +1,6 @@
-import {ISpriteWrapper} from "../../../abstract/wrapper/display/ISpriteWrapper";
-import {Point} from "fcore/src/index";
-import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
+import { ISpriteWrapper } from "../../../abstract/wrapper/display/ISpriteWrapper";
+import { Point } from "fcore/src/index";
+import { PixiDisplayObjectContainerWrapper } from "./PixiDisplayObjectContainerWrapper";
 import Sprite = pixiflash.Sprite;
 export declare class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper implements ISpriteWrapper {
     isSpriteWrapper: boolean;

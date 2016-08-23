@@ -1,6 +1,6 @@
-import {BaseClassWrapper, Rectangle} from "fcore/src/index";
-import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
-import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
+import { BaseClassWrapper, Rectangle } from "fcore/src/index";
+import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
+import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDisplayObjectWrapper {
     isDisplayObjectWrapper: boolean;
     private _pixiDisplayObject;

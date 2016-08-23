@@ -1,5 +1,5 @@
-import {IGraphicsWrapper} from "../../../abstract/wrapper/display/IGraphicsWrapper";
-import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
+import { IGraphicsWrapper } from "../../../abstract/wrapper/display/IGraphicsWrapper";
+import { PixiDisplayObjectContainerWrapper } from "./PixiDisplayObjectContainerWrapper";
 export declare class PixiGraphicsWrapper extends PixiDisplayObjectContainerWrapper implements IGraphicsWrapper {
     isGraphicsWrapper: boolean;
     protected pixiGraphics: PIXI.Graphics;

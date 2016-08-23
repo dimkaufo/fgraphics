@@ -1,5 +1,5 @@
-import {ITickerWrapper} from "../../../abstract/wrapper/ticker/ITickerWrapper";
-import {BaseClassWrapper} from "fcore/src/index";
+import { ITickerWrapper } from "../../../abstract/wrapper/ticker/ITickerWrapper";
+import { BaseClassWrapper } from "fcore/src/index";
 export declare class PixiTickerWrapper extends BaseClassWrapper implements ITickerWrapper {
     private _pixiTicker;
     protected prevLastTime: number;
