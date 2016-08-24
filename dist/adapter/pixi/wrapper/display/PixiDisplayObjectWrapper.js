@@ -13,11 +13,20 @@ var PixiDisplayObjectWrapper = (function (_super) {
     function PixiDisplayObjectWrapper() {
         _super.call(this);
         this.isDisplayObjectWrapper = true;
-        this.tempBounds = new index_1.Rectangle();
     }
     PixiDisplayObjectWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);
         this.pixiDisplayObject = this.object;
+    };
+    PixiDisplayObjectWrapper.prototype.commitInteractiveData = function () {
+        if (this.pixiDisplayObject) {
+            if (this.interactive) {
+                this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+            }
+            else {
+                this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+            }
+        }
     };
     PixiDisplayObjectWrapper.prototype.destruction = function () {
         _super.prototype.destruction.call(this);
@@ -28,10 +37,10 @@ var PixiDisplayObjectWrapper = (function (_super) {
     PixiDisplayObjectWrapper.prototype.removeListeners = function () {
         _super.prototype.removeListeners.call(this);
         if (this.pixiDisplayObject) {
-            this.removePixiObjectListeners(this.pixiDisplayObject);
+            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
         }
     };
-    PixiDisplayObjectWrapper.prototype.addPixiObjectListeners = function (pixiObject) {
+    PixiDisplayObjectWrapper.prototype.addInteractivePixiObjectListeners = function (pixiObject) {
         if (!pixiObject) {
             return;
         }
@@ -46,7 +55,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
         pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     };
-    PixiDisplayObjectWrapper.prototype.removePixiObjectListeners = function (pixiObject) {
+    PixiDisplayObjectWrapper.prototype.removeInteractivePixiObjectListeners = function (pixiObject) {
         if (!pixiObject) {
             return;
         }
@@ -87,10 +96,11 @@ var PixiDisplayObjectWrapper = (function (_super) {
             return this._pixiDisplayObject;
         },
         set: function (value) {
-            this.removePixiObjectListeners(this.pixiDisplayObject);
+            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
             //
             this._pixiDisplayObject = value;
-            this.addPixiObjectListeners(this.pixiDisplayObject);
+            // this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+            this.commitInteractiveData();
         },
         enumerable: true,
         configurable: true
@@ -171,6 +181,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         },
         set: function (value) {
             this.pixiDisplayObject.interactive = value;
+            this.commitInteractiveData();
         },
         enumerable: true,
         configurable: true
@@ -198,29 +209,40 @@ var PixiDisplayObjectWrapper = (function (_super) {
     });
     PixiDisplayObjectWrapper.prototype.getGlobalBounds = function () {
         var tempPixiBounds = this.pixiDisplayObject.getBounds();
-        this.tempBounds.x = tempPixiBounds.x;
-        this.tempBounds.y = tempPixiBounds.y;
-        this.tempBounds.width = tempPixiBounds.width;
-        this.tempBounds.height = tempPixiBounds.height;
-        return this.tempBounds.clone();
+        return new index_1.Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     };
-    /*public getUnscaledBounds(): Rectangle
-     {
-     this.tempBounds = this.getBounds();
-     this.tempBounds.multiply(1 / this.scaleX, 1 / this.scaleY);
-
-     return this.tempBounds.clone();
-     }*/
-    PixiDisplayObjectWrapper.prototype.getScaledBounds = function () {
-        this.tempBounds = this.getGlobalBounds();
-        this.tempBounds.multiply(this.scaleX, this.scaleY);
-        return this.tempBounds.clone();
+    PixiDisplayObjectWrapper.prototype.getLocalBounds = function () {
+        var tempPixiBounds = this.pixiDisplayObject.getLocalBounds();
+        return new index_1.Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     };
-    /*public resize(width:number, height:number):void {
-        var tempUnscaledbounds:Rectangle = this.getGlobalBounds();
-        this.scaleX = width / tempUnscaledbounds.width;
-        this.scaleY = height / tempUnscaledbounds.height;
-    }*/
+    PixiDisplayObjectWrapper.prototype.toGlobal = function (position) {
+        var tempPixiPos = this.pixiDisplayObject.toGlobal(new PIXI.Point(position.x, position.y));
+        return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
+    };
+    PixiDisplayObjectWrapper.prototype.toLocal = function (position) {
+        var tempPixiPos = this.pixiDisplayObject.toLocal(new PIXI.Point(position.x, position.y));
+        return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
+    };
+    Object.defineProperty(PixiDisplayObjectWrapper.prototype, "width", {
+        get: function () {
+            return this.getLocalBounds().width / this.scaleX;
+        },
+        set: function (value) {
+            index_1.Logger.error("PixiDisplayObjectWrapper | set width __ WARNING! Setter is not implemented for simple display objects!");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PixiDisplayObjectWrapper.prototype, "height", {
+        get: function () {
+            return this.getLocalBounds().height / this.scaleY;
+        },
+        set: function (value) {
+            index_1.Logger.error("PixiDisplayObjectWrapper | set height __ WARNING! Setter is not implemented for simple display objects!");
+        },
+        enumerable: true,
+        configurable: true
+    });
     PixiDisplayObjectWrapper.prototype.checkIfParamIsParent = function (paramName) {
         var result;
         if (paramName == "parent") {

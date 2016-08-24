@@ -1,6 +1,6 @@
-import {IDisplayObjectWrapper} from "../../adapter/abstract/wrapper/display/IDisplayObjectWrapper";
-import {IDisplayObjectContainerWrapper} from "../../adapter/abstract/wrapper/display/IDisplayObjectContainerWrapper";
-import {DisplayObjectWithNameVO} from "./DisplayObjectWithNameVO";
+import { IDisplayObjectWrapper } from "../../adapter/abstract/wrapper/display/IDisplayObjectWrapper";
+import { IDisplayObjectContainerWrapper } from "../../adapter/abstract/wrapper/display/IDisplayObjectContainerWrapper";
+import { DisplayObjectWithNameVO } from "./DisplayObjectWithNameVO";
 export declare class DisplayObjectTools {
     static removeAllChildren(container: IDisplayObjectContainerWrapper): void;
     static childRemoveItselfFromParent(child: IDisplayObjectWrapper): void;

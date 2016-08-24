@@ -66,16 +66,6 @@ var PixiDisplayObjectContainerWrapper = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    PixiDisplayObjectContainerWrapper.prototype.resize = function (width, height) {
-        this.pixiContainer.width = width;
-        this.pixiContainer.height = height;
-    };
-    PixiDisplayObjectContainerWrapper.prototype.getScaledBounds = function () {
-        var result = _super.prototype.getScaledBounds.call(this);
-        result.width = this.pixiContainer.width;
-        result.height = this.pixiContainer.height;
-        return result;
-    };
     return PixiDisplayObjectContainerWrapper;
 }(PixiDisplayObjectWrapper_1.PixiDisplayObjectWrapper));
 exports.PixiDisplayObjectContainerWrapper = PixiDisplayObjectContainerWrapper;

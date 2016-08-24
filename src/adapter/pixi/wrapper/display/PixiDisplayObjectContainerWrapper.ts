@@ -1,7 +1,6 @@
 ﻿import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
-import {Rectangle} from "fcore/dist/index";
 import {PixiDisplayObjectWrapper} from "./PixiDisplayObjectWrapper";
 
 export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper implements IDisplayObjectContainerWrapper {
@@ -76,16 +75,16 @@ export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper 
     }
 
 
-    public resize(width:number, height:number):void {
+    /*public resize(width:number, height:number):void {
         this.pixiContainer.width = width;
         this.pixiContainer.height = height;
-    }
+    }*/
 
-    public getScaledBounds():Rectangle {
+    /*public getScaledBounds():Rectangle {
         var result:Rectangle = super.getScaledBounds();
         result.width = this.pixiContainer.width;
         result.height = this.pixiContainer.height;
 
         return result;
-    }
+    }*/
 }

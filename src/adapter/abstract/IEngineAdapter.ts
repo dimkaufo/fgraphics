@@ -1,4 +1,4 @@
-﻿import {IEventDispatcher, Point} from "fcore/dist/index";
+﻿import {IEventDispatcher} from "fcore/dist/index";
 import {ITickerWrapper} from "./wrapper/ticker/ITickerWrapper";
 import {IDisplayObjectWrapper} from "./wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "./wrapper/display/IDisplayObjectContainerWrapper";
@@ -12,18 +12,20 @@ import {ISpriteSheetRawData} from "./data/ISpriteSheetRawData";
 import {ISpriteSheetLoadedData} from "./data/ISpriteSheetLoadedData";
 
 export interface IEngineAdapter extends IEventDispatcher<string> {
-    customPreparation(canvas:HTMLElement):void;
-    initGraphics(): void;
+    initGraphics(canvas:HTMLElement): void;
     renderGraphics(): void;
     changeRenderSize(width:number, height:number): void;
-    getRenderSize(): Point;
 
     //public abstract createEventDispatcher(): IEventDispatcher<BaseEvent>;
 
     mainTicker: ITickerWrapper;
     stage: IDisplayObjectContainerWrapper;
+
     globalMouseX:number;
     globalMouseY:number;
+
+    rendererWidth:number;
+    rendererHeight:number;
 
     BaseDisplayObjectClass: any;
 

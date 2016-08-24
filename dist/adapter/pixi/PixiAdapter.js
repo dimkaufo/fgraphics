@@ -24,21 +24,15 @@ var PixiAdapter = (function (_super) {
         this.rendererSize = new index_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
-        // Settings for the pixi-flash Ticker
-        // Ticker.timingMode = Ticker.RAF;
     };
-    PixiAdapter.prototype.customPreparation = function (canvas) {
-        this.canvas = canvas;
-    };
-    PixiAdapter.prototype.initGraphics = function () {
+    PixiAdapter.prototype.initGraphics = function (canvas) {
+        this._canvas = canvas;
         this.renderer = PIXI.autoDetectRenderer(1000, 1000, {
             backgroundColor: 0xFF0000,
             view: this.canvas,
             autoResize: true
         });
-        //alert("(this.renderer instanceof PIXI.WebGLRenderer): " + (this.renderer instanceof PIXI.WebGLRenderer));
         this._stage = this.createDisplayObjectContainerWrapper();
-        //requestAnimationFrame(this.testRender.bind(this));
     };
     Object.defineProperty(PixiAdapter.prototype, "stage", {
         get: function () {
@@ -47,23 +41,27 @@ var PixiAdapter = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    //public testRender(): void
-    //{
-    //    this.renderer.render(this.stage);
-    //    requestAnimationFrame(this.testRender.bind(this));
-    //    //CustomLogger.log("PixiJSFactory | testRender");
-    //}
-    PixiAdapter.prototype.renderGraphics = function () {
-        this.renderer.render(this._stage.object);
-    };
-    PixiAdapter.prototype.changeRenderSize = function (width, height) {
-        this.renderer.resize(width, height);
-        //
-        this.dispatchEvent(EngineAdapterEvent_1.EngineAdapterEvent.RENDER_SIZE_CHANGE);
-    };
-    PixiAdapter.prototype.getRenderSize = function () {
-        return new index_1.Point(this.renderer.width, this.renderer.height);
-    };
+    Object.defineProperty(PixiAdapter.prototype, "canvas", {
+        get: function () {
+            return this._canvas;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PixiAdapter.prototype, "rendererWidth", {
+        get: function () {
+            return this.renderer.width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PixiAdapter.prototype, "rendererHeight", {
+        get: function () {
+            return this.renderer.height;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PixiAdapter.prototype, "mainTicker", {
         get: function () {
             return this.tickerWrapper;
@@ -78,6 +76,14 @@ var PixiAdapter = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    PixiAdapter.prototype.renderGraphics = function () {
+        this.renderer.render(this._stage.object);
+    };
+    PixiAdapter.prototype.changeRenderSize = function (width, height) {
+        this.renderer.resize(width, height);
+        //
+        this.dispatchEvent(EngineAdapterEvent_1.EngineAdapterEvent.RENDER_SIZE_CHANGE);
+    };
     PixiAdapter.prototype.createDisplayWrapperBasedOnObject = function (object) {
         var result;
         if (object instanceof PIXI.Text) {
@@ -162,31 +168,31 @@ var PixiAdapter = (function (_super) {
         configurable: true
     });
     /*public setFieldTextsByNameInHierarchy(nativeContainer:any,
-                                          params:any = null):void {
-        var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
+     params:any = null):void {
+     var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
 
-        var tempText:string;
-        var tempTextWrapper:ITextWrapper = this.createTextWrapper();
-        var tempField:PIXI.Text;
-        pixiContainer.children.forEach(
-            (item:PIXI.DisplayObject, index:number, array:PIXI.DisplayObject[]):void => {
-                if (item instanceof PIXI.Text) {
-                    tempField = (item as PIXI.Text);
+     var tempText:string;
+     var tempTextWrapper:ITextWrapper = this.createTextWrapper();
+     var tempField:PIXI.Text;
+     pixiContainer.children.forEach(
+     (item:PIXI.DisplayObject, index:number, array:PIXI.DisplayObject[]):void => {
+     if (item instanceof PIXI.Text) {
+     tempField = (item as PIXI.Text);
 
-                    tempText = this.localeManager.getText(tempField.name, params);
-                    if (tempText) {
-                        tempTextWrapper.object = tempText;
-                        TextFieldTools.setText(tempTextWrapper, tempText);
-                    }
+     tempText = this.localeManager.getText(tempField.name, params);
+     if (tempText) {
+     tempTextWrapper.object = tempText;
+     TextFieldTools.setText(tempTextWrapper, tempText);
+     }
 
-                } else if (item instanceof PIXI.Container) {
-                    this.setFieldTextsByNameInHierarchy((item as PIXI.Container), params);
-                }
-            }
-        );
+     } else if (item instanceof PIXI.Container) {
+     this.setFieldTextsByNameInHierarchy((item as PIXI.Container), params);
+     }
+     }
+     );
 
-        tempTextWrapper.destruction();
-    }*/
+     tempTextWrapper.destruction();
+     }*/
     PixiAdapter.prototype.findChildrenByNamePart = function (nativeContainer, namePart, isRecursive) {
         var result = [];
         var pixiContainer = nativeContainer;

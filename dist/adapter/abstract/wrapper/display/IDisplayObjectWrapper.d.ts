@@ -1,10 +1,12 @@
-import {IBaseClassWrapper, IEventDispatcher, Rectangle} from "fcore/dist/index";
-import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
+import { IBaseClassWrapper, IEventDispatcher, Rectangle, Point } from "fcore/dist/index";
+import { IDisplayObjectContainerWrapper } from "./IDisplayObjectContainerWrapper";
 export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatcher<string> {
     isDisplayObjectWrapper: boolean;
     alpha: number;
     x: number;
     y: number;
+    width: number;
+    height: number;
     scaleX: number;
     scaleY: number;
     visible: boolean;
@@ -13,6 +15,8 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
     cache: boolean;
     parent: IDisplayObjectContainerWrapper;
     getGlobalBounds(): Rectangle;
-    getScaledBounds(): Rectangle;
+    getLocalBounds(): Rectangle;
+    toGlobal(position: Point): Point;
+    toLocal(position: Point): Point;
     checkIfParamIsParent(paramName: string): boolean;
 }

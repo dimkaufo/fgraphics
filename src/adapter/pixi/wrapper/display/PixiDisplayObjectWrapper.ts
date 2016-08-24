@@ -1,4 +1,4 @@
-﻿import {BaseClassWrapper, Rectangle} from "fcore/dist/index";
+﻿import {BaseClassWrapper, Rectangle, Logger, Point} from "fcore/dist/index";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/display/DisplayObjectWrapperMouseEvent";
@@ -10,7 +10,6 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
     private _pixiDisplayObject:PIXI.DisplayObject;
 
-    protected tempBounds:Rectangle = new Rectangle();
     protected tempParent:IDisplayObjectContainerWrapper;
 
     constructor() {
@@ -22,6 +21,16 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         super.commitData();
 
         this.pixiDisplayObject = (this.object as PIXI.DisplayObject);
+    }
+
+    protected commitInteractiveData():void {
+        if (this.pixiDisplayObject) {
+            if (this.interactive) {
+                this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+            } else {
+                this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+            }
+        }
     }
 
     public destruction():void {
@@ -37,69 +46,29 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         super.removeListeners();
 
         if (this.pixiDisplayObject) {
-            this.removePixiObjectListeners(this.pixiDisplayObject);
+            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
         }
     }
 
 
-    protected addPixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
+    protected addInteractivePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
         if (!pixiObject) {
             return;
         }
 
-        pixiObject.on(
-            PixiMouseEvent.CLICK,
-            this.onPixiClick,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.TAP,
-            this.onPixiTap,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.MOUSE_DOWN,
-            this.onPixiMouseDown,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.MOUSE_UP,
-            this.onPixiMouseUp,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.MOUSE_UP_OUTSIDE,
-            this.onPixiMouseUpOutside,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.TOUCH_START,
-            this.onPixiMouseDown,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.TOUCH_END,
-            this.onPixiMouseUp,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.TOUCH_END_OUTSIDE,
-            this.onPixiMouseUpOutside,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.MOUSE_OVER,
-            this.onPixiMouseOver,
-            this
-        );
-        pixiObject.on(
-            PixiMouseEvent.MOUSE_OUT,
-            this.onPixiMouseOut,
-            this
-        );
+        pixiObject.on(PixiMouseEvent.CLICK, this.onPixiClick, this);
+        pixiObject.on(PixiMouseEvent.TAP, this.onPixiTap, this);
+        pixiObject.on(PixiMouseEvent.MOUSE_DOWN, this.onPixiMouseDown, this);
+        pixiObject.on(PixiMouseEvent.MOUSE_UP, this.onPixiMouseUp, this);
+        pixiObject.on(PixiMouseEvent.MOUSE_UP_OUTSIDE, this.onPixiMouseUpOutside, this);
+        pixiObject.on(PixiMouseEvent.TOUCH_START, this.onPixiMouseDown, this);
+        pixiObject.on(PixiMouseEvent.TOUCH_END, this.onPixiMouseUp, this);
+        pixiObject.on(PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
+        pixiObject.on(PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
+        pixiObject.on(PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     }
 
-    protected removePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
+    protected removeInteractivePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
         if (!pixiObject) {
             return;
         }
@@ -151,10 +120,11 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     }
 
     protected set pixiDisplayObject(value:PIXI.DisplayObject) {
-        this.removePixiObjectListeners(this.pixiDisplayObject);
+        this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
         //
         this._pixiDisplayObject = value;
-        this.addPixiObjectListeners(this.pixiDisplayObject);
+        // this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+        this.commitInteractiveData();
     }
 
 
@@ -165,12 +135,14 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         this.pixiDisplayObject.cacheAsBitmap = value;
     }
 
+
     public get alpha():number {
         return this.pixiDisplayObject.alpha;
     }
     public set alpha(value:number) {
         this.pixiDisplayObject.alpha = value;
     }
+
 
     public get x():number {
         return this.pixiDisplayObject.position.x;
@@ -179,50 +151,52 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         this.pixiDisplayObject.position.x = value;
     }
 
+
     public get y():number {
         return this.pixiDisplayObject.position.y;
     }
-
     public set y(value:number) {
         this.pixiDisplayObject.position.y = value;
     }
 
+
     public get scaleX():number {
         return this.pixiDisplayObject.scale.x;
     }
-
     public set scaleX(value:number) {
         this.pixiDisplayObject.scale.x = value;
     }
 
+
     public get scaleY():number {
         return this.pixiDisplayObject.scale.y;
     }
-
     public set scaleY(value:number) {
         this.pixiDisplayObject.scale.y = value;
     }
 
+
     public get visible():boolean {
         return this.pixiDisplayObject.visible;
     }
-
     public set visible(value:boolean) {
         this.pixiDisplayObject.visible = value;
     }
 
+
     public get interactive():boolean {
         return this.pixiDisplayObject.interactive;
     }
-
     public set interactive(value:boolean) {
         this.pixiDisplayObject.interactive = value;
+
+        this.commitInteractiveData();
     }
+
 
     public get buttonMode():boolean {
         return this.pixiDisplayObject.buttonMode;
     }
-
     public set buttonMode(value:boolean) {
         this.pixiDisplayObject.buttonMode = value;
     }
@@ -240,35 +214,38 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
     public getGlobalBounds():Rectangle {
         var tempPixiBounds:PIXI.Rectangle = this.pixiDisplayObject.getBounds();
-        this.tempBounds.x = tempPixiBounds.x;
-        this.tempBounds.y = tempPixiBounds.y;
-        this.tempBounds.width = tempPixiBounds.width;
-        this.tempBounds.height = tempPixiBounds.height;
-
-        return this.tempBounds.clone();
+        return new Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     }
 
-    /*public getUnscaledBounds(): Rectangle
-     {
-     this.tempBounds = this.getBounds();
-     this.tempBounds.multiply(1 / this.scaleX, 1 / this.scaleY);
-
-     return this.tempBounds.clone();
-     }*/
-
-    public getScaledBounds():Rectangle {
-        this.tempBounds = this.getGlobalBounds();
-        this.tempBounds.multiply(this.scaleX, this.scaleY);
-
-        return this.tempBounds.clone();
+    public getLocalBounds():Rectangle {
+        var tempPixiBounds:PIXI.Rectangle = this.pixiDisplayObject.getLocalBounds();
+        return new Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     }
 
 
-    /*public resize(width:number, height:number):void {
-        var tempUnscaledbounds:Rectangle = this.getGlobalBounds();
-        this.scaleX = width / tempUnscaledbounds.width;
-        this.scaleY = height / tempUnscaledbounds.height;
-    }*/
+    public toGlobal(position:Point):Point {
+        let tempPixiPos:PIXI.Point = this.pixiDisplayObject.toGlobal(new PIXI.Point(position.x, position.y));
+        return new Point(tempPixiPos.x, tempPixiPos.y);
+    }
+    public toLocal(position:Point):Point {
+        let tempPixiPos:PIXI.Point = this.pixiDisplayObject.toLocal(new PIXI.Point(position.x, position.y));
+        return new Point(tempPixiPos.x, tempPixiPos.y);
+    }
+
+
+    public get width():number {
+        return this.getLocalBounds().width / this.scaleX;
+    }
+    public set width(value:number) {
+        Logger.error("PixiDisplayObjectWrapper | set width __ WARNING! Setter is not implemented for simple display objects!")
+    }
+
+    public get height():number {
+        return this.getLocalBounds().height / this.scaleY;
+    }
+    public set height(value:number) {
+        Logger.error("PixiDisplayObjectWrapper | set height __ WARNING! Setter is not implemented for simple display objects!")
+    }
 
 
     public checkIfParamIsParent(paramName:string):boolean {

@@ -1,4 +1,4 @@
-import {IDisplayObjectWrapper} from "./IDisplayObjectWrapper";
+import { IDisplayObjectWrapper } from "./IDisplayObjectWrapper";
 export interface IDisplayObjectContainerWrapper extends IDisplayObjectWrapper {
     isDisplayObjectContainerWrapper: boolean;
     addChild(child: IDisplayObjectWrapper): void;
@@ -8,6 +8,4 @@ export interface IDisplayObjectContainerWrapper extends IDisplayObjectWrapper {
     getChildAt(index: number): IDisplayObjectWrapper;
     setChildIndex(child: IDisplayObjectWrapper, index: number): void;
     nativeChildren: any[];
-    width: number;
-    height: number;
 }

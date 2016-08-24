@@ -14,7 +14,4 @@ export interface IDisplayObjectContainerWrapper extends IDisplayObjectWrapper {
     setChildIndex(child:IDisplayObjectWrapper, index:number): void;
 
     nativeChildren: any[];
-
-    width:number;
-    height:number;
 }

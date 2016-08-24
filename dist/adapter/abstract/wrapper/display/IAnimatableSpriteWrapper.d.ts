@@ -1,5 +1,5 @@
-import {ISpriteWrapper} from "./ISpriteWrapper";
-import {ISpriteSheetWrapper} from "./ISpriteSheetWrapper";
+import { ISpriteWrapper } from "./ISpriteWrapper";
+import { ISpriteSheetWrapper } from "./ISpriteSheetWrapper";
 export interface IAnimatableSpriteWrapper extends ISpriteWrapper {
     isAnimatableSpriteWrapper: boolean;
     isLooped: boolean;

@@ -1,17 +1,17 @@
-import {BaseClassWrapper, Rectangle} from "fcore/dist/index";
-import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
-import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
+import { BaseClassWrapper, Rectangle, Point } from "fcore/dist/index";
+import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
+import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDisplayObjectWrapper {
     isDisplayObjectWrapper: boolean;
     private _pixiDisplayObject;
-    protected tempBounds: Rectangle;
     protected tempParent: IDisplayObjectContainerWrapper;
     constructor();
     protected commitData(): void;
+    protected commitInteractiveData(): void;
     destruction(): void;
     protected removeListeners(): void;
-    protected addPixiObjectListeners(pixiObject: PIXI.DisplayObject): void;
-    protected removePixiObjectListeners(pixiObject: PIXI.DisplayObject): void;
+    protected addInteractivePixiObjectListeners(pixiObject: PIXI.DisplayObject): void;
+    protected removeInteractivePixiObjectListeners(pixiObject: PIXI.DisplayObject): void;
     protected onPixiClick(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiTap(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiMouseDown(event: PIXI.interaction.InteractionEvent): void;
@@ -31,6 +31,10 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     buttonMode: boolean;
     parent: IDisplayObjectContainerWrapper;
     getGlobalBounds(): Rectangle;
-    getScaledBounds(): Rectangle;
+    getLocalBounds(): Rectangle;
+    toGlobal(position: Point): Point;
+    toLocal(position: Point): Point;
+    width: number;
+    height: number;
     checkIfParamIsParent(paramName: string): boolean;
 }
