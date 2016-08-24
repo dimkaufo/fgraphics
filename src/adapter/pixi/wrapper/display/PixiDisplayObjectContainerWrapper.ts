@@ -1,7 +1,7 @@
 ﻿import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
-import {Rectangle} from "fcore/src/index";
+import {Rectangle} from "fcore/dist/index";
 import {PixiDisplayObjectWrapper} from "./PixiDisplayObjectWrapper";
 
 export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper implements IDisplayObjectContainerWrapper {

@@ -1,4 +1,4 @@
-﻿import {BaseClassWrapper, Rectangle} from "fcore/src/index";
+﻿import {BaseClassWrapper, Rectangle} from "fcore/dist/index";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/display/DisplayObjectWrapperMouseEvent";

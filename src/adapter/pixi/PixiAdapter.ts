@@ -1,4 +1,4 @@
-﻿import {Point} from "fcore/src/index";
+﻿import {Point} from "fcore/dist/index";
 import {PixiTickerWrapper} from "./wrapper/ticker/PixiTickerWrapper";
 import {IEngineAdapter, IObjectUnderPointVO} from "../abstract/IEngineAdapter";
 import {EngineAdapter} from "../abstract/EngineAdapter";
@@ -8,21 +8,13 @@ import {ITickerWrapper} from "../abstract/wrapper/ticker/ITickerWrapper";
 import {IDisplayObjectWrapper} from "../abstract/wrapper/display/IDisplayObjectWrapper";
 import {ITextWrapper} from "../abstract/wrapper/display/ITextWrapper";
 import {PixiTextWrapper} from "./wrapper/display/PixiTextWrapper";
-import {IMovieClipWrapper} from "../abstract/wrapper/display/IDisplayMovieClipWrapper";
-import {PixiMovieClipWrapper} from "./wrapper/display/PixiMovieClipWrapper";
 import {ISpriteWrapper} from "../abstract/wrapper/display/ISpriteWrapper";
 import {PixiSpriteWrapper} from "./wrapper/display/PixiSpriteWrapper";
-import {IAnimatableSpriteWrapper} from "../abstract/wrapper/display/IAnimatableSpriteWrapper";
-import {PixiAnimatableSpriteWrapper} from "./wrapper/display/PixiAnimatableSpriteWrapper";
 import {PixiDisplayObjectContainerWrapper} from "./wrapper/display/PixiDisplayObjectContainerWrapper";
 import {PixiDisplayObjectWrapper} from "./wrapper/display/PixiDisplayObjectWrapper";
 import {IGraphicsWrapper} from "../abstract/wrapper/display/IGraphicsWrapper";
 import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
 import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
-import Sprite = pixiflash.Sprite;
-import SpriteSheet = pixiflash.SpriteSheet;
-import MovieClip = pixiflash.MovieClip;
-import Ticker = createjs.Ticker;
 import WebGLRenderer = PIXI.WebGLRenderer;
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
@@ -47,7 +39,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         this.tickerWrapper.object = PIXI.ticker.shared;
 
         // Settings for the pixi-flash Ticker
-        Ticker.timingMode = Ticker.RAF;
+        // Ticker.timingMode = Ticker.RAF;
     }
 
     public customPreparation(canvas:HTMLCanvasElement):void {
@@ -116,10 +108,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         if (object instanceof PIXI.Text) {
             result = (this.createTextWrapper(object) as any);
 
-        } else if (object instanceof MovieClip) {
-            result = (this.createMovieClipWrapper(object) as any);
-
-        } else if (object instanceof Sprite) {
+        }else if (object instanceof PIXI.Sprite) {
             result = (this.createSpriteWrapper(object) as any);
 
         } else if (object instanceof PIXI.Graphics) {
@@ -150,33 +139,11 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createMovieClipWrapper(object?:any):IMovieClipWrapper {
-        var result:PixiMovieClipWrapper = new PixiMovieClipWrapper();
-
-        if (!object) {
-            object = new MovieClip();
-        }
-        result.object = object;
-
-        return result;
-    }
-
     public createSpriteWrapper(object?:any):ISpriteWrapper {
         var result:PixiSpriteWrapper = new PixiSpriteWrapper();
 
         if (!object) {
-            object = new Sprite();
-        }
-        result.object = object;
-
-        return result;
-    }
-
-    public createAnimatableSpriteWrapper(object?:any):IAnimatableSpriteWrapper {
-        var result:PixiAnimatableSpriteWrapper = new PixiAnimatableSpriteWrapper();
-
-        if (!object) {
-            object = new Sprite();
+            object = new PIXI.Sprite();
         }
         result.object = object;
 

@@ -1,5 +1,5 @@
 ﻿import {ITickerWrapper} from "../../../abstract/wrapper/ticker/ITickerWrapper";
-import {BaseClassWrapper} from "fcore/src/index";
+import {BaseClassWrapper} from "fcore/dist/index";
 import {TickerEvent} from "../../../abstract/wrapper/ticker/TickerEvent";
 export class PixiTickerWrapper extends BaseClassWrapper implements ITickerWrapper {
     private _pixiTicker:PIXI.ticker.Ticker;

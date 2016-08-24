@@ -1,13 +1,12 @@
 ﻿import {ISpriteWrapper} from "../../../abstract/wrapper/display/ISpriteWrapper";
-import {Point} from "fcore/src/index";
+import {Point} from "fcore/dist/index";
 import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
-import Sprite = pixiflash.Sprite;
 
 export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper implements ISpriteWrapper {
 
     public isSpriteWrapper:boolean = true;
 
-    protected pixiflashSprite:Sprite;
+    protected pixiSprite:PIXI.Sprite;
 
     constructor() {
         super();
@@ -17,7 +16,7 @@ export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper impleme
     protected commitData():void {
         super.commitData();
 
-        this.pixiflashSprite = (this.object as Sprite);
+        this.pixiSprite = (this.object as PIXI.Sprite);
     }
 
 
@@ -28,22 +27,22 @@ export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper impleme
 
 
     public get texture():any {
-        return this.pixiflashSprite.texture;
+        return this.pixiSprite.texture;
     }
 
     public set texture(value:any) {
-        this.pixiflashSprite.texture = value;
+        this.pixiSprite.texture = value;
     }
 
 
     public get anchor():Point {
         return new Point(
-            this.pixiflashSprite.anchor.x,
-            this.pixiflashSprite.anchor.y
+            this.pixiSprite.anchor.x,
+            this.pixiSprite.anchor.y
         );
     }
 
     public set anchor(value:Point) {
-        this.pixiflashSprite.anchor = new PIXI.Point(value.x, value.y);
+        this.pixiSprite.anchor = new PIXI.Point(value.x, value.y);
     }
 }

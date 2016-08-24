@@ -9,16 +9,11 @@ var PixiTickerWrapper_1 = require("./wrapper/ticker/PixiTickerWrapper");
 var EngineAdapter_1 = require("../abstract/EngineAdapter");
 var EngineAdapterEvent_1 = require("../abstract/EngineAdapterEvent");
 var PixiTextWrapper_1 = require("./wrapper/display/PixiTextWrapper");
-var PixiMovieClipWrapper_1 = require("./wrapper/display/PixiMovieClipWrapper");
 var PixiSpriteWrapper_1 = require("./wrapper/display/PixiSpriteWrapper");
-var PixiAnimatableSpriteWrapper_1 = require("./wrapper/display/PixiAnimatableSpriteWrapper");
 var PixiDisplayObjectContainerWrapper_1 = require("./wrapper/display/PixiDisplayObjectContainerWrapper");
 var PixiDisplayObjectWrapper_1 = require("./wrapper/display/PixiDisplayObjectWrapper");
 var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
-var Sprite = pixiflash.Sprite;
-var MovieClip = pixiflash.MovieClip;
-var Ticker = createjs.Ticker;
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
     function PixiAdapter() {
@@ -30,7 +25,7 @@ var PixiAdapter = (function (_super) {
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
         // Settings for the pixi-flash Ticker
-        Ticker.timingMode = Ticker.RAF;
+        // Ticker.timingMode = Ticker.RAF;
     };
     PixiAdapter.prototype.customPreparation = function (canvas) {
         this.canvas = canvas;
@@ -88,10 +83,7 @@ var PixiAdapter = (function (_super) {
         if (object instanceof PIXI.Text) {
             result = this.createTextWrapper(object);
         }
-        else if (object instanceof MovieClip) {
-            result = this.createMovieClipWrapper(object);
-        }
-        else if (object instanceof Sprite) {
+        else if (object instanceof PIXI.Sprite) {
             result = this.createSpriteWrapper(object);
         }
         else if (object instanceof PIXI.Graphics) {
@@ -116,26 +108,10 @@ var PixiAdapter = (function (_super) {
         result.object = object;
         return result;
     };
-    PixiAdapter.prototype.createMovieClipWrapper = function (object) {
-        var result = new PixiMovieClipWrapper_1.PixiMovieClipWrapper();
-        if (!object) {
-            object = new MovieClip();
-        }
-        result.object = object;
-        return result;
-    };
     PixiAdapter.prototype.createSpriteWrapper = function (object) {
         var result = new PixiSpriteWrapper_1.PixiSpriteWrapper();
         if (!object) {
-            object = new Sprite();
-        }
-        result.object = object;
-        return result;
-    };
-    PixiAdapter.prototype.createAnimatableSpriteWrapper = function (object) {
-        var result = new PixiAnimatableSpriteWrapper_1.PixiAnimatableSpriteWrapper();
-        if (!object) {
-            object = new Sprite();
+            object = new PIXI.Sprite();
         }
         result.object = object;
         return result;

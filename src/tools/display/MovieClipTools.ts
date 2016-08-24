@@ -1,5 +1,5 @@
 ﻿import {IMovieClipWrapper} from "../../adapter/abstract/wrapper/display/IDisplayMovieClipWrapper";
-import {ObjectTools} from "fcore/src/index";
+import {ObjectTools} from "fcore/dist/index";
 export class MovieClipTools {
     public static safeGoTo(clip:IMovieClipWrapper, frame:string | number, defaultFrame?:string | number, isGoToAndStop:boolean = true):void {
         var frameToGo:string | number = defaultFrame;

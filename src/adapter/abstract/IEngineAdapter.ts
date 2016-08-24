@@ -1,4 +1,4 @@
-﻿import {IEventDispatcher, Point} from "fcore/src/index";
+﻿import {IEventDispatcher, Point} from "fcore/dist/index";
 import {ITickerWrapper} from "./wrapper/ticker/ITickerWrapper";
 import {IDisplayObjectWrapper} from "./wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "./wrapper/display/IDisplayObjectContainerWrapper";
@@ -32,12 +32,12 @@ export interface IEngineAdapter extends IEventDispatcher<string> {
     createPerformanceDisplayObjectContainerWrapper(object?:any): IDisplayObjectContainerWrapper;
     createDisplayObjectWrapper(object?:any): IDisplayObjectWrapper;
     createGraphicsWrapper(object?:any): IGraphicsWrapper;
-    createMovieClipWrapper(object?:any): IMovieClipWrapper;
     createSpriteWrapper(object?:any): ISpriteWrapper;
-    createAnimatableSpriteWrapper(object?:any): IAnimatableSpriteWrapper;
     createTextWrapper(object?:any): ITextWrapper;
+    createMovieClipWrapper?(object?:any): IMovieClipWrapper;
 
     processLoadedSpritesheet?(id:string, rawData:ISpriteSheetRawData, loadedData:ISpriteSheetLoadedData): void;
+    createAnimatableSpriteWrapper?(object?:any): IAnimatableSpriteWrapper;
 
 
     findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(
