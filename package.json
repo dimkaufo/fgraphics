@@ -1,8 +1,7 @@
 {
   "name": "fgraphics",
-  "version": "0.0.2",
-  "scripts": {
-  },
+  "version": "0.0.3",
+  "scripts": {},
   "license": "MIT",
   "private": false,
   "repository": {
