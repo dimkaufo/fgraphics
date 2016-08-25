@@ -15,6 +15,7 @@ import {PixiDisplayObjectWrapper} from "./wrapper/display/PixiDisplayObjectWrapp
 import {IGraphicsWrapper} from "../abstract/wrapper/display/IGraphicsWrapper";
 import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
 import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
+import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
 import WebGLRenderer = PIXI.WebGLRenderer;
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
@@ -26,33 +27,42 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
     private _canvas:HTMLCanvasElement;
 
-    constructor() {
-        super();
+    constructor(initData?:IPixiAdapterInitData) {
+        super(initData);
     }
 
-    protected construction():void {
+    protected construction(initData?:IPixiAdapterInitData):void {
         super.construction();
 
         this.rendererSize = new Point();
 
         this.tickerWrapper = new PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
+
+        let tempStageObject:PIXI.Container;
+        if (initData) {
+            this.renderer = initData.renderer;
+            tempStageObject = initData.stage;
+        }
+
+        this._stage = (this.createDisplayObjectContainerWrapper(tempStageObject) as PixiDisplayObjectContainerWrapper);
     }
 
     public initGraphics(canvas:HTMLCanvasElement):void {
+
         this._canvas = canvas;
 
-        this.renderer = PIXI.autoDetectRenderer(
-            1000,
-            1000,
-            {
-                backgroundColor: 0xFF0000,
-                view: this.canvas,
-                autoResize: true
-            }
-        );
-
-        this._stage = (this.createDisplayObjectContainerWrapper() as PixiDisplayObjectContainerWrapper);
+        if (!this.renderer) {
+            this.renderer = PIXI.autoDetectRenderer(
+                1000,
+                1000,
+                {
+                    backgroundColor: 0xFF0000,
+                    view: this.canvas,
+                    autoResize: true
+                }
+            );
+        }
     }
 
 
@@ -67,6 +77,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     public get rendererWidth():number {
         return this.renderer.width;
     }
+
     public get rendererHeight():number {
         return this.renderer.height;
     }
@@ -78,7 +89,6 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     public get BaseDisplayObjectClass():any {
         return PIXI.DisplayObject;
     }
-
 
 
     public renderGraphics():void {

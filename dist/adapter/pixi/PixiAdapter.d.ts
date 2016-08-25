@@ -10,14 +10,15 @@ import { ISpriteWrapper } from "../abstract/wrapper/display/ISpriteWrapper";
 import { PixiDisplayObjectContainerWrapper } from "./wrapper/display/PixiDisplayObjectContainerWrapper";
 import { IGraphicsWrapper } from "../abstract/wrapper/display/IGraphicsWrapper";
 import { DisplayObjectWithNameVO } from "../../tools/display/DisplayObjectWithNameVO";
+import { IPixiAdapterInitData } from "./IPixiAdapterInitData";
 export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     protected renderer: PIXI.SystemRenderer;
     protected _stage: PixiDisplayObjectContainerWrapper;
     protected tickerWrapper: PixiTickerWrapper;
     protected rendererSize: Point;
     private _canvas;
-    constructor();
-    protected construction(): void;
+    constructor(initData?: IPixiAdapterInitData);
+    protected construction(initData?: IPixiAdapterInitData): void;
     initGraphics(canvas: HTMLCanvasElement): void;
     stage: IDisplayObjectContainerWrapper;
     canvas: HTMLCanvasElement;

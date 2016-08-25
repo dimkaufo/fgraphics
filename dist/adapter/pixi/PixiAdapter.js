@@ -16,23 +16,30 @@ var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
-    function PixiAdapter() {
-        _super.call(this);
+    function PixiAdapter(initData) {
+        _super.call(this, initData);
     }
-    PixiAdapter.prototype.construction = function () {
+    PixiAdapter.prototype.construction = function (initData) {
         _super.prototype.construction.call(this);
         this.rendererSize = new index_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
+        var tempStageObject;
+        if (initData) {
+            this.renderer = initData.renderer;
+            tempStageObject = initData.stage;
+        }
+        this._stage = this.createDisplayObjectContainerWrapper(tempStageObject);
     };
     PixiAdapter.prototype.initGraphics = function (canvas) {
         this._canvas = canvas;
-        this.renderer = PIXI.autoDetectRenderer(1000, 1000, {
-            backgroundColor: 0xFF0000,
-            view: this.canvas,
-            autoResize: true
-        });
-        this._stage = this.createDisplayObjectContainerWrapper();
+        if (!this.renderer) {
+            this.renderer = PIXI.autoDetectRenderer(1000, 1000, {
+                backgroundColor: 0xFF0000,
+                view: this.canvas,
+                autoResize: true
+            });
+        }
     };
     Object.defineProperty(PixiAdapter.prototype, "stage", {
         get: function () {
