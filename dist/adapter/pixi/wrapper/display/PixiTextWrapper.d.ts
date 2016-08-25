@@ -6,10 +6,12 @@ export declare class PixiTextWrapper extends PixiSpriteWrapper implements ITextW
     private _fontFamily;
     private _size;
     private _color;
+    private _align;
     constructor();
     protected commitData(): void;
     text: string;
     fontFamily: string;
     size: number;
     color: number;
+    align: string;
 }

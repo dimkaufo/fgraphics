@@ -1,6 +1,7 @@
 ﻿import {ITextWrapper} from "../../../abstract/wrapper/display/ITextWrapper";
 import {PixiSpriteWrapper} from "./PixiSpriteWrapper";
 import {ObjectTools} from "fcore/dist/index";
+import {TextWrapperAlign} from "../../../abstract/wrapper/display/TextWrapperAlign";
 
 export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public isTextWrapper:boolean = true;
@@ -10,6 +11,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     private _fontFamily:string = "";
     private _size:number;
     private _color:number;
+    private _align:string;
 
     constructor() {
         super();
@@ -31,14 +33,20 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
             tempStyle.fill = this.color;
         }
 
+        if (this.align && this.aling != TextWrapperAlign.NONE) {
+            tempStyle.align = this.align;
+        } else {
+            tempStyle.align = "";
+        }
+
         tempStyle.font = "";
         if (this.fontFamily) {
             tempStyle.font += this.fontFamily;
         }
         if (this.size) {
-           if (tempStyle.font) {
-               tempStyle.font += " ";
-           }
+            if (tempStyle.font) {
+                tempStyle.font += " ";
+            }
             tempStyle.font += this.size + "px";
         }
 
@@ -48,6 +56,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public get text():string {
         return this.pixiText.text;
     }
+
     public set text(value:string) {
         this.pixiText.text = value;
     }
@@ -55,6 +64,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public get fontFamily():string {
         return this._fontFamily;
     }
+
     public set fontFamily(value:string) {
         if (value == this.fontFamily) {
             return;
@@ -68,6 +78,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public get size():number {
         return this._size;
     }
+
     public set size(value:number) {
         if (value == this.size) {
             return;
@@ -81,12 +92,26 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public get color():number {
         return this._color;
     }
+
     public set color(value:number) {
         if (value == this.color) {
             return;
         }
 
         this._color = value;
+
+        this.commitData();
+    }
+
+    public get align():string {
+        return this._align;
+    }
+    public set align(value:string) {
+        if (value == this.align) {
+            return;
+        }
+
+        this._align = value;
 
         this.commitData();
     }

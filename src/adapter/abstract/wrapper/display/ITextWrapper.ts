@@ -9,4 +9,5 @@ export interface ITextWrapper extends ISpriteWrapper {
     color: number;
     fontFamily: string;
     size:number;
+    align:string;
 }

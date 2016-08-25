@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var PixiSpriteWrapper_1 = require("./PixiSpriteWrapper");
 var index_1 = require("fcore/dist/index");
+var TextWrapperAlign_1 = require("../../../abstract/wrapper/display/TextWrapperAlign");
 var PixiTextWrapper = (function (_super) {
     __extends(PixiTextWrapper, _super);
     function PixiTextWrapper() {
@@ -23,6 +24,12 @@ var PixiTextWrapper = (function (_super) {
         index_1.ObjectTools.copyProps(tempStyle, this.pixiText.style, true);
         if (this.color) {
             tempStyle.fill = this.color;
+        }
+        if (this.align && this.aling != TextWrapperAlign_1.TextWrapperAlign.NONE) {
+            tempStyle.align = this.align;
+        }
+        else {
+            tempStyle.align = "";
         }
         tempStyle.font = "";
         if (this.fontFamily) {
@@ -83,6 +90,20 @@ var PixiTextWrapper = (function (_super) {
                 return;
             }
             this._color = value;
+            this.commitData();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PixiTextWrapper.prototype, "align", {
+        get: function () {
+            return this._align;
+        },
+        set: function (value) {
+            if (value == this.align) {
+                return;
+            }
+            this._align = value;
             this.commitData();
         },
         enumerable: true,
