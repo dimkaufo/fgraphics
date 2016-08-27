@@ -25,7 +25,7 @@ var PixiTextWrapper = (function (_super) {
         if (this.color) {
             tempStyle.fill = this.color;
         }
-        if (this.align && this.aling != TextWrapperAlign_1.TextWrapperAlign.NONE) {
+        if (this.align && this.align != TextWrapperAlign_1.TextWrapperAlign.NONE) {
             tempStyle.align = this.align;
         }
         else {

@@ -2,6 +2,7 @@ export * from './TestGraphicsClass';
 export * from './adapter/abstract/EngineAdapter';
 export * from './adapter/abstract/EngineAdapterEvent';
 export * from './adapter/abstract/IEngineAdapter';
+export * from './adapter/abstract/IEngineAdapterInitData';
 export * from './adapter/pixi/IPixiAdapterInitData';
 export * from './adapter/pixi/PixiAdapter';
 export * from './tools/display/DisplayObjectTools';

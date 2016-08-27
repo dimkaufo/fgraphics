@@ -33,7 +33,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
             tempStyle.fill = this.color;
         }
 
-        if (this.align && this.aling != TextWrapperAlign.NONE) {
+        if (this.align && this.align != TextWrapperAlign.NONE) {
             tempStyle.align = this.align;
         } else {
             tempStyle.align = "";

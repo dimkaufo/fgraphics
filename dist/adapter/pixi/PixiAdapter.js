@@ -24,15 +24,16 @@ var PixiAdapter = (function (_super) {
         this.rendererSize = new index_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
-        var tempStageObject;
+        this._canvas = initData.canvas;
         if (initData) {
             this.renderer = initData.renderer;
-            tempStageObject = initData.stage;
         }
-        this._stage = this.createDisplayObjectContainerWrapper(tempStageObject);
-    };
-    PixiAdapter.prototype.initGraphics = function (canvas) {
-        this._canvas = canvas;
+        if (initData && initData.stage) {
+            this._stage = this.createDisplayObjectContainerWrapper(initData.stage);
+        }
+        else {
+            this._stage = this.createDisplayObjectContainerWrapper();
+        }
         if (!this.renderer) {
             this.renderer = PIXI.autoDetectRenderer(1000, 1000, {
                 backgroundColor: 0xFF0000,

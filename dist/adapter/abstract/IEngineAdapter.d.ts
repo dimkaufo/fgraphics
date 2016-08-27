@@ -11,7 +11,6 @@ import { DisplayObjectWithNameVO } from "../../tools/display/DisplayObjectWithNa
 import { ISpriteSheetRawData } from "./data/ISpriteSheetRawData";
 import { ISpriteSheetLoadedData } from "./data/ISpriteSheetLoadedData";
 export interface IEngineAdapter extends IEventDispatcher<string> {
-    initGraphics(canvas: HTMLElement): void;
     renderGraphics(): void;
     changeRenderSize(width: number, height: number): void;
     mainTicker: ITickerWrapper;

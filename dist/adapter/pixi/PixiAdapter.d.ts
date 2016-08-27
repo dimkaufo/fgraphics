@@ -19,7 +19,6 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     private _canvas;
     constructor(initData?: IPixiAdapterInitData);
     protected construction(initData?: IPixiAdapterInitData): void;
-    initGraphics(canvas: HTMLCanvasElement): void;
     stage: IDisplayObjectContainerWrapper;
     canvas: HTMLCanvasElement;
     rendererWidth: number;

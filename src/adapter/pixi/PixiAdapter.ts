@@ -39,18 +39,17 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         this.tickerWrapper = new PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
 
-        let tempStageObject:PIXI.Container;
+        this._canvas = initData.canvas;
+
         if (initData) {
             this.renderer = initData.renderer;
-            tempStageObject = initData.stage;
         }
 
-        this._stage = (this.createDisplayObjectContainerWrapper(tempStageObject) as PixiDisplayObjectContainerWrapper);
-    }
-
-    public initGraphics(canvas:HTMLCanvasElement):void {
-
-        this._canvas = canvas;
+        if (initData && initData.stage) {
+            this._stage = (this.createDisplayObjectContainerWrapper(initData.stage) as PixiDisplayObjectContainerWrapper);
+        } else {
+            this._stage = (this.createDisplayObjectContainerWrapper() as PixiDisplayObjectContainerWrapper);
+        }
 
         if (!this.renderer) {
             this.renderer = PIXI.autoDetectRenderer(
