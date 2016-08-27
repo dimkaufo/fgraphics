@@ -45,8 +45,8 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
             this.renderer = initData.renderer;
         }
 
-        if (initData && initData.stage) {
-            this._stage = (this.createDisplayObjectContainerWrapper(initData.stage) as PixiDisplayObjectContainerWrapper);
+        if (initData && initData.nativeStage) {
+            this._stage = (this.createDisplayObjectContainerWrapper(initData.nativeStage) as PixiDisplayObjectContainerWrapper);
         } else {
             this._stage = (this.createDisplayObjectContainerWrapper() as PixiDisplayObjectContainerWrapper);
         }

@@ -28,8 +28,8 @@ var PixiAdapter = (function (_super) {
         if (initData) {
             this.renderer = initData.renderer;
         }
-        if (initData && initData.stage) {
-            this._stage = this.createDisplayObjectContainerWrapper(initData.stage);
+        if (initData && initData.nativeStage) {
+            this._stage = this.createDisplayObjectContainerWrapper(initData.nativeStage);
         }
         else {
             this._stage = this.createDisplayObjectContainerWrapper();
