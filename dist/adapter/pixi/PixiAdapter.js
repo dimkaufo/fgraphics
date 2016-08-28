@@ -20,11 +20,10 @@ var PixiAdapter = (function (_super) {
         _super.call(this, initData);
     }
     PixiAdapter.prototype.construction = function (initData) {
-        _super.prototype.construction.call(this);
+        _super.prototype.construction.call(this, initData);
         this.rendererSize = new index_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
-        this._canvas = initData.canvas;
         if (initData) {
             this.renderer = initData.renderer;
         }
@@ -35,11 +34,11 @@ var PixiAdapter = (function (_super) {
             this._stage = this.createDisplayObjectContainerWrapper();
         }
         if (!this.renderer) {
-            this.renderer = PIXI.autoDetectRenderer(1000, 1000, {
-                backgroundColor: 0xFF0000,
-                view: this.canvas,
-                autoResize: true
-            });
+            var tempRendererSettings = {};
+            if (initData && initData.rendererSettings) {
+                tempRendererSettings = initData.rendererSettings;
+            }
+            this.renderer = PIXI.autoDetectRenderer(initData.rendererWidth, initData.rendererHeight, tempRendererSettings);
         }
     };
     Object.defineProperty(PixiAdapter.prototype, "stage", {
@@ -51,7 +50,7 @@ var PixiAdapter = (function (_super) {
     });
     Object.defineProperty(PixiAdapter.prototype, "canvas", {
         get: function () {
-            return this._canvas;
+            return this.renderer.view;
         },
         enumerable: true,
         configurable: true

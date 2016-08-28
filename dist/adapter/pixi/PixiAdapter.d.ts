@@ -16,7 +16,6 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     protected _stage: PixiDisplayObjectContainerWrapper;
     protected tickerWrapper: PixiTickerWrapper;
     protected rendererSize: Point;
-    private _canvas;
     constructor(initData?: IPixiAdapterInitData);
     protected construction(initData?: IPixiAdapterInitData): void;
     stage: IDisplayObjectContainerWrapper;

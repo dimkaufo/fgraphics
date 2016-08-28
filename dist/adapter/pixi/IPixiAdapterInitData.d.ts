@@ -1,5 +1,7 @@
-import { IEngineAdapterInitData } from "../abstract/IEngineAdapterInitData";
-export interface IPixiAdapterInitData extends IEngineAdapterInitData {
+export interface IPixiAdapterInitData {
     renderer?: PIXI.SystemRenderer;
+    rendererSettings?: PIXI.RendererOptions;
+    rendererWidth?: number;
+    rendererHeight?: number;
     nativeStage?: PIXI.Container;
 }

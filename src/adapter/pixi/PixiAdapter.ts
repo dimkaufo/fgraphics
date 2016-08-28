@@ -25,21 +25,17 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     protected tickerWrapper:PixiTickerWrapper;
     protected rendererSize:Point;
 
-    private _canvas:HTMLCanvasElement;
-
     constructor(initData?:IPixiAdapterInitData) {
         super(initData);
     }
 
     protected construction(initData?:IPixiAdapterInitData):void {
-        super.construction();
+        super.construction(initData);
 
         this.rendererSize = new Point();
 
         this.tickerWrapper = new PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
-
-        this._canvas = initData.canvas;
 
         if (initData) {
             this.renderer = initData.renderer;
@@ -52,14 +48,15 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         }
 
         if (!this.renderer) {
+            let tempRendererSettings:PIXI.RendererOptions = {};
+            if (initData && initData.rendererSettings) {
+                tempRendererSettings = initData.rendererSettings;
+            }
+
             this.renderer = PIXI.autoDetectRenderer(
-                1000,
-                1000,
-                {
-                    backgroundColor: 0xFF0000,
-                    view: this.canvas,
-                    autoResize: true
-                }
+                initData.rendererWidth,
+                initData.rendererHeight,
+                tempRendererSettings
             );
         }
     }
@@ -70,7 +67,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     }
 
     public get canvas():HTMLCanvasElement {
-        return this._canvas;
+        return this.renderer.view;
     }
 
     public get rendererWidth():number {
