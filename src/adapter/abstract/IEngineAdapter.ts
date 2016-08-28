@@ -28,6 +28,8 @@ export interface IEngineAdapter extends IEventDispatcher<string> {
 
     BaseDisplayObjectClass: any;
 
+    canvas:HTMLCanvasElement;
+
     createDisplayWrapperBasedOnObject<WrapperType extends IDisplayObjectWrapper>(object:any): WrapperType;
     createDisplayObjectContainerWrapper(object?:any): IDisplayObjectContainerWrapper;
     createPerformanceDisplayObjectContainerWrapper(object?:any): IDisplayObjectContainerWrapper;

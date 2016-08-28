@@ -69,6 +69,9 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     public get canvas():HTMLCanvasElement {
         return this.renderer.view;
     }
+    public set canvas(value:HTMLCanvasElement) {
+        alert("PixiAdapter | set canvas __ WARNING! The canvas setter is not implemented!");
+    }
 
     public get rendererWidth():number {
         return this.renderer.width;

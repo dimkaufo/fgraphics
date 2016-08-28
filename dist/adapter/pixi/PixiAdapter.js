@@ -52,6 +52,9 @@ var PixiAdapter = (function (_super) {
         get: function () {
             return this.renderer.view;
         },
+        set: function (value) {
+            alert("PixiAdapter | set canvas __ WARNING! The canvas setter is not implemented!");
+        },
         enumerable: true,
         configurable: true
     });
