@@ -31,7 +31,7 @@ var PixiTextWrapper = (function (_super) {
         else {
             tempStyle.align = "";
         }
-        tempStyle.font = "";
+        /*tempStyle.font = "";
         if (this.fontFamily) {
             tempStyle.font += this.fontFamily;
         }
@@ -40,6 +40,12 @@ var PixiTextWrapper = (function (_super) {
                 tempStyle.font += " ";
             }
             tempStyle.font += this.size + "px";
+        }*/
+        if (this.fontFamily) {
+            tempStyle.fontFamily = this.fontFamily;
+        }
+        if (this.size) {
+            tempStyle.fontSize = this.size;
         }
         this.pixiText.style = tempStyle;
     };
