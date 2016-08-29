@@ -39,6 +39,9 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         if (this.pixiDisplayObject) {
             this.pixiDisplayObject = null;
         }
+        if (this.tempParent) {
+            this.tempParent.destruction();
+        }
     }
 
 
@@ -203,12 +206,18 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
 
     public get parent():IDisplayObjectContainerWrapper {
-        if (!this.tempParent) {
-            this.tempParent = EngineAdapter.instance.createDisplayObjectContainerWrapper(this.pixiDisplayObject.parent);
-        }
-        this.tempParent.object = this.pixiDisplayObject.parent;
+        if (!this.pixiDisplayObject.parent) {
+            return null;
 
-        return this.tempParent;
+        } else {
+
+            if (!this.tempParent) {
+                this.tempParent = EngineAdapter.instance.createDisplayObjectContainerWrapper(this.pixiDisplayObject.parent);
+            }
+            this.tempParent.object = this.pixiDisplayObject.parent;
+
+            return this.tempParent;
+        }
     }
 
 

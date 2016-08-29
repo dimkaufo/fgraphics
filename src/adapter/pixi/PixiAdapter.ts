@@ -1,4 +1,4 @@
-﻿import {Point} from "fcore/dist/index";
+﻿import {Point, Logger} from "fcore/dist/index";
 import {PixiTickerWrapper} from "./wrapper/ticker/PixiTickerWrapper";
 import {IEngineAdapter, IObjectUnderPointVO} from "../abstract/IEngineAdapter";
 import {EngineAdapter} from "../abstract/EngineAdapter";
@@ -27,6 +27,8 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
     constructor(initData?:IPixiAdapterInitData) {
         super(initData);
+
+        Logger.log("PixiAdapter: ", this);
     }
 
     protected construction(initData?:IPixiAdapterInitData):void {
@@ -308,14 +310,30 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
+    private cachedPoint:PIXI.Point = new PIXI.Point();
+
     public getNativeObjectsUnderPoint(root:any,
                                       x:number,
                                       y:number):IObjectUnderPointVO {
 
         let result:IObjectUnderPointVO;
 
-        let tempBounds:PIXI.Rectangle = (root as PIXI.DisplayObject).getBounds();
-        if (tempBounds.contains(x, y)) {
+        let isUnderPoint:boolean = false;
+        if (root.containsPoint) {
+            this.cachedPoint.x = x;
+            this.cachedPoint.y = y;
+            if (root.containsPoint(this.cachedPoint)) {
+                isUnderPoint = true;
+            }
+
+        } else {
+            let tempBounds:PIXI.Rectangle = (root as PIXI.DisplayObject).getBounds();
+            if (tempBounds.contains(x, y)) {
+                isUnderPoint = true;
+            }
+        }
+
+        if (isUnderPoint) {
             result = {object: root, children: []};
 
             let rootContainer:PIXI.Container = (root as PIXI.Container);

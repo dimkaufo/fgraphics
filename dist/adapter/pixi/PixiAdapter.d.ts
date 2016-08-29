@@ -37,5 +37,6 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     globalMouseY: number;
     findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, namePart: string, isRecursive: boolean): DisplayObjectWithNameVO<ChildType>[];
     findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, childName: string, isRecursive: boolean): ChildType;
+    private cachedPoint;
     getNativeObjectsUnderPoint(root: any, x: number, y: number): IObjectUnderPointVO;
 }

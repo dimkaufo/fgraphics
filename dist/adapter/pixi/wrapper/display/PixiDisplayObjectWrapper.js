@@ -33,6 +33,9 @@ var PixiDisplayObjectWrapper = (function (_super) {
         if (this.pixiDisplayObject) {
             this.pixiDisplayObject = null;
         }
+        if (this.tempParent) {
+            this.tempParent.destruction();
+        }
     };
     PixiDisplayObjectWrapper.prototype.removeListeners = function () {
         _super.prototype.removeListeners.call(this);
@@ -198,11 +201,16 @@ var PixiDisplayObjectWrapper = (function (_super) {
     });
     Object.defineProperty(PixiDisplayObjectWrapper.prototype, "parent", {
         get: function () {
-            if (!this.tempParent) {
-                this.tempParent = EngineAdapter_1.EngineAdapter.instance.createDisplayObjectContainerWrapper(this.pixiDisplayObject.parent);
+            if (!this.pixiDisplayObject.parent) {
+                return null;
             }
-            this.tempParent.object = this.pixiDisplayObject.parent;
-            return this.tempParent;
+            else {
+                if (!this.tempParent) {
+                    this.tempParent = EngineAdapter_1.EngineAdapter.instance.createDisplayObjectContainerWrapper(this.pixiDisplayObject.parent);
+                }
+                this.tempParent.object = this.pixiDisplayObject.parent;
+                return this.tempParent;
+            }
         },
         enumerable: true,
         configurable: true

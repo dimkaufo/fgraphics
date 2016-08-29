@@ -18,6 +18,8 @@ var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
     function PixiAdapter(initData) {
         _super.call(this, initData);
+        this.cachedPoint = new PIXI.Point();
+        index_1.Logger.log("PixiAdapter: ", this);
     }
     PixiAdapter.prototype.construction = function (initData) {
         _super.prototype.construction.call(this, initData);
@@ -262,8 +264,21 @@ var PixiAdapter = (function (_super) {
     };
     PixiAdapter.prototype.getNativeObjectsUnderPoint = function (root, x, y) {
         var result;
-        var tempBounds = root.getBounds();
-        if (tempBounds.contains(x, y)) {
+        var isUnderPoint = false;
+        if (root.containsPoint) {
+            this.cachedPoint.x = x;
+            this.cachedPoint.y = y;
+            if (root.containsPoint(this.cachedPoint)) {
+                isUnderPoint = true;
+            }
+        }
+        else {
+            var tempBounds = root.getBounds();
+            if (tempBounds.contains(x, y)) {
+                isUnderPoint = true;
+            }
+        }
+        if (isUnderPoint) {
             result = { object: root, children: [] };
             var rootContainer = root;
             if (rootContainer.children && rootContainer.children.length > 0) {
