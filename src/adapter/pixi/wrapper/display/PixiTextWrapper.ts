@@ -39,7 +39,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
             tempStyle.align = "";
         }
 
-        tempStyle.font = "";
+        /*tempStyle.font = "";
         if (this.fontFamily) {
             tempStyle.font += this.fontFamily;
         }
@@ -48,7 +48,14 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
                 tempStyle.font += " ";
             }
             tempStyle.font += this.size + "px";
+        }*/
+        if (this.fontFamily) {
+            (tempStyle as any).fontFamily = this.fontFamily;
         }
+        if (this.size) {
+            (tempStyle as any).fontSize = this.size;
+        }
+
 
         this.pixiText.style = tempStyle;
     }
