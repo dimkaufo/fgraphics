@@ -318,7 +318,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
         let result:IObjectUnderPointVO;
 
-        let isUnderPoint:boolean = false;
+        /*let isUnderPoint:boolean = false;
         if (root.containsPoint) {
             this.cachedPoint.x = x;
             this.cachedPoint.y = y;
@@ -348,6 +348,49 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
                         result.children.push(tempChildResult);
                     }
                 }
+            }
+        }*/
+
+        let rootContainer:PIXI.Container = (root as PIXI.Container);
+        // If the object is a container
+        if (rootContainer.children && rootContainer.children.length > 0) {
+            let tempChildren:IObjectUnderPointVO[] = [];
+            let tempChild:any;
+            let tempChildResult:any;
+            let childrenCount:number = rootContainer.children.length;
+            for (let childIndex:number = 0; childIndex < childrenCount; childIndex++) {
+                tempChild = rootContainer.children[childIndex];
+                tempChildResult = this.getNativeObjectsUnderPoint(tempChild, x, y);
+                if (tempChildResult) {
+                    tempChildren.push(tempChildResult);
+                }
+            }
+
+            // The container might be added only if at least one of its children is under cursor
+            if (tempChildren.length > 0) {
+                result = {object: root, children: tempChildren};
+            }
+
+        // If the object isn't a container
+        } else {
+
+            let isUnderPoint:boolean = false;
+            if (root.containsPoint) {
+                this.cachedPoint.x = x;
+                this.cachedPoint.y = y;
+                if (root.containsPoint(this.cachedPoint)) {
+                    isUnderPoint = true;
+                }
+
+            } else {
+                let tempBounds:PIXI.Rectangle = (root as PIXI.DisplayObject).getBounds();
+                if (tempBounds.contains(x, y)) {
+                    isUnderPoint = true;
+                }
+            }
+
+            if (isUnderPoint) {
+                result = {object: root};
             }
         }
 

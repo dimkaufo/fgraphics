@@ -60,5 +60,5 @@ export interface IEngineAdapter extends IEventDispatcher<string> {
 
 export interface IObjectUnderPointVO {
     object:any;
-    children:IObjectUnderPointVO[];
+    children?:IObjectUnderPointVO[];
 }
