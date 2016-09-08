@@ -9,9 +9,6 @@ __export(require('./adapter/pixi/PixiAdapter'));
 __export(require('./tools/display/DisplayObjectTools'));
 __export(require('./tools/display/DisplayObjectWithNameVO'));
 __export(require('./tools/display/MovieClipTools'));
-__export(require('./adapter/abstract/wrapper/display/AnimatableSpriteWrapperEvent'));
-__export(require('./adapter/abstract/wrapper/display/DisplayObjectWrapperMouseEvent'));
-__export(require('./adapter/abstract/wrapper/display/TextWrapperAlign'));
 __export(require('./adapter/abstract/wrapper/ticker/TickerEvent'));
 __export(require('./adapter/pixi/wrapper/display/PixiDisplayObjectContainerWrapper'));
 __export(require('./adapter/pixi/wrapper/display/PixiDisplayObjectWrapper'));
@@ -20,4 +17,7 @@ __export(require('./adapter/pixi/wrapper/display/PixiMouseEvent'));
 __export(require('./adapter/pixi/wrapper/display/PixiSpriteWrapper'));
 __export(require('./adapter/pixi/wrapper/display/PixiTextWrapper'));
 __export(require('./adapter/pixi/wrapper/ticker/PixiTickerWrapper'));
+__export(require('./adapter/abstract/wrapper/display/AnimatableSpriteWrapperEvent'));
+__export(require('./adapter/abstract/wrapper/display/DisplayObjectWrapperMouseEvent'));
+__export(require('./adapter/abstract/wrapper/display/TextWrapperAlign'));
 //# sourceMappingURL=index.js.map

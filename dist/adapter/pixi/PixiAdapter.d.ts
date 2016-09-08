@@ -16,6 +16,7 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     protected _stage: PixiDisplayObjectContainerWrapper;
     protected tickerWrapper: PixiTickerWrapper;
     protected rendererSize: Point;
+    private cachedPoint;
     constructor(initData?: IPixiAdapterInitData);
     protected construction(initData?: IPixiAdapterInitData): void;
     stage: IDisplayObjectContainerWrapper;
@@ -37,6 +38,5 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     globalMouseY: number;
     findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, namePart: string, isRecursive: boolean): DisplayObjectWithNameVO<ChildType>[];
     findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, childName: string, isRecursive: boolean): ChildType;
-    private cachedPoint;
-    getNativeObjectsUnderPoint(root: any, x: number, y: number): IObjectUnderPointVO;
+    getNativeObjectsUnderPoint(root: PIXI.DisplayObject, x: number, y: number): IObjectUnderPointVO;
 }

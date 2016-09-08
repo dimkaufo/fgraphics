@@ -264,74 +264,44 @@ var PixiAdapter = (function (_super) {
     };
     PixiAdapter.prototype.getNativeObjectsUnderPoint = function (root, x, y) {
         var result;
-        /*let isUnderPoint:boolean = false;
-        if (root.containsPoint) {
-            this.cachedPoint.x = x;
-            this.cachedPoint.y = y;
-            if (root.containsPoint(this.cachedPoint)) {
-                isUnderPoint = true;
-            }
-
-        } else {
-            let tempBounds:PIXI.Rectangle = (root as PIXI.DisplayObject).getBounds();
-            if (tempBounds.contains(x, y)) {
-                isUnderPoint = true;
-            }
-        }
-
-        if (isUnderPoint) {
-            result = {object: root, children: []};
-
-            let rootContainer:PIXI.Container = (root as PIXI.Container);
+        if (root.visible && root.renderable) {
+            var rootContainer = root;
+            // If the object is a container
             if (rootContainer.children && rootContainer.children.length > 0) {
-                let tempChild:any;
-                let tempChildResult:any;
-                let childrenCount:number = rootContainer.children.length;
-                for (let childIndex:number = 0; childIndex < childrenCount; childIndex++) {
+                var tempChildren = [];
+                var tempChild = void 0;
+                var tempChildResult = void 0;
+                var childrenCount = rootContainer.children.length;
+                for (var childIndex = 0; childIndex < childrenCount; childIndex++) {
                     tempChild = rootContainer.children[childIndex];
                     tempChildResult = this.getNativeObjectsUnderPoint(tempChild, x, y);
                     if (tempChildResult) {
-                        result.children.push(tempChildResult);
+                        tempChildren.push(tempChildResult);
                     }
                 }
-            }
-        }*/
-        var rootContainer = root;
-        // If the object is a container
-        if (rootContainer.children && rootContainer.children.length > 0) {
-            var tempChildren = [];
-            var tempChild = void 0;
-            var tempChildResult = void 0;
-            var childrenCount = rootContainer.children.length;
-            for (var childIndex = 0; childIndex < childrenCount; childIndex++) {
-                tempChild = rootContainer.children[childIndex];
-                tempChildResult = this.getNativeObjectsUnderPoint(tempChild, x, y);
-                if (tempChildResult) {
-                    tempChildren.push(tempChildResult);
-                }
-            }
-            // The container might be added only if at least one of its children is under cursor
-            if (tempChildren.length > 0) {
-                result = { object: root, children: tempChildren };
-            }
-        }
-        else {
-            var isUnderPoint = false;
-            if (root.containsPoint) {
-                this.cachedPoint.x = x;
-                this.cachedPoint.y = y;
-                if (root.containsPoint(this.cachedPoint)) {
-                    isUnderPoint = true;
+                // The container might be added only if at least one of its children is under cursor
+                if (tempChildren.length > 0) {
+                    result = { object: root, children: tempChildren };
                 }
             }
             else {
-                var tempBounds = root.getBounds();
-                if (tempBounds.contains(x, y)) {
-                    isUnderPoint = true;
+                var isUnderPoint = false;
+                if (root.containsPoint) {
+                    this.cachedPoint.x = x;
+                    this.cachedPoint.y = y;
+                    if (root.containsPoint(this.cachedPoint)) {
+                        isUnderPoint = true;
+                    }
                 }
-            }
-            if (isUnderPoint) {
-                result = { object: root };
+                else {
+                    var tempBounds = root.getBounds();
+                    if (tempBounds.contains(x, y)) {
+                        isUnderPoint = true;
+                    }
+                }
+                if (isUnderPoint) {
+                    result = { object: root };
+                }
             }
         }
         return result;
