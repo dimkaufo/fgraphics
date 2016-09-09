@@ -8,8 +8,8 @@
     "type": "git",
     "url": "https://github.com/flashist/fgraphics"
   },
-  "typings": "./dist/index.d.ts",
-  "main": "./dist/index.js",
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
   "dependencies": {
     "fcore": "0.0.39"
   },
