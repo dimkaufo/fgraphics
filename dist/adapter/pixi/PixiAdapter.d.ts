@@ -17,8 +17,14 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     protected tickerWrapper: PixiTickerWrapper;
     protected rendererSize: Point;
     private cachedPoint;
+    private lastInteractionGlobalPoint;
     constructor(initData?: IPixiAdapterInitData);
     protected construction(initData?: IPixiAdapterInitData): void;
+    protected addListeners(): void;
+    protected removeListeners(): void;
+    private onTouchStart(eventData);
+    private onTouchEnd(eventData);
+    private onTouchEndOutside(eventData);
     stage: IDisplayObjectContainerWrapper;
     canvas: HTMLCanvasElement;
     rendererWidth: number;

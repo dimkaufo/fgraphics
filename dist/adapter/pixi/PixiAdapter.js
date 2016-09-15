@@ -14,6 +14,7 @@ var PixiDisplayObjectContainerWrapper_1 = require("./wrapper/display/PixiDisplay
 var PixiDisplayObjectWrapper_1 = require("./wrapper/display/PixiDisplayObjectWrapper");
 var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
+var PixiMouseEvent_1 = require("./wrapper/display/PixiMouseEvent");
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
     function PixiAdapter(initData) {
@@ -42,6 +43,27 @@ var PixiAdapter = (function (_super) {
             }
             this.renderer = PIXI.autoDetectRenderer(initData.rendererWidth, initData.rendererHeight, tempRendererSettings);
         }
+    };
+    PixiAdapter.prototype.addListeners = function () {
+        _super.prototype.addListeners.call(this);
+        this.renderer.plugins.interaction.addListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_START, this.onTouchStart, this);
+        this.renderer.plugins.interaction.addListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END, this.onTouchEnd, this);
+        this.renderer.plugins.interaction.addListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END_OUTSIDE, this.onTouchEndOutside, this);
+    };
+    PixiAdapter.prototype.removeListeners = function () {
+        _super.prototype.removeListeners.call(this);
+        this.renderer.plugins.interaction.removeListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_START, this.onTouchStart, this);
+        this.renderer.plugins.interaction.removeListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END, this.onTouchEnd, this);
+        this.renderer.plugins.interaction.removeListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END_OUTSIDE, this.onTouchEndOutside, this);
+    };
+    PixiAdapter.prototype.onTouchStart = function (eventData) {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    };
+    PixiAdapter.prototype.onTouchEnd = function (eventData) {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    };
+    PixiAdapter.prototype.onTouchEndOutside = function (eventData) {
+        this.lastInteractionGlobalPoint = eventData.data.global;
     };
     Object.defineProperty(PixiAdapter.prototype, "stage", {
         get: function () {
@@ -167,14 +189,24 @@ var PixiAdapter = (function (_super) {
     };
     Object.defineProperty(PixiAdapter.prototype, "globalMouseX", {
         get: function () {
-            return this.renderer.plugins.interaction.mouse.global.x;
+            if (this.lastInteractionGlobalPoint) {
+                return this.lastInteractionGlobalPoint.x;
+            }
+            else {
+                return this.renderer.plugins.interaction.mouse.global.x;
+            }
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(PixiAdapter.prototype, "globalMouseY", {
         get: function () {
-            return this.renderer.plugins.interaction.mouse.global.y;
+            if (this.lastInteractionGlobalPoint) {
+                return this.lastInteractionGlobalPoint.y;
+            }
+            else {
+                return this.renderer.plugins.interaction.mouse.global.y;
+            }
         },
         enumerable: true,
         configurable: true

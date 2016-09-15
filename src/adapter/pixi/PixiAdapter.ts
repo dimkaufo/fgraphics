@@ -17,6 +17,7 @@ import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
 import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
 import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
 import WebGLRenderer = PIXI.WebGLRenderer;
+import {PixiMouseEvent} from "./wrapper/display/PixiMouseEvent";
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
@@ -25,6 +26,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     protected tickerWrapper:PixiTickerWrapper;
     protected rendererSize:Point;
     private cachedPoint:PIXI.Point = new PIXI.Point();
+    private lastInteractionGlobalPoint:PIXI.Point;
 
     constructor(initData?:IPixiAdapterInitData) {
         super(initData);
@@ -63,6 +65,64 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
             );
         }
     }
+
+    protected addListeners():void {
+        super.addListeners();
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_START,
+            this.onTouchStart,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_END,
+            this.onTouchEnd,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_END_OUTSIDE,
+            this.onTouchEndOutside,
+            this
+        );
+    }
+
+    protected removeListeners():void {
+        super.removeListeners();
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_START,
+            this.onTouchStart,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_END,
+            this.onTouchEnd,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_END_OUTSIDE,
+            this.onTouchEndOutside,
+            this
+        );
+    }
+
+
+    private onTouchStart(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
+    private onTouchEnd(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
+    private onTouchEndOutside(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
 
 
     public get stage():IDisplayObjectContainerWrapper {
@@ -197,11 +257,19 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
 
     public get globalMouseX():number {
-        return (this.renderer as any).plugins.interaction.mouse.global.x;
+        if (this.lastInteractionGlobalPoint) {
+            return this.lastInteractionGlobalPoint.x;
+        } else {
+            return (this.renderer as any).plugins.interaction.mouse.global.x;
+        }
     }
 
     public get globalMouseY():number {
-        return (this.renderer as any).plugins.interaction.mouse.global.y;
+        if (this.lastInteractionGlobalPoint) {
+            return this.lastInteractionGlobalPoint.y;
+        } else {
+            return (this.renderer as any).plugins.interaction.mouse.global.y;
+        }
     }
 
 
