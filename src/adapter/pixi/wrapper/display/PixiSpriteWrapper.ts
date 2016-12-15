@@ -2,6 +2,10 @@
 import {Point} from "fcore/dist/index";
 import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
 
+import {
+    PIXI
+} from "../../typings/PIXI";
+
 export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper implements ISpriteWrapper {
 
     public isSpriteWrapper:boolean = true;

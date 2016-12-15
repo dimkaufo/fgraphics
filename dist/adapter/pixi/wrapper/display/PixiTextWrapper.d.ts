@@ -1,5 +1,6 @@
 import { ITextWrapper } from "../../../abstract/wrapper/display/ITextWrapper";
 import { PixiSpriteWrapper } from "./PixiSpriteWrapper";
+import { PIXI } from "../../typings/PIXI";
 export declare class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     isTextWrapper: boolean;
     protected pixiText: PIXI.Text;

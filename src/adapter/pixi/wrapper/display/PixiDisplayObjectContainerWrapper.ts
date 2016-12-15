@@ -2,6 +2,7 @@
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
 import {PixiDisplayObjectWrapper} from "./PixiDisplayObjectWrapper";
+import {PIXI} from "./../../typings/PIXI";
 
 export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper implements IDisplayObjectContainerWrapper {
     public isDisplayObjectContainerWrapper:boolean = true;

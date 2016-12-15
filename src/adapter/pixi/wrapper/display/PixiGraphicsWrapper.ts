@@ -1,6 +1,10 @@
 ﻿import {IGraphicsWrapper} from "../../../abstract/wrapper/display/IGraphicsWrapper";
 import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
 
+import {
+    PIXI
+} from "../../typings/PIXI";
+
 export class PixiGraphicsWrapper extends PixiDisplayObjectContainerWrapper implements IGraphicsWrapper {
 
     public isGraphicsWrapper:boolean = true;

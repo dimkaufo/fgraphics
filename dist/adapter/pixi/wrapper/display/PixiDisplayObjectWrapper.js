@@ -5,9 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var index_1 = require("fcore/dist/index");
-var DisplayObjectWrapperMouseEvent_1 = require("../../../abstract/wrapper/display/DisplayObjectWrapperMouseEvent");
+var DisplayObjectWrapperMouseEvent_1 = require("../../../abstract/wrapper/events/DisplayObjectWrapperMouseEvent");
 var EngineAdapter_1 = require("../../../abstract/EngineAdapter");
-var PixiMouseEvent_1 = require("./PixiMouseEvent");
+var PixiMouseEvent_1 = require("../events/PixiMouseEvent");
+var PixiDisplayObjectEvent_1 = require("../events/PixiDisplayObjectEvent");
+var PIXI_1 = require("../../typings/PIXI");
 var PixiDisplayObjectWrapper = (function (_super) {
     __extends(PixiDisplayObjectWrapper, _super);
     function PixiDisplayObjectWrapper() {
@@ -17,14 +19,12 @@ var PixiDisplayObjectWrapper = (function (_super) {
     PixiDisplayObjectWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);
         this.pixiDisplayObject = this.object;
-    };
-    PixiDisplayObjectWrapper.prototype.commitInteractiveData = function () {
         if (this.pixiDisplayObject) {
             if (this.interactive) {
-                this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+                this.addPixiObjectInteractiveListeners(this.pixiDisplayObject);
             }
             else {
-                this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+                this.removePixiObjectInteractiveListeners(this.pixiDisplayObject);
             }
         }
     };
@@ -40,25 +40,44 @@ var PixiDisplayObjectWrapper = (function (_super) {
     PixiDisplayObjectWrapper.prototype.removeListeners = function () {
         _super.prototype.removeListeners.call(this);
         if (this.pixiDisplayObject) {
-            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+            this.removePixiObjectListeners(this.pixiDisplayObject);
         }
     };
-    PixiDisplayObjectWrapper.prototype.addInteractivePixiObjectListeners = function (pixiObject) {
+    PixiDisplayObjectWrapper.prototype.addPixiObjectListeners = function (pixiObject) {
         if (!pixiObject) {
             return;
         }
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.CLICK, this.onPixiClick, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TAP, this.onPixiTap, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_DOWN, this.onPixiMouseDown, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_UP, this.onPixiMouseUp, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_UP_OUTSIDE, this.onPixiMouseUpOutside, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_START, this.onPixiMouseDown, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END, this.onPixiMouseUp, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
-        pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
+        // To prevent double listeners (memory leaks)
+        this.removePixiObjectListeners(pixiObject);
+        this.pixiDisplayObject.addListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.ADDED, this.onAdded, this);
     };
-    PixiDisplayObjectWrapper.prototype.removeInteractivePixiObjectListeners = function (pixiObject) {
+    PixiDisplayObjectWrapper.prototype.removePixiObjectListeners = function (pixiObject) {
+        if (!pixiObject) {
+            return;
+        }
+        this.removePixiObjectInteractiveListeners(pixiObject);
+        this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+    };
+    PixiDisplayObjectWrapper.prototype.addPixiObjectInteractiveListeners = function (pixiObject) {
+        if (!pixiObject) {
+            return;
+        }
+        // To prevent double listeners (memory leaks)
+        this.removePixiObjectInteractiveListeners(pixiObject);
+        if (this.interactive) {
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.CLICK, this.onPixiClick, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TAP, this.onPixiTap, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_DOWN, this.onPixiMouseDown, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_UP, this.onPixiMouseUp, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_UP_OUTSIDE, this.onPixiMouseUpOutside, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_START, this.onPixiMouseDown, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END, this.onPixiMouseUp, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
+            pixiObject.on(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
+        }
+    };
+    PixiDisplayObjectWrapper.prototype.removePixiObjectInteractiveListeners = function (pixiObject) {
         if (!pixiObject) {
             return;
         }
@@ -72,6 +91,9 @@ var PixiDisplayObjectWrapper = (function (_super) {
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
+    };
+    PixiDisplayObjectWrapper.prototype.onAdded = function (parent) {
+        console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
     };
     PixiDisplayObjectWrapper.prototype.onPixiClick = function (event) {
         this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
@@ -99,11 +121,16 @@ var PixiDisplayObjectWrapper = (function (_super) {
             return this._pixiDisplayObject;
         },
         set: function (value) {
-            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+            if (this.pixiDisplayObject == value) {
+                return;
+            }
+            // Remove listeners from the previous object
+            // this.removePixiObjectInteractiveListeners(this.pixiDisplayObject);
+            this.removePixiObjectListeners(this.pixiDisplayObject);
             //
             this._pixiDisplayObject = value;
-            // this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
-            this.commitInteractiveData();
+            this.addPixiObjectListeners(this.pixiDisplayObject);
+            this.commitData();
         },
         enumerable: true,
         configurable: true
@@ -184,7 +211,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         },
         set: function (value) {
             this.pixiDisplayObject.interactive = value;
-            this.commitInteractiveData();
+            this.commitData();
         },
         enumerable: true,
         configurable: true
@@ -224,11 +251,11 @@ var PixiDisplayObjectWrapper = (function (_super) {
         return new index_1.Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     };
     PixiDisplayObjectWrapper.prototype.toGlobal = function (position) {
-        var tempPixiPos = this.pixiDisplayObject.toGlobal(new PIXI.Point(position.x, position.y));
+        var tempPixiPos = this.pixiDisplayObject.toGlobal(new PIXI_1.PIXI.Point(position.x, position.y));
         return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
     };
     PixiDisplayObjectWrapper.prototype.toLocal = function (position) {
-        var tempPixiPos = this.pixiDisplayObject.toLocal(new PIXI.Point(position.x, position.y));
+        var tempPixiPos = this.pixiDisplayObject.toLocal(new PIXI_1.PIXI.Point(position.x, position.y));
         return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
     };
     Object.defineProperty(PixiDisplayObjectWrapper.prototype, "width", {

@@ -11,6 +11,7 @@ import { PixiDisplayObjectContainerWrapper } from "./wrapper/display/PixiDisplay
 import { IGraphicsWrapper } from "../abstract/wrapper/display/IGraphicsWrapper";
 import { DisplayObjectWithNameVO } from "../../tools/display/DisplayObjectWithNameVO";
 import { IPixiAdapterInitData } from "./IPixiAdapterInitData";
+import { PIXI } from "./typings/PIXI";
 export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     protected renderer: PIXI.SystemRenderer;
     protected _stage: PixiDisplayObjectContainerWrapper;
@@ -25,12 +26,12 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     private onTouchStart(eventData);
     private onTouchEnd(eventData);
     private onTouchEndOutside(eventData);
-    stage: IDisplayObjectContainerWrapper;
+    readonly stage: IDisplayObjectContainerWrapper;
     canvas: HTMLCanvasElement;
-    rendererWidth: number;
-    rendererHeight: number;
-    mainTicker: ITickerWrapper;
-    BaseDisplayObjectClass: any;
+    readonly rendererWidth: number;
+    readonly rendererHeight: number;
+    readonly mainTicker: ITickerWrapper;
+    readonly BaseDisplayObjectClass: any;
     renderGraphics(): void;
     changeRenderSize(width: number, height: number): void;
     createDisplayWrapperBasedOnObject<WrapperType extends IDisplayObjectWrapper>(object: any): WrapperType;
@@ -40,8 +41,8 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     createPerformanceDisplayObjectContainerWrapper(object?: any): IDisplayObjectContainerWrapper;
     createDisplayObjectWrapper(object?: any): IDisplayObjectWrapper;
     createGraphicsWrapper(object?: any): IGraphicsWrapper;
-    globalMouseX: number;
-    globalMouseY: number;
+    readonly globalMouseX: number;
+    readonly globalMouseY: number;
     findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, namePart: string, isRecursive: boolean): DisplayObjectWithNameVO<ChildType>[];
     findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer: any, childName: string, isRecursive: boolean): ChildType;
     getNativeObjectsUnderPoint(root: PIXI.DisplayObject, x: number, y: number): IObjectUnderPointVO;

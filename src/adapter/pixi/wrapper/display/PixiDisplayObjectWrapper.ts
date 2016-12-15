@@ -1,19 +1,25 @@
 ﻿import {BaseClassWrapper, Rectangle, Logger, Point} from "fcore/dist/index";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
-import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/display/DisplayObjectWrapperMouseEvent";
+import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/events/DisplayObjectWrapperMouseEvent";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
-import {PixiMouseEvent} from "./PixiMouseEvent";
+import {PixiMouseEvent} from "../events/PixiMouseEvent";
+import {PixiDisplayObjectEvent} from "../events/PixiDisplayObjectEvent";
+
+import {
+    PIXI
+} from "../../typings/PIXI";
 
 export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDisplayObjectWrapper {
-    public isDisplayObjectWrapper:boolean = true;
 
+    public isDisplayObjectWrapper:boolean = true;
     private _pixiDisplayObject:PIXI.DisplayObject;
 
     protected tempParent:IDisplayObjectContainerWrapper;
 
     constructor() {
         super();
+
     }
 
 
@@ -21,14 +27,13 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         super.commitData();
 
         this.pixiDisplayObject = (this.object as PIXI.DisplayObject);
-    }
 
-    protected commitInteractiveData():void {
         if (this.pixiDisplayObject) {
             if (this.interactive) {
-                this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
+                this.addPixiObjectInteractiveListeners(this.pixiDisplayObject);
+
             } else {
-                this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+                this.removePixiObjectInteractiveListeners(this.pixiDisplayObject);
             }
         }
     }
@@ -49,29 +54,57 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         super.removeListeners();
 
         if (this.pixiDisplayObject) {
-            this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+            this.removePixiObjectListeners(this.pixiDisplayObject);
         }
     }
 
 
-    protected addInteractivePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
+
+    protected addPixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
         if (!pixiObject) {
             return;
         }
 
-        pixiObject.on(PixiMouseEvent.CLICK, this.onPixiClick, this);
-        pixiObject.on(PixiMouseEvent.TAP, this.onPixiTap, this);
-        pixiObject.on(PixiMouseEvent.MOUSE_DOWN, this.onPixiMouseDown, this);
-        pixiObject.on(PixiMouseEvent.MOUSE_UP, this.onPixiMouseUp, this);
-        pixiObject.on(PixiMouseEvent.MOUSE_UP_OUTSIDE, this.onPixiMouseUpOutside, this);
-        pixiObject.on(PixiMouseEvent.TOUCH_START, this.onPixiMouseDown, this);
-        pixiObject.on(PixiMouseEvent.TOUCH_END, this.onPixiMouseUp, this);
-        pixiObject.on(PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
-        pixiObject.on(PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
-        pixiObject.on(PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
+        // To prevent double listeners (memory leaks)
+        this.removePixiObjectListeners(pixiObject);
+
+        this.pixiDisplayObject.addListener(PixiDisplayObjectEvent.ADDED, this.onAdded, this);
     }
 
-    protected removeInteractivePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
+    protected removePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
+        if (!pixiObject) {
+            return;
+        }
+
+        this.removePixiObjectInteractiveListeners(pixiObject);
+
+        this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+    }
+
+
+    protected addPixiObjectInteractiveListeners(pixiObject:PIXI.DisplayObject):void {
+        if (!pixiObject) {
+            return;
+        }
+
+        // To prevent double listeners (memory leaks)
+        this.removePixiObjectInteractiveListeners(pixiObject);
+
+        if (this.interactive) {
+            pixiObject.on(PixiMouseEvent.CLICK, this.onPixiClick, this);
+            pixiObject.on(PixiMouseEvent.TAP, this.onPixiTap, this);
+            pixiObject.on(PixiMouseEvent.MOUSE_DOWN, this.onPixiMouseDown, this);
+            pixiObject.on(PixiMouseEvent.MOUSE_UP, this.onPixiMouseUp, this);
+            pixiObject.on(PixiMouseEvent.MOUSE_UP_OUTSIDE, this.onPixiMouseUpOutside, this);
+            pixiObject.on(PixiMouseEvent.TOUCH_START, this.onPixiMouseDown, this);
+            pixiObject.on(PixiMouseEvent.TOUCH_END, this.onPixiMouseUp, this);
+            pixiObject.on(PixiMouseEvent.TOUCH_END_OUTSIDE, this.onPixiMouseUpOutside, this);
+            pixiObject.on(PixiMouseEvent.MOUSE_OVER, this.onPixiMouseOver, this);
+            pixiObject.on(PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
+        }
+    }
+
+    protected removePixiObjectInteractiveListeners(pixiObject:PIXI.DisplayObject):void {
         if (!pixiObject) {
             return;
         }
@@ -88,6 +121,10 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         pixiObject.removeListener(PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     }
 
+
+    protected onAdded(parent:PIXI.Container):void {
+        console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+    }
 
     protected onPixiClick(event:PIXI.interaction.InteractionEvent):void {
         this.dispatchEvent(DisplayObjectWrapperMouseEvent.CLICK);
@@ -123,11 +160,18 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     }
 
     protected set pixiDisplayObject(value:PIXI.DisplayObject) {
-        this.removeInteractivePixiObjectListeners(this.pixiDisplayObject);
+        if (this.pixiDisplayObject == value) {
+            return;
+        }
+
+        // Remove listeners from the previous object
+        // this.removePixiObjectInteractiveListeners(this.pixiDisplayObject);
+        this.removePixiObjectListeners(this.pixiDisplayObject);
         //
         this._pixiDisplayObject = value;
-        // this.addInteractivePixiObjectListeners(this.pixiDisplayObject);
-        this.commitInteractiveData();
+        this.addPixiObjectListeners(this.pixiDisplayObject);
+
+        this.commitData();
     }
 
 
@@ -193,7 +237,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     public set interactive(value:boolean) {
         this.pixiDisplayObject.interactive = value;
 
-        this.commitInteractiveData();
+        this.commitData();
     }
 
 

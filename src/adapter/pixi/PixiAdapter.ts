@@ -16,8 +16,12 @@ import {IGraphicsWrapper} from "../abstract/wrapper/display/IGraphicsWrapper";
 import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
 import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
 import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
-import WebGLRenderer = PIXI.WebGLRenderer;
-import {PixiMouseEvent} from "./wrapper/display/PixiMouseEvent";
+import {PixiMouseEvent} from "./wrapper/events/PixiMouseEvent";
+
+// import WebGLRenderer = PIXI.WebGLRenderer;
+import {
+    PIXI
+} from "./typings/PIXI";
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 

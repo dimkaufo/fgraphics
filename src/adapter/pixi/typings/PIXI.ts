@@ -3,7 +3,7 @@
 // Definitions by: clark-stevenson <https://github.com/pixijs/pixi-typescript>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare class PIXI {
+export declare class PIXI {
 
     static VERSION: string;
     static PI_2: number;
@@ -75,7 +75,7 @@ declare class PIXI {
 
 }
 
-declare namespace PIXI {
+export declare namespace PIXI {
 
     export function autoDetectRenderer(width: number, height: number, options?: PIXI.RendererOptions, noWebGL?: boolean): PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     export var loader: PIXI.loaders.Loader;
@@ -1742,6 +1742,6 @@ declare namespace PIXI {
     }
 }
 
-declare module 'pixi.js' {
+/*declare module 'pixi.js' {
     export = PIXI;
-}
+}*/

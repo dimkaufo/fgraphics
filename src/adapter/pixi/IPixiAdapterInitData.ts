@@ -1,4 +1,8 @@
-﻿export interface IPixiAdapterInitData {
+﻿import {
+    PIXI
+} from "./typings/PIXI";
+
+export interface IPixiAdapterInitData {
     // If no renderer is passed, then a new one will be created
     renderer?:PIXI.SystemRenderer;
     // Specific renderer settings will be used only in case of creating the new renderer instance
