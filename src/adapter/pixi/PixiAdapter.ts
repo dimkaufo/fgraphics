@@ -1,4 +1,4 @@
-﻿import {Point, Logger} from "fcore/dist/index";
+import {Point, Logger} from "fcore/dist/index";
 import {PixiTickerWrapper} from "./wrapper/ticker/PixiTickerWrapper";
 import {IEngineAdapter, IObjectUnderPointVO} from "../abstract/IEngineAdapter";
 import {EngineAdapter} from "../abstract/EngineAdapter";
@@ -19,9 +19,7 @@ import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
 import {PixiMouseEvent} from "./wrapper/events/PixiMouseEvent";
 
 // import WebGLRenderer = PIXI.WebGLRenderer;
-import {
-    PIXI
-} from "./typings/PIXI";
+// import {PIXI} from "./typings/index";
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
@@ -181,7 +179,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         } else if (object instanceof PIXI.Graphics) {
             result = (this.createGraphicsWrapper(object) as any);
 
-        } else if (object instanceof PIXI.ParticleContainer) {
+        } else if (object instanceof PIXI.particles.ParticleContainer) {
             result = (this.createPerformanceDisplayObjectContainerWrapper(object) as any);
 
         } else if (object instanceof PIXI.Container) {
@@ -230,7 +228,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
     public createPerformanceDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
         if (!object) {
-            object = new PIXI.ParticleContainer();
+            object = new PIXI.particles.ParticleContainer();
         }
 
         var result:IDisplayObjectContainerWrapper = this.createDisplayObjectContainerWrapper(object);

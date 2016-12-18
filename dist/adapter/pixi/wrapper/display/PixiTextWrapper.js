@@ -7,6 +7,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var PixiSpriteWrapper_1 = require("./PixiSpriteWrapper");
 var index_1 = require("fcore/dist/index");
 var TextWrapperAlign_1 = require("../../../abstract/wrapper/display/TextWrapperAlign");
+// import {PIXI} from "../../typings/index";
 var PixiTextWrapper = (function (_super) {
     __extends(PixiTextWrapper, _super);
     function PixiTextWrapper() {

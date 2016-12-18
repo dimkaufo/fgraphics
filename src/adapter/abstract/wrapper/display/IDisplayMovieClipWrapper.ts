@@ -1,4 +1,4 @@
-﻿import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
+import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
 import {IMovieClipLabel} from "./IMovieClipLabel";
 export interface IMovieClipWrapper extends IDisplayObjectContainerWrapper {
     // A way to check if object is an instance of the IMovieClipWrapper

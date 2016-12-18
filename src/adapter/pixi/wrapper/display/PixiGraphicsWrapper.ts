@@ -1,9 +1,7 @@
-﻿import {IGraphicsWrapper} from "../../../abstract/wrapper/display/IGraphicsWrapper";
+import {IGraphicsWrapper} from "../../../abstract/wrapper/display/IGraphicsWrapper";
 import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
 
-import {
-    PIXI
-} from "../../typings/PIXI";
+// import {PIXI} from "../../typings/index";
 
 export class PixiGraphicsWrapper extends PixiDisplayObjectContainerWrapper implements IGraphicsWrapper {
 

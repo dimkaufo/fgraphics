@@ -1,4 +1,4 @@
-﻿import {ISpriteWrapper} from "./ISpriteWrapper";
+import {ISpriteWrapper} from "./ISpriteWrapper";
 
 export interface ITextWrapper extends ISpriteWrapper {
 

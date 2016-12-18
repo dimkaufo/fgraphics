@@ -1,4 +1,4 @@
-﻿export class TextWrapperAlign {
+export class TextWrapperAlign {
     public static NONE:string = "none";
     public static LEFT:string = "left";
     public static CENTER:string = "center";

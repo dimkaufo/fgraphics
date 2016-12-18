@@ -1,4 +1,4 @@
-﻿import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
+import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
 
 export interface IGraphicsWrapper extends IDisplayObjectContainerWrapper {
 

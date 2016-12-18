@@ -1,9 +1,9 @@
-// Type definitions for Pixi.js 3.0.9 dev
+// Type definitions for Pixi.js 4.0.0 dev
 // Project: https://github.com/GoodBoyDigital/pixi.js/
 // Definitions by: clark-stevenson <https://github.com/pixijs/pixi-typescript>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-export declare class PIXI {
+declare class PIXI {
 
     static VERSION: string;
     static PI_2: number;
@@ -75,7 +75,7 @@ export declare class PIXI {
 
 }
 
-export declare namespace PIXI {
+declare namespace PIXI {
 
     export function autoDetectRenderer(width: number, height: number, options?: PIXI.RendererOptions, noWebGL?: boolean): PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     export var loader: PIXI.loaders.Loader;
@@ -87,10 +87,10 @@ export declare namespace PIXI {
         emit(event: string, ...args: any[]): boolean;
         on(event: string, fn: Function, context?: any): EventEmitter;
         once(event: string, fn: Function, context?: any): EventEmitter;
-        removeListener(event: string, fn?: Function, context?: any, once?: boolean): EventEmitter;
-        removeAllListeners(event?: string): EventEmitter;
+        removeListener(event: string, fn: Function, context?: any, once?: boolean): EventEmitter;
+        removeAllListeners(event: string): EventEmitter;
 
-        off(event: string, fn?: Function, context?: any, once?: boolean): EventEmitter;
+        off(event: string, fn: Function, context?: any, once?: boolean): EventEmitter;
         addListener(event: string, fn: Function, context?: any): EventEmitter;
 
     }
@@ -441,62 +441,64 @@ export declare namespace PIXI {
 
     //particles
 
-    export interface ParticleContainerProperties {
+    export module particles {
 
-        scale?: boolean;
-        position?: boolean;
-        rotation?: boolean;
-        uvs?: boolean;
-        alpha?: boolean;
+        export interface ParticleContainerProperties {
 
+            scale?: boolean;
+            position?: boolean;
+            rotation?: boolean;
+            uvs?: boolean;
+            alpha?: boolean;
+
+        }
+        export class ParticleContainer extends Container {
+
+            constructor(size?: number, properties?: ParticleContainerProperties, batchSize?: number);
+
+            protected _maxSize: number;
+            protected _batchSize: number;
+            protected _properties: boolean[];
+            protected _buffers: WebGLBuffer[];
+            protected _bufferToUpdate: number;
+
+            protected onChildrenChange: (smallestChildIndex?: number) => void;
+
+            interactiveChildren: boolean;
+            blendMode: number;
+            roundPixels: boolean;
+
+            setProperties(properties: ParticleContainerProperties): void;
+
+        }
+        export interface ParticleBuffer {
+
+            gl: WebGLRenderingContext;
+            vertSize: number;
+            vertByteSize: number;
+            size: number;
+            dynamicProperties: any[];
+            staticProperties: any[];
+
+            staticStride: number;
+            staticBuffer: any;
+            staticData: any;
+            dynamicStride: number;
+            dynamicBuffer: any;
+            dynamicData: any;
+
+            initBuffers(): void;
+            bind(): void;
+            destroy(): void;
+
+        }
+        export interface ParticleRenderer {
+
+        }
+        export interface ParticleShader {
+
+        }
     }
-    export class ParticleContainer extends Container {
-
-        constructor(size?: number, properties?: ParticleContainerProperties, batchSize?: number);
-
-        protected _maxSize: number;
-        protected _batchSize: number;
-        protected _properties: boolean[];
-        protected _buffers: WebGLBuffer[];
-        protected _bufferToUpdate: number;
-
-        protected onChildrenChange: (smallestChildIndex?: number) => void;
-
-        interactiveChildren: boolean;
-        blendMode: number;
-        roundPixels: boolean;
-
-        setProperties(properties: ParticleContainerProperties): void;
-
-    }
-    export interface ParticleBuffer {
-
-        gl: WebGLRenderingContext;
-        vertSize: number;
-        vertByteSize: number;
-        size: number;
-        dynamicProperties: any[];
-        staticProperties: any[];
-
-        staticStride: number;
-        staticBuffer: any;
-        staticData: any;
-        dynamicStride: number;
-        dynamicBuffer: any;
-        dynamicData: any;
-
-        initBuffers(): void;
-        bind(): void;
-        destroy(): void;
-
-    }
-    export interface ParticleRenderer {
-
-    }
-    export interface ParticleShader {
-
-    }
-
     //renderers
 
     export interface RendererOptions {
@@ -912,13 +914,16 @@ export declare namespace PIXI {
 
         font?: string;
         fill?: string | number;
+        fillGradientType?: number;
         align?: string;
+        breakWords?: boolean;
         stroke?: string | number;
         strokeThickness?: number;
         wordWrap?: boolean;
         wordWrapWidth?: number;
         lineHeight?: number;
         dropShadow?: boolean;
+        dropShadowBlur?: number;
         dropShadowColor?: string | number;
         dropShadowAngle?: number;
         dropShadowDistance?: number;
@@ -926,7 +931,14 @@ export declare namespace PIXI {
         textBaseline?: string;
         lineJoin?: string;
         miterLimit?: number;
+        letterSpacing?: number;
+        fontFamily?: string;
+        fontStyle?: string;
+        fontVariant?: string;
+        fontWeight?: string;
+        fontSize?: number|string;
 
+        styleID?: number;
     }
     export class Text extends Sprite {
 
@@ -936,8 +948,9 @@ export declare namespace PIXI {
 
         protected _text: string;
         protected _style: TextStyle;
+        protected localStyleID: number;
 
-        protected updateText(): void;
+        protected updateText(respectDirty?: boolean): void;
         protected updateTexture(): void;
         protected determineFontProperties(fontStyle: TextStyle): TextStyle;
         protected wordWrap(text: string): boolean;
@@ -1618,6 +1631,7 @@ export declare namespace PIXI {
             xhrType: string;
             error: Error;
             xhr: XMLHttpRequest;
+            isImage: boolean;
 
             complete(): void;
             load(cb?: () => void): void;
@@ -1742,6 +1756,6 @@ export declare namespace PIXI {
     }
 }
 
-/*declare module 'pixi.js' {
+declare module 'pixi.js' {
     export = PIXI;
-}*/
+}

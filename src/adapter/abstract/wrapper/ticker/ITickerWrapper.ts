@@ -1,4 +1,4 @@
-﻿import {IEventDispatcher} from "fcore/dist/index";
+import {IEventDispatcher} from "fcore/dist/index";
 export interface ITickerWrapper extends IEventDispatcher<string> {
     fps: number;
     minFPS: number;

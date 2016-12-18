@@ -1,4 +1,4 @@
-﻿export class PixiMouseEvent {
+export class PixiMouseEvent {
     public static CLICK:string = "click";
     public static TAP:string = "tap";
     public static MOUSE_OVER:string = "mouseover";

@@ -1,4 +1,4 @@
-﻿import {IBaseClassWrapper, IEventDispatcher, Rectangle, Point} from "fcore/dist/index";
+import {IBaseClassWrapper, IEventDispatcher, Rectangle, Point} from "fcore/dist/index";
 import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
 
 

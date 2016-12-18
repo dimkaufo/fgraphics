@@ -5,6 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var PixiDisplayObjectContainerWrapper_1 = require("./PixiDisplayObjectContainerWrapper");
+// import {PIXI} from "../../typings/index";
 var PixiGraphicsWrapper = (function (_super) {
     __extends(PixiGraphicsWrapper, _super);
     function PixiGraphicsWrapper() {

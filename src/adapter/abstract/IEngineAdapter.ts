@@ -1,4 +1,4 @@
-﻿import {IEventDispatcher} from "fcore/dist/index";
+import {IEventDispatcher} from "fcore/dist/index";
 import {ITickerWrapper} from "./wrapper/ticker/ITickerWrapper";
 import {IDisplayObjectWrapper} from "./wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "./wrapper/display/IDisplayObjectContainerWrapper";

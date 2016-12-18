@@ -1,4 +1,4 @@
-﻿import {BaseClassWrapper, Rectangle, Logger, Point} from "fcore/dist/index";
+import {BaseClassWrapper, Rectangle, Logger, Point} from "fcore/dist/index";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/events/DisplayObjectWrapperMouseEvent";
@@ -6,9 +6,7 @@ import {EngineAdapter} from "../../../abstract/EngineAdapter";
 import {PixiMouseEvent} from "../events/PixiMouseEvent";
 import {PixiDisplayObjectEvent} from "../events/PixiDisplayObjectEvent";
 
-import {
-    PIXI
-} from "../../typings/PIXI";
+// import {PIXI} from "../../typings/index";
 
 export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDisplayObjectWrapper {
 

@@ -1,8 +1,15 @@
-﻿import {
-    PIXI
-} from "./typings/PIXI";
+// import * as PIXI from "@types/pixi.js";
+
+// import {PIXI} from "@types/pixi.js";
+
+// import PIXI = require('pixi.js');
+// import {PIXI} from "@types/pixi.js";
+// import PIXI = require("@types/pixi.js");
+
+// import {PIXI} from "./typings/index";
 
 export interface IPixiAdapterInitData {
+
     // If no renderer is passed, then a new one will be created
     renderer?:PIXI.SystemRenderer;
     // Specific renderer settings will be used only in case of creating the new renderer instance

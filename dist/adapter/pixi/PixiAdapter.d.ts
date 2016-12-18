@@ -11,7 +11,6 @@ import { PixiDisplayObjectContainerWrapper } from "./wrapper/display/PixiDisplay
 import { IGraphicsWrapper } from "../abstract/wrapper/display/IGraphicsWrapper";
 import { DisplayObjectWithNameVO } from "../../tools/display/DisplayObjectWithNameVO";
 import { IPixiAdapterInitData } from "./IPixiAdapterInitData";
-import { PIXI } from "./typings/PIXI";
 export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     protected renderer: PIXI.SystemRenderer;
     protected _stage: PixiDisplayObjectContainerWrapper;

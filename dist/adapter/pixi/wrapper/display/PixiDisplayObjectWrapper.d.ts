@@ -1,7 +1,6 @@
 import { BaseClassWrapper, Rectangle, Point } from "fcore/dist/index";
 import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
-import { PIXI } from "../../typings/PIXI";
 export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDisplayObjectWrapper {
     isDisplayObjectWrapper: boolean;
     private _pixiDisplayObject;

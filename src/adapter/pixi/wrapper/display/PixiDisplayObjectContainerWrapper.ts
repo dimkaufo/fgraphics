@@ -1,12 +1,12 @@
-﻿import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
+import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
 import {PixiDisplayObjectWrapper} from "./PixiDisplayObjectWrapper";
-import {PIXI} from "./../../typings/PIXI";
+
+// import {PIXI} from "../../typings/index";
 
 export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper implements IDisplayObjectContainerWrapper {
     public isDisplayObjectContainerWrapper:boolean = true;
-
 
     protected pixiContainer:PIXI.Container;
 

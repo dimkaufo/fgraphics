@@ -1,3 +1,3 @@
-﻿export interface ISpriteSheetLoadedData {
+export interface ISpriteSheetLoadedData {
     _images: HTMLImageElement[];
 }

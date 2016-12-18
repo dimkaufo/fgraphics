@@ -1,11 +1,9 @@
-﻿import {ITextWrapper} from "../../../abstract/wrapper/display/ITextWrapper";
+import {ITextWrapper} from "../../../abstract/wrapper/display/ITextWrapper";
 import {PixiSpriteWrapper} from "./PixiSpriteWrapper";
 import {ObjectTools} from "fcore/dist/index";
 import {TextWrapperAlign} from "../../../abstract/wrapper/display/TextWrapperAlign";
 
-import {
-    PIXI
-} from "../../typings/PIXI";
+// import {PIXI} from "../../typings/index";
 
 export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public isTextWrapper:boolean = true;

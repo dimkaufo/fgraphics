@@ -1,4 +1,4 @@
-﻿export class DisplayObjectWrapperMouseEvent {
+export class DisplayObjectWrapperMouseEvent {
     public static CLICK:string = "CLICK";
     public static MOUSE_DOWN:string = "MOUSE_DOWN";
     public static MOUSE_UP:string = "MOUSE_UP";

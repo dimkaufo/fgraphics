@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var index_1 = require("fcore/dist/index");
 var TickerEvent_1 = require("../../../abstract/wrapper/ticker/TickerEvent");
+// import {PIXI} from "../../typings/index"
 var PixiTickerWrapper = (function (_super) {
     __extends(PixiTickerWrapper, _super);
     function PixiTickerWrapper() {

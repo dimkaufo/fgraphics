@@ -1,3 +1,3 @@
-﻿export class TickerEvent {
+export class TickerEvent {
     public static TICK:string = "TICK";
 }

@@ -1,7 +1,6 @@
 import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import { PixiDisplayObjectWrapper } from "./PixiDisplayObjectWrapper";
-import { PIXI } from "./../../typings/PIXI";
 export declare class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper implements IDisplayObjectContainerWrapper {
     isDisplayObjectContainerWrapper: boolean;
     protected pixiContainer: PIXI.Container;

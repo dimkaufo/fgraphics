@@ -9,7 +9,7 @@ var DisplayObjectWrapperMouseEvent_1 = require("../../../abstract/wrapper/events
 var EngineAdapter_1 = require("../../../abstract/EngineAdapter");
 var PixiMouseEvent_1 = require("../events/PixiMouseEvent");
 var PixiDisplayObjectEvent_1 = require("../events/PixiDisplayObjectEvent");
-var PIXI_1 = require("../../typings/PIXI");
+// import {PIXI} from "../../typings/index";
 var PixiDisplayObjectWrapper = (function (_super) {
     __extends(PixiDisplayObjectWrapper, _super);
     function PixiDisplayObjectWrapper() {
@@ -251,11 +251,11 @@ var PixiDisplayObjectWrapper = (function (_super) {
         return new index_1.Rectangle(tempPixiBounds.x, tempPixiBounds.y, tempPixiBounds.width, tempPixiBounds.height);
     };
     PixiDisplayObjectWrapper.prototype.toGlobal = function (position) {
-        var tempPixiPos = this.pixiDisplayObject.toGlobal(new PIXI_1.PIXI.Point(position.x, position.y));
+        var tempPixiPos = this.pixiDisplayObject.toGlobal(new PIXI.Point(position.x, position.y));
         return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
     };
     PixiDisplayObjectWrapper.prototype.toLocal = function (position) {
-        var tempPixiPos = this.pixiDisplayObject.toLocal(new PIXI_1.PIXI.Point(position.x, position.y));
+        var tempPixiPos = this.pixiDisplayObject.toLocal(new PIXI.Point(position.x, position.y));
         return new index_1.Point(tempPixiPos.x, tempPixiPos.y);
     };
     Object.defineProperty(PixiDisplayObjectWrapper.prototype, "width", {

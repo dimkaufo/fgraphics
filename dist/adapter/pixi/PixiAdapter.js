@@ -16,19 +16,19 @@ var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
 var PixiMouseEvent_1 = require("./wrapper/events/PixiMouseEvent");
 // import WebGLRenderer = PIXI.WebGLRenderer;
-var PIXI_1 = require("./typings/PIXI");
+// import {PIXI} from "./typings/index";
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
     function PixiAdapter(initData) {
         _super.call(this, initData);
-        this.cachedPoint = new PIXI_1.PIXI.Point();
+        this.cachedPoint = new PIXI.Point();
         index_1.Logger.log("PixiAdapter: ", this);
     }
     PixiAdapter.prototype.construction = function (initData) {
         _super.prototype.construction.call(this, initData);
         this.rendererSize = new index_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
-        this.tickerWrapper.object = PIXI_1.PIXI.ticker.shared;
+        this.tickerWrapper.object = PIXI.ticker.shared;
         if (initData) {
             this.renderer = initData.renderer;
         }
@@ -43,7 +43,7 @@ var PixiAdapter = (function (_super) {
             if (initData && initData.rendererSettings) {
                 tempRendererSettings = initData.rendererSettings;
             }
-            this.renderer = PIXI_1.PIXI.autoDetectRenderer(initData.rendererWidth, initData.rendererHeight, tempRendererSettings);
+            this.renderer = PIXI.autoDetectRenderer(initData.rendererWidth, initData.rendererHeight, tempRendererSettings);
         }
     };
     PixiAdapter.prototype.addListeners = function () {
@@ -107,7 +107,7 @@ var PixiAdapter = (function (_super) {
     });
     Object.defineProperty(PixiAdapter.prototype, "BaseDisplayObjectClass", {
         get: function () {
-            return PIXI_1.PIXI.DisplayObject;
+            return PIXI.DisplayObject;
         },
         enumerable: true,
         configurable: true
@@ -122,22 +122,22 @@ var PixiAdapter = (function (_super) {
     };
     PixiAdapter.prototype.createDisplayWrapperBasedOnObject = function (object) {
         var result;
-        if (object instanceof PIXI_1.PIXI.Text) {
+        if (object instanceof PIXI.Text) {
             result = this.createTextWrapper(object);
         }
-        else if (object instanceof PIXI_1.PIXI.Sprite) {
+        else if (object instanceof PIXI.Sprite) {
             result = this.createSpriteWrapper(object);
         }
-        else if (object instanceof PIXI_1.PIXI.Graphics) {
+        else if (object instanceof PIXI.Graphics) {
             result = this.createGraphicsWrapper(object);
         }
-        else if (object instanceof PIXI_1.PIXI.ParticleContainer) {
+        else if (object instanceof PIXI.particles.ParticleContainer) {
             result = this.createPerformanceDisplayObjectContainerWrapper(object);
         }
-        else if (object instanceof PIXI_1.PIXI.Container) {
+        else if (object instanceof PIXI.Container) {
             result = this.createDisplayObjectContainerWrapper(object);
         }
-        else if (object instanceof PIXI_1.PIXI.DisplayObject) {
+        else if (object instanceof PIXI.DisplayObject) {
             result = this.createDisplayObjectWrapper(object);
         }
         return result;
@@ -145,7 +145,7 @@ var PixiAdapter = (function (_super) {
     PixiAdapter.prototype.createTextWrapper = function (object) {
         var result = new PixiTextWrapper_1.PixiTextWrapper();
         if (!object) {
-            object = new PIXI_1.PIXI.Text("", { fill: 0xFFFFFF });
+            object = new PIXI.Text("", { fill: 0xFFFFFF });
         }
         result.object = object;
         return result;
@@ -153,7 +153,7 @@ var PixiAdapter = (function (_super) {
     PixiAdapter.prototype.createSpriteWrapper = function (object) {
         var result = new PixiSpriteWrapper_1.PixiSpriteWrapper();
         if (!object) {
-            object = new PIXI_1.PIXI.Sprite();
+            object = new PIXI.Sprite();
         }
         result.object = object;
         return result;
@@ -161,14 +161,14 @@ var PixiAdapter = (function (_super) {
     PixiAdapter.prototype.createDisplayObjectContainerWrapper = function (object) {
         var result = new PixiDisplayObjectContainerWrapper_1.PixiDisplayObjectContainerWrapper();
         if (!object) {
-            object = new PIXI_1.PIXI.Container();
+            object = new PIXI.Container();
         }
         result.object = object;
         return result;
     };
     PixiAdapter.prototype.createPerformanceDisplayObjectContainerWrapper = function (object) {
         if (!object) {
-            object = new PIXI_1.PIXI.ParticleContainer();
+            object = new PIXI.particles.ParticleContainer();
         }
         var result = this.createDisplayObjectContainerWrapper(object);
         return result;
@@ -176,7 +176,7 @@ var PixiAdapter = (function (_super) {
     PixiAdapter.prototype.createDisplayObjectWrapper = function (object) {
         var result = new PixiDisplayObjectWrapper_1.PixiDisplayObjectWrapper();
         if (!object) {
-            object = new PIXI_1.PIXI.DisplayObject();
+            object = new PIXI.DisplayObject();
         }
         result.object = object;
         return result;
@@ -184,7 +184,7 @@ var PixiAdapter = (function (_super) {
     PixiAdapter.prototype.createGraphicsWrapper = function (object) {
         var result = new PixiGraphicsWrapper_1.PixiGraphicsWrapper();
         if (!object) {
-            object = new PIXI_1.PIXI.Graphics();
+            object = new PIXI.Graphics();
         }
         result.object = object;
         return result;
@@ -254,7 +254,7 @@ var PixiAdapter = (function (_super) {
             }
             else if (propName.indexOf(namePart) != -1) {
                 tempDisplayObject = pixiContainer[propName];
-                if (tempDisplayObject && (tempDisplayObject instanceof PIXI_1.PIXI.DisplayObject)) {
+                if (tempDisplayObject && (tempDisplayObject instanceof PIXI.DisplayObject)) {
                     tempDisplayObjectWrapper = this.createDisplayWrapperBasedOnObject(tempDisplayObject);
                     tempData = new DisplayObjectWithNameVO_1.DisplayObjectWithNameVO();
                     tempData.object = tempDisplayObjectWrapper;
@@ -264,7 +264,7 @@ var PixiAdapter = (function (_super) {
             }
             else if (isRecursive) {
                 tempContainer = pixiContainer[propName];
-                if (tempContainer && (tempContainer instanceof PIXI_1.PIXI.Container)) {
+                if (tempContainer && (tempContainer instanceof PIXI.Container)) {
                     var tempItems = this.findChildrenByNamePart(tempContainer, namePart, isRecursive);
                     result = result.concat(tempItems);
                 }
@@ -276,7 +276,7 @@ var PixiAdapter = (function (_super) {
         var _this = this;
         var result;
         var pixiContainer = nativeContainer;
-        if (pixiContainer[childName] instanceof PIXI_1.PIXI.DisplayObject) {
+        if (pixiContainer[childName] instanceof PIXI.DisplayObject) {
             result = this.createDisplayWrapperBasedOnObject(pixiContainer[childName]);
         }
         else if (isRecursive) {
@@ -284,7 +284,7 @@ var PixiAdapter = (function (_super) {
             var everyResult;
             pixiContainer.children.every(function (item, index, array) {
                 everyResult = true;
-                if (item instanceof PIXI_1.PIXI.Container) {
+                if (item instanceof PIXI.Container) {
                     tempChildContainer = item;
                     result = _this.findChildByName(tempChildContainer, childName, isRecursive);
                     if (result) {

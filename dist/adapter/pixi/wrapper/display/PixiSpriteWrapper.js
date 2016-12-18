@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var index_1 = require("fcore/dist/index");
 var PixiDisplayObjectContainerWrapper_1 = require("./PixiDisplayObjectContainerWrapper");
-var PIXI_1 = require("../../typings/PIXI");
+// import {PIXI} from "../../typings/index";
 var PixiSpriteWrapper = (function (_super) {
     __extends(PixiSpriteWrapper, _super);
     function PixiSpriteWrapper() {
@@ -36,7 +36,7 @@ var PixiSpriteWrapper = (function (_super) {
             return new index_1.Point(this.pixiSprite.anchor.x, this.pixiSprite.anchor.y);
         },
         set: function (value) {
-            this.pixiSprite.anchor = new PIXI_1.PIXI.Point(value.x, value.y);
+            this.pixiSprite.anchor.set(value.x, value.y);
         },
         enumerable: true,
         configurable: true

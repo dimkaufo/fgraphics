@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var EngineAdapter_1 = require("../../../abstract/EngineAdapter");
 var PixiDisplayObjectWrapper_1 = require("./PixiDisplayObjectWrapper");
+// import {PIXI} from "../../typings/index";
 var PixiDisplayObjectContainerWrapper = (function (_super) {
     __extends(PixiDisplayObjectContainerWrapper, _super);
     function PixiDisplayObjectContainerWrapper() {

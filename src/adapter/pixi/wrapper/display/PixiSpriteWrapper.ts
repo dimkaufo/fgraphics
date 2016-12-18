@@ -1,10 +1,8 @@
-﻿import {ISpriteWrapper} from "../../../abstract/wrapper/display/ISpriteWrapper";
+import {ISpriteWrapper} from "../../../abstract/wrapper/display/ISpriteWrapper";
 import {Point} from "fcore/dist/index";
 import {PixiDisplayObjectContainerWrapper} from "./PixiDisplayObjectContainerWrapper";
 
-import {
-    PIXI
-} from "../../typings/PIXI";
+// import {PIXI} from "../../typings/index";
 
 export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper implements ISpriteWrapper {
 
@@ -47,6 +45,6 @@ export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper impleme
     }
 
     public set anchor(value:Point) {
-        this.pixiSprite.anchor = new PIXI.Point(value.x, value.y);
+        this.pixiSprite.anchor.set(value.x, value.y);
     }
 }

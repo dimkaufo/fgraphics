@@ -1,4 +1,4 @@
-﻿import {IDisplayObjectWrapper} from "./IDisplayObjectWrapper";
+import {IDisplayObjectWrapper} from "./IDisplayObjectWrapper";
 export interface IDisplayObjectContainerWrapper extends IDisplayObjectWrapper {
     // A way to check if object is an instance of the IDisplayObjectContainerWrapper
     isDisplayObjectContainerWrapper: boolean;

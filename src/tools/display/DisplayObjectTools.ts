@@ -1,4 +1,4 @@
-﻿import {IDisplayObjectWrapper} from "../../adapter/abstract/wrapper/display/IDisplayObjectWrapper";
+import {IDisplayObjectWrapper} from "../../adapter/abstract/wrapper/display/IDisplayObjectWrapper";
 import {IDisplayObjectContainerWrapper} from "../../adapter/abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import {EngineAdapter} from "../../adapter/abstract/EngineAdapter";
 import {DisplayObjectWithNameVO} from "./DisplayObjectWithNameVO";

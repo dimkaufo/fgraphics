@@ -1,3 +1,3 @@
-﻿export interface ISpriteSheetWrapper {
+export interface ISpriteSheetWrapper {
     frames: any[];
 }
