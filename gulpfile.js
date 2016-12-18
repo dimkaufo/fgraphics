@@ -1,9 +1,10 @@
-var gulp = require("gulp"),
-    runSequence = require("run-sequence"),
-    requireDir = require("require-dir"),
-    tasks = requireDir("./gulp/tasks"),
-    argv = require("yargs").argv,
-    shell = require('gulp-shell');
+var gulp = require("gulp");
+var runSequence = require("run-sequence");
+var requireDir = require("require-dir");
+var argv = require("yargs").argv;
+var shell = require('gulp-shell');
+
+var tasks = requireDir("./gulp/tasks");
 
 gulp.task(
     "build",
