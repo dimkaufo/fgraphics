@@ -1,6 +1,5 @@
 var gulp = require("gulp");
 var shell = require('gulp-shell');
-var del = require("del");
 
 gulp.task(
     "compile",
