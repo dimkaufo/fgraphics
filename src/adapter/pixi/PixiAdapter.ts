@@ -18,9 +18,6 @@ import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithName
 import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
 import {PixiMouseEvent} from "./wrapper/events/PixiMouseEvent";
 
-// import WebGLRenderer = PIXI.WebGLRenderer;
-// import {PIXI} from "./typings/index";
-
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
     protected renderer:PIXI.SystemRenderer;
