@@ -13,8 +13,9 @@ var PixiDisplayObjectEvent_1 = require("../events/PixiDisplayObjectEvent");
 var PixiDisplayObjectWrapper = (function (_super) {
     __extends(PixiDisplayObjectWrapper, _super);
     function PixiDisplayObjectWrapper() {
-        _super.call(this);
-        this.isDisplayObjectWrapper = true;
+        var _this = _super.call(this) || this;
+        _this.isDisplayObjectWrapper = true;
+        return _this;
     }
     PixiDisplayObjectWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);
@@ -93,7 +94,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     };
     PixiDisplayObjectWrapper.prototype.onAdded = function (parent) {
-        console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
     };
     PixiDisplayObjectWrapper.prototype.onPixiClick = function (event) {
         this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);

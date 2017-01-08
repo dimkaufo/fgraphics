@@ -10,8 +10,9 @@ var PixiDisplayObjectWrapper_1 = require("./PixiDisplayObjectWrapper");
 var PixiDisplayObjectContainerWrapper = (function (_super) {
     __extends(PixiDisplayObjectContainerWrapper, _super);
     function PixiDisplayObjectContainerWrapper() {
-        _super.call(this);
-        this.isDisplayObjectContainerWrapper = true;
+        var _this = _super.call(this) || this;
+        _this.isDisplayObjectContainerWrapper = true;
+        return _this;
     }
     PixiDisplayObjectContainerWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);

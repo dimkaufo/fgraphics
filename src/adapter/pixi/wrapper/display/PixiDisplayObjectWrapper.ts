@@ -121,7 +121,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
 
     protected onAdded(parent:PIXI.Container):void {
-        console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
     }
 
     protected onPixiClick(event:PIXI.interaction.InteractionEvent):void {

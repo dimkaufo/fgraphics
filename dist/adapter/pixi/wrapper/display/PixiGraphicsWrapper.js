@@ -9,8 +9,9 @@ var PixiDisplayObjectContainerWrapper_1 = require("./PixiDisplayObjectContainerW
 var PixiGraphicsWrapper = (function (_super) {
     __extends(PixiGraphicsWrapper, _super);
     function PixiGraphicsWrapper() {
-        _super.call(this);
-        this.isGraphicsWrapper = true;
+        var _this = _super.call(this) || this;
+        _this.isGraphicsWrapper = true;
+        return _this;
     }
     PixiGraphicsWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);

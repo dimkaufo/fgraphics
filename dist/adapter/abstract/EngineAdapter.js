@@ -8,7 +8,7 @@ var index_1 = require("fcore/dist/index");
 var EngineAdapter = (function (_super) {
     __extends(EngineAdapter, _super);
     function EngineAdapter() {
-        _super.apply(this, arguments);
+        return _super.apply(this, arguments) || this;
     }
     return EngineAdapter;
 }(index_1.BaseEventListenerObject));

@@ -10,9 +10,10 @@ var TickerEvent_1 = require("../../../abstract/wrapper/ticker/TickerEvent");
 var PixiTickerWrapper = (function (_super) {
     __extends(PixiTickerWrapper, _super);
     function PixiTickerWrapper() {
-        _super.call(this);
-        this.prevLastTime = 0;
-        this.lastTime = 0;
+        var _this = _super.call(this) || this;
+        _this.prevLastTime = 0;
+        _this.lastTime = 0;
+        return _this;
     }
     PixiTickerWrapper.prototype.removeListeners = function () {
         _super.prototype.removeListeners.call(this);

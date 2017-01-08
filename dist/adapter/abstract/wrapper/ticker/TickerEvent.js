@@ -2,8 +2,8 @@
 var TickerEvent = (function () {
     function TickerEvent() {
     }
-    TickerEvent.TICK = "TICK";
     return TickerEvent;
 }());
+TickerEvent.TICK = "TICK";
 exports.TickerEvent = TickerEvent;
 //# sourceMappingURL=TickerEvent.js.map

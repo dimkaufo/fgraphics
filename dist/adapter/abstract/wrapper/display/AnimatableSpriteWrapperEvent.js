@@ -2,8 +2,8 @@
 var AnimatableSpriteWrapperEvent = (function () {
     function AnimatableSpriteWrapperEvent() {
     }
-    AnimatableSpriteWrapperEvent.ANIMATION_COMPLETE = "ANIMATION_COMPLETE";
     return AnimatableSpriteWrapperEvent;
 }());
+AnimatableSpriteWrapperEvent.ANIMATION_COMPLETE = "ANIMATION_COMPLETE";
 exports.AnimatableSpriteWrapperEvent = AnimatableSpriteWrapperEvent;
 //# sourceMappingURL=AnimatableSpriteWrapperEvent.js.map

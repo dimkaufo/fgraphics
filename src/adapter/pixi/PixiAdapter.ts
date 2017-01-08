@@ -27,8 +27,8 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     private cachedPoint:PIXI.Point = new PIXI.Point();
     private lastInteractionGlobalPoint:PIXI.Point;
 
-    constructor(initData?:IPixiAdapterInitData) {
-        super(initData);
+    constructor(...args) {
+        super(...args);
 
         Logger.log("PixiAdapter: ", this);
     }

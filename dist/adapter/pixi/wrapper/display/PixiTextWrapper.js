@@ -5,15 +5,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var PixiSpriteWrapper_1 = require("./PixiSpriteWrapper");
-var index_1 = require("fcore/dist/index");
-var TextWrapperAlign_1 = require("../../../abstract/wrapper/display/TextWrapperAlign");
-// import {PIXI} from "../../typings/index";
+var fcore_1 = require("fcore");
 var PixiTextWrapper = (function (_super) {
     __extends(PixiTextWrapper, _super);
     function PixiTextWrapper() {
-        _super.call(this);
-        this.isTextWrapper = true;
-        this._fontFamily = "";
+        var _this = _super.call(this) || this;
+        _this.isTextWrapper = true;
+        _this._fontFamily = "";
+        return _this;
     }
     PixiTextWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);
@@ -22,11 +21,11 @@ var PixiTextWrapper = (function (_super) {
             return;
         }
         var tempStyle = {};
-        index_1.ObjectTools.copyProps(tempStyle, this.pixiText.style, true);
+        fcore_1.ObjectTools.copyProps(tempStyle, this.pixiText.style, true);
         if (this.color) {
             tempStyle.fill = this.color;
         }
-        if (this.align && this.align != TextWrapperAlign_1.TextWrapperAlign.NONE) {
+        if (this.align && this.align != fcore_1.Align.NONE) {
             tempStyle.align = this.align;
         }
         else {

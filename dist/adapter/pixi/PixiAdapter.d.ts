@@ -18,7 +18,7 @@ export declare class PixiAdapter extends EngineAdapter implements IEngineAdapter
     protected rendererSize: Point;
     private cachedPoint;
     private lastInteractionGlobalPoint;
-    constructor(initData?: IPixiAdapterInitData);
+    constructor(...args: any[]);
     protected construction(initData?: IPixiAdapterInitData): void;
     protected addListeners(): void;
     protected removeListeners(): void;

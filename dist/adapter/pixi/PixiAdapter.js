@@ -15,14 +15,17 @@ var PixiDisplayObjectWrapper_1 = require("./wrapper/display/PixiDisplayObjectWra
 var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
 var PixiMouseEvent_1 = require("./wrapper/events/PixiMouseEvent");
-// import WebGLRenderer = PIXI.WebGLRenderer;
-// import {PIXI} from "./typings/index";
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
-    function PixiAdapter(initData) {
-        _super.call(this, initData);
-        this.cachedPoint = new PIXI.Point();
-        index_1.Logger.log("PixiAdapter: ", this);
+    function PixiAdapter() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var _this = _super.apply(this, args) || this;
+        _this.cachedPoint = new PIXI.Point();
+        index_1.Logger.log("PixiAdapter: ", _this);
+        return _this;
     }
     PixiAdapter.prototype.construction = function (initData) {
         _super.prototype.construction.call(this, initData);

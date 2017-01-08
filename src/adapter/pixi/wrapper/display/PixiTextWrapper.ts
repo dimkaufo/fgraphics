@@ -1,13 +1,9 @@
 import {ITextWrapper} from "../../../abstract/wrapper/display/ITextWrapper";
 import {PixiSpriteWrapper} from "./PixiSpriteWrapper";
-import {ObjectTools} from "fcore/dist/index";
-import {TextWrapperAlign} from "../../../abstract/wrapper/display/TextWrapperAlign";
-
-// import {PIXI} from "../../typings/index";
+import {ObjectTools, Align} from "fcore";
 
 export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
     public isTextWrapper:boolean = true;
-
 
     protected pixiText:PIXI.Text;
     private _fontFamily:string = "";
@@ -35,7 +31,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
             tempStyle.fill = this.color;
         }
 
-        if (this.align && this.align != TextWrapperAlign.NONE) {
+        if (this.align && this.align != Align.NONE) {
             tempStyle.align = this.align;
         } else {
             tempStyle.align = "";
