@@ -20,7 +20,6 @@ export * from './adapter/abstract/wrapper/display/IMovieClipLabel';
 export * from './adapter/abstract/wrapper/display/ISpriteSheetWrapper';
 export * from './adapter/abstract/wrapper/display/ISpriteWrapper';
 export * from './adapter/abstract/wrapper/display/ITextWrapper';
-export * from './adapter/abstract/wrapper/display/TextWrapperAlign';
 export * from './adapter/abstract/wrapper/events/DisplayObjectWrapperEvent';
 export * from './adapter/abstract/wrapper/events/DisplayObjectWrapperMouseEvent';
 export * from './adapter/abstract/wrapper/ticker/ITickerWrapper';
