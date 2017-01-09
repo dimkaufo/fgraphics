@@ -19,7 +19,6 @@ export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper 
         super.commitData();
 
         this.pixiContainer = (this.object as PIXI.Container);
-        this.pixiContainer.num
     }
 
     public get width():number {
