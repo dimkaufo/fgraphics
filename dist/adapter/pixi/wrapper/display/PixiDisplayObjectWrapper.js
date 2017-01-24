@@ -9,6 +9,8 @@ var DisplayObjectWrapperMouseEvent_1 = require("../../../abstract/wrapper/events
 var EngineAdapter_1 = require("../../../abstract/EngineAdapter");
 var PixiMouseEvent_1 = require("../events/PixiMouseEvent");
 var PixiDisplayObjectEvent_1 = require("../events/PixiDisplayObjectEvent");
+var DisplayObjectTools_1 = require("../../../../tools/display/DisplayObjectTools");
+var DisplayObjectWrapperEvent_1 = require("../../../abstract/wrapper/events/DisplayObjectWrapperEvent");
 // import {PIXI} from "../../typings/index";
 var PixiDisplayObjectWrapper = (function (_super) {
     __extends(PixiDisplayObjectWrapper, _super);
@@ -51,6 +53,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         // To prevent double listeners (memory leaks)
         this.removePixiObjectListeners(pixiObject);
         this.pixiDisplayObject.addListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+        this.pixiDisplayObject.addListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.REMOVED, this.onRemoved, this);
     };
     PixiDisplayObjectWrapper.prototype.removePixiObjectListeners = function (pixiObject) {
         if (!pixiObject) {
@@ -58,6 +61,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
         }
         this.removePixiObjectInteractiveListeners(pixiObject);
         this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+        this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent_1.PixiDisplayObjectEvent.REMOVED, this.onRemoved, this);
     };
     PixiDisplayObjectWrapper.prototype.addPixiObjectInteractiveListeners = function (pixiObject) {
         if (!pixiObject) {
@@ -94,7 +98,31 @@ var PixiDisplayObjectWrapper = (function (_super) {
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     };
     PixiDisplayObjectWrapper.prototype.onAdded = function (parent) {
+        var _this = this;
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (!this._isAddedToStage) {
+            DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
+                if (parent.object === EngineAdapter_1.EngineAdapter.instance.stage.object) {
+                    _this._isAddedToStage = true;
+                    return false;
+                }
+            });
+        }
+    };
+    PixiDisplayObjectWrapper.prototype.onRemoved = function (parent) {
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (this._isAddedToStage) {
+            var isStageParent_1;
+            DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
+                if (parent === EngineAdapter_1.EngineAdapter.instance.stage) {
+                    isStageParent_1 = true;
+                    return false;
+                }
+            });
+            if (!isStageParent_1) {
+                this._isAddedToStage = false;
+            }
+        }
     };
     PixiDisplayObjectWrapper.prototype.onPixiClick = function (event) {
         this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
@@ -286,6 +314,25 @@ var PixiDisplayObjectWrapper = (function (_super) {
         }
         return result;
     };
+    Object.defineProperty(PixiDisplayObjectWrapper.prototype, "isAddedToStage", {
+        get: function () {
+            return this._isAddedToStage;
+        },
+        set: function (value) {
+            if (value === this.isAddedToStage) {
+                return;
+            }
+            this._isAddedToStage = value;
+            if (this.isAddedToStage) {
+                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.ADDED_TO_STAGE);
+            }
+            else {
+                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return PixiDisplayObjectWrapper;
 }(index_1.BaseClassWrapper));
 exports.PixiDisplayObjectWrapper = PixiDisplayObjectWrapper;

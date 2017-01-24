@@ -14,6 +14,7 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
     buttonMode: boolean;
     cache: boolean;
     parent: IDisplayObjectContainerWrapper;
+    isAddedToStage: boolean;
     getGlobalBounds(): Rectangle;
     getLocalBounds(): Rectangle;
     toGlobal(position: Point): Point;

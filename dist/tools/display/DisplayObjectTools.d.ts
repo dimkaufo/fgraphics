@@ -9,4 +9,5 @@ export declare class DisplayObjectTools {
     static findChildByName<ChildType extends IDisplayObjectWrapper>(container: IDisplayObjectContainerWrapper, childName: string, isRecursive: boolean): ChildType;
     static findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(container: IDisplayObjectContainerWrapper, namePart: string, isRecursive: boolean): DisplayObjectWithNameVO<ChildType>[];
     static scaleObject(object: IDisplayObjectContainerWrapper, width: number, height: number, isNeedIncreaseSize?: boolean, scaleByMaxSide?: boolean): void;
+    static processAllParents(child: IDisplayObjectWrapper, filter: (parent: IDisplayObjectContainerWrapper) => boolean): void;
 }

@@ -25,6 +25,8 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
 
     parent: IDisplayObjectContainerWrapper;
 
+    isAddedToStage:boolean;
+
     getGlobalBounds(): Rectangle;
     getLocalBounds(): Rectangle;
 

@@ -5,6 +5,7 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     isDisplayObjectWrapper: boolean;
     private _pixiDisplayObject;
     protected tempParent: IDisplayObjectContainerWrapper;
+    private _isAddedToStage;
     constructor();
     protected commitData(): void;
     destruction(): void;
@@ -14,6 +15,7 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     protected addPixiObjectInteractiveListeners(pixiObject: PIXI.DisplayObject): void;
     protected removePixiObjectInteractiveListeners(pixiObject: PIXI.DisplayObject): void;
     protected onAdded(parent: PIXI.Container): void;
+    protected onRemoved(parent: PIXI.Container): void;
     protected onPixiClick(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiTap(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiMouseDown(event: PIXI.interaction.InteractionEvent): void;
@@ -39,4 +41,5 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     width: number;
     height: number;
     checkIfParamIsParent(paramName: string): boolean;
+    isAddedToStage: boolean;
 }

@@ -191,4 +191,16 @@ export class DisplayObjectTools {
             object.scaleX = object.scaleY;
         }
     }
+
+    public static processAllParents(child:IDisplayObjectWrapper, filter: (parent:IDisplayObjectContainerWrapper) => boolean):void {
+        let parent:IDisplayObjectContainerWrapper = child.parent;
+        while (parent) {
+            if (filter(parent)) {
+                parent = parent.parent;
+
+            } else {
+                break;
+            }
+        }
+    }
 }

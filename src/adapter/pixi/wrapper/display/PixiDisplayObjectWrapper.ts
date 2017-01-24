@@ -5,6 +5,8 @@ import {DisplayObjectWrapperMouseEvent} from "../../../abstract/wrapper/events/D
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
 import {PixiMouseEvent} from "../events/PixiMouseEvent";
 import {PixiDisplayObjectEvent} from "../events/PixiDisplayObjectEvent";
+import {DisplayObjectTools} from "../../../../tools/display/DisplayObjectTools";
+import {DisplayObjectWrapperEvent} from "../../../abstract/wrapper/events/DisplayObjectWrapperEvent";
 
 // import {PIXI} from "../../typings/index";
 
@@ -14,6 +16,8 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     private _pixiDisplayObject:PIXI.DisplayObject;
 
     protected tempParent:IDisplayObjectContainerWrapper;
+
+    private _isAddedToStage:boolean;
 
     constructor() {
         super();
@@ -57,7 +61,6 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     }
 
 
-
     protected addPixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
         if (!pixiObject) {
             return;
@@ -67,6 +70,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         this.removePixiObjectListeners(pixiObject);
 
         this.pixiDisplayObject.addListener(PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+        this.pixiDisplayObject.addListener(PixiDisplayObjectEvent.REMOVED, this.onRemoved, this);
     }
 
     protected removePixiObjectListeners(pixiObject:PIXI.DisplayObject):void {
@@ -77,6 +81,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         this.removePixiObjectInteractiveListeners(pixiObject);
 
         this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent.ADDED, this.onAdded, this);
+        this.pixiDisplayObject.removeListener(PixiDisplayObjectEvent.REMOVED, this.onRemoved, this);
     }
 
 
@@ -122,6 +127,39 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
     protected onAdded(parent:PIXI.Container):void {
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (!this._isAddedToStage) {
+            DisplayObjectTools.processAllParents(
+                this,
+                (parent:IDisplayObjectContainerWrapper) => {
+                    if (parent.object === EngineAdapter.instance.stage.object) {
+                        this._isAddedToStage = true;
+
+                        return false;
+                    }
+                }
+            );
+        }
+    }
+
+    protected onRemoved(parent:PIXI.Container):void {
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (this._isAddedToStage) {
+            let isStageParent:boolean;
+            DisplayObjectTools.processAllParents(
+                this,
+                (parent:IDisplayObjectContainerWrapper) => {
+                    if (parent === EngineAdapter.instance.stage) {
+                        isStageParent = true;
+
+                        return false;
+                    }
+                }
+            );
+
+            if (!isStageParent) {
+                this._isAddedToStage = false;
+            }
+        }
     }
 
     protected onPixiClick(event:PIXI.interaction.InteractionEvent):void {
@@ -306,5 +344,23 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         }
 
         return result;
+    }
+
+
+    get isAddedToStage():boolean {
+        return this._isAddedToStage;
+    }
+    set isAddedToStage(value:boolean) {
+        if (value === this.isAddedToStage) {
+            return;
+        }
+
+        this._isAddedToStage = value;
+
+        if (this.isAddedToStage) {
+            this.dispatchEvent(DisplayObjectWrapperEvent.ADDED_TO_STAGE);
+        } else {
+            this.dispatchEvent(DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
+        }
     }
 }

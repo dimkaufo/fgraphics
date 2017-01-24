@@ -146,6 +146,17 @@ var DisplayObjectTools = (function () {
             object.scaleX = object.scaleY;
         }
     };
+    DisplayObjectTools.processAllParents = function (child, filter) {
+        var parent = child.parent;
+        while (parent) {
+            if (filter(parent)) {
+                parent = parent.parent;
+            }
+            else {
+                break;
+            }
+        }
+    };
     return DisplayObjectTools;
 }());
 exports.DisplayObjectTools = DisplayObjectTools;
