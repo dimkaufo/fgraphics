@@ -127,14 +127,17 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
     protected onAdded(parent:PIXI.Container):void {
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (!this._isAddedToStage) {
+        if (!this.isAddedToStage) {
             DisplayObjectTools.processAllParents(
                 this,
                 (parent:IDisplayObjectContainerWrapper) => {
                     if (parent.object === EngineAdapter.instance.stage.object) {
-                        this._isAddedToStage = true;
+                        this.isAddedToStage = true;
 
                         return false;
+
+                    } else {
+                        return true;
                     }
                 }
             );
@@ -143,7 +146,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
 
     protected onRemoved(parent:PIXI.Container):void {
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (this._isAddedToStage) {
+        if (this.isAddedToStage) {
             let isStageParent:boolean;
             DisplayObjectTools.processAllParents(
                 this,
@@ -157,7 +160,7 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
             );
 
             if (!isStageParent) {
-                this._isAddedToStage = false;
+                this.isAddedToStage = false;
             }
         }
     }

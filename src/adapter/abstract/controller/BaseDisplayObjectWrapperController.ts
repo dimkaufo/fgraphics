@@ -53,14 +53,12 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
         this._view = value;
         if (this.view) {
             if (this.view.isAddedToStage) {
-                this.addViewListeners();
+                this.onViewAddedToStage()
             }
             this.viewAddToStageEventListenerHelper.addEventListener(
                 this.view,
                 DisplayObjectWrapperEvent.ADDED_TO_STAGE,
-                () => {
-                    this.addViewListeners();
-                }
+                () => this.onViewAddedToStage()
             );
         }
 
@@ -85,6 +83,10 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
 
     protected removeViewListeners():void {
         this.viewEventListenerHelper.removeAllListeners();
+    }
+
+    protected onViewAddedToStage():void {
+        this.addViewListeners();
     }
 
     protected commitViewData():void {
