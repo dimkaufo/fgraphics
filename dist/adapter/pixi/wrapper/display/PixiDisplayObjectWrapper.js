@@ -100,18 +100,21 @@ var PixiDisplayObjectWrapper = (function (_super) {
     PixiDisplayObjectWrapper.prototype.onAdded = function (parent) {
         var _this = this;
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (!this._isAddedToStage) {
+        if (!this.isAddedToStage) {
             DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
                 if (parent.object === EngineAdapter_1.EngineAdapter.instance.stage.object) {
-                    _this._isAddedToStage = true;
+                    _this.isAddedToStage = true;
                     return false;
+                }
+                else {
+                    return true;
                 }
             });
         }
     };
     PixiDisplayObjectWrapper.prototype.onRemoved = function (parent) {
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (this._isAddedToStage) {
+        if (this.isAddedToStage) {
             var isStageParent_1;
             DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
                 if (parent === EngineAdapter_1.EngineAdapter.instance.stage) {
@@ -120,7 +123,7 @@ var PixiDisplayObjectWrapper = (function (_super) {
                 }
             });
             if (!isStageParent_1) {
-                this._isAddedToStage = false;
+                this.isAddedToStage = false;
             }
         }
     };
