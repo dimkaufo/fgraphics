@@ -33,7 +33,7 @@ export class TextTools {
         var cached:string = text;
         var maxSteps:number = 1000;
         var step:number = 0;
-        // Продолжаем цикл, пока есть текст, или пока размеры текста больше одной из сторон поля
+
         while (text.length > 0 &&
             ((field.width > maxWidth) || (field.height > maxHeight))) {
 
@@ -45,8 +45,6 @@ export class TextTools {
                 field.text = text + afterTruncateText;
             }
 
-
-            // Код, чтобы цикл прерывался и не приводил к зависанию FlashPlayer
             // Preventing code from "stucking"
             step++;
             if(step >= maxSteps)
