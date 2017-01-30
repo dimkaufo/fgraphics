@@ -282,6 +282,14 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     }
 
 
+    public get cursor():string {
+        return this.pixiDisplayObject.defaultCursor;
+    }
+    public set cursor(value:string) {
+        this.pixiDisplayObject.defaultCursor = value;
+    }
+
+
     public get parent():IDisplayObjectContainerWrapper {
         if (!this.pixiDisplayObject.parent) {
             return null;
