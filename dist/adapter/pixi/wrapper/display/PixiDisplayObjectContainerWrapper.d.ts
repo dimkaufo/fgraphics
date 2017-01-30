@@ -5,6 +5,8 @@ export declare class PixiDisplayObjectContainerWrapper extends PixiDisplayObject
     isDisplayObjectContainerWrapper: boolean;
     protected pixiContainer: PIXI.Container;
     constructor();
+    protected addListeners(): void;
+    protected updateChildrenAddedToStage(isAdded: boolean): void;
     protected commitData(): void;
     width: number;
     height: number;

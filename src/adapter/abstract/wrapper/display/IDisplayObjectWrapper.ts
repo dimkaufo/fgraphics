@@ -36,5 +36,6 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
     // resize(width:number, height:number): void;
 
 
-    checkIfParamIsParent(paramName:string): boolean;
+    checkIfParamIsParent(paramName:string):boolean;
+    updateAddedToStage(isAdded:boolean):void;
 }

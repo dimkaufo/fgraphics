@@ -16,6 +16,7 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     protected removePixiObjectInteractiveListeners(pixiObject: PIXI.DisplayObject): void;
     protected onAdded(parent: PIXI.Container): void;
     protected onRemoved(parent: PIXI.Container): void;
+    updateAddedToStage(isAdded: boolean): void;
     protected onPixiClick(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiTap(event: PIXI.interaction.InteractionEvent): void;
     protected onPixiMouseDown(event: PIXI.interaction.InteractionEvent): void;

@@ -1,4 +1,5 @@
-import {Point, Logger} from "fcore/dist/index";
+import {Point, Logger, Dictionary} from "fcore";
+
 import {PixiTickerWrapper} from "./wrapper/ticker/PixiTickerWrapper";
 import {IEngineAdapter, IObjectUnderPointVO} from "../abstract/IEngineAdapter";
 import {EngineAdapter} from "../abstract/EngineAdapter";
@@ -17,6 +18,7 @@ import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
 import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
 import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
 import {PixiMouseEvent} from "./wrapper/events/PixiMouseEvent";
+import {DisplayObjectWrapperTools} from "../../tools/display/DisplayObjectWrapperTools";
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
@@ -191,34 +193,49 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
 
     public createTextWrapper(object?:any):ITextWrapper {
-        var result:PixiTextWrapper = new PixiTextWrapper();
-
         if (!object) {
             object = new PIXI.Text("", {fill: 0xFFFFFF});
         }
-        result.object = object;
+
+        var result:PixiTextWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiTextWrapper);
+        if (!result) {
+            result = new PixiTextWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
 
         return result;
     }
 
     public createSpriteWrapper(object?:any):ISpriteWrapper {
-        var result:PixiSpriteWrapper = new PixiSpriteWrapper();
-
         if (!object) {
             object = new PIXI.Sprite();
         }
-        result.object = object;
+
+        var result:PixiSpriteWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiSpriteWrapper);
+        if (!result) {
+            result = new PixiSpriteWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
 
         return result;
     }
 
     public createDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
-        var result:PixiDisplayObjectContainerWrapper = new PixiDisplayObjectContainerWrapper();
-
         if (!object) {
             object = new PIXI.Container();
         }
-        result.object = object;
+
+        var result:PixiDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectContainerWrapper);
+        if (!result) {
+            result = new PixiDisplayObjectContainerWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
 
         return result;
     }
@@ -228,28 +245,45 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
             object = new PIXI.particles.ParticleContainer();
         }
 
-        var result:IDisplayObjectContainerWrapper = this.createDisplayObjectContainerWrapper(object);
+        var result:IDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as IDisplayObjectContainerWrapper);
+        if (!result) {
+            result = this.createDisplayObjectContainerWrapper(object);
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
         return result;
     }
 
     public createDisplayObjectWrapper(object?:any):IDisplayObjectWrapper {
-        var result:PixiDisplayObjectWrapper = new PixiDisplayObjectWrapper();
-
         if (!object) {
             object = new PIXI.DisplayObject();
         }
-        result.object = object;
+
+        var result:PixiDisplayObjectWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectWrapper);
+        if (!result) {
+            result = new PixiDisplayObjectWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
 
         return result;
     }
 
     public createGraphicsWrapper(object?:any):IGraphicsWrapper {
-        var result:PixiGraphicsWrapper = new PixiGraphicsWrapper();
 
         if (!object) {
             object = new PIXI.Graphics();
         }
-        result.object = object;
+
+        var result:PixiGraphicsWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiGraphicsWrapper);
+        if (!result) {
+            var result:PixiGraphicsWrapper = new PixiGraphicsWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
 
         return result;
     }

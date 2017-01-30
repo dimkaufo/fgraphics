@@ -7,8 +7,8 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
     protected resizeSize:Point = new Point();
 
     private _view:ViewType;
-    private viewAddToStageEventListenerHelper:EventListenerHelper<string>;
-    private viewEventListenerHelper:EventListenerHelper<string>;
+    protected viewAddToStageEventListenerHelper:EventListenerHelper<string>;
+    protected viewEventListenerHelper:EventListenerHelper<string>;
 
     constructor(...args) {
         super(...args);
@@ -17,8 +17,8 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
     protected construction(...args):void {
         super.construction(...args);
 
-        this.viewEventListenerHelper = new EventListenerHelper();
-        this.viewAddToStageEventListenerHelper = new EventListenerHelper();
+        this.viewEventListenerHelper = new EventListenerHelper(this);
+        this.viewAddToStageEventListenerHelper = new EventListenerHelper(this);
     }
 
     public destruction():void {

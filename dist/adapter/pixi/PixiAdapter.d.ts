@@ -1,4 +1,4 @@
-import { Point } from "fcore/dist/index";
+import { Point } from "fcore";
 import { PixiTickerWrapper } from "./wrapper/ticker/PixiTickerWrapper";
 import { IEngineAdapter, IObjectUnderPointVO } from "../abstract/IEngineAdapter";
 import { EngineAdapter } from "../abstract/EngineAdapter";

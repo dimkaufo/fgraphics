@@ -128,12 +128,25 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
     protected onAdded(parent:PIXI.Container):void {
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
         if (!this.isAddedToStage) {
+            this.updateAddedToStage(true);
+        }
+    }
+
+    protected onRemoved(parent:PIXI.Container):void {
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (this.isAddedToStage) {
+            this.updateAddedToStage(false);
+        }
+    }
+
+    public updateAddedToStage(isAdded:boolean):void {
+        if (isAdded !== this.isAddedToStage) {
+            let tempIsAdded:boolean = false;
             DisplayObjectTools.processAllParents(
                 this,
                 (parent:IDisplayObjectContainerWrapper) => {
                     if (parent.object === EngineAdapter.instance.stage.object) {
-                        this.isAddedToStage = true;
-
+                        tempIsAdded = true;
                         return false;
 
                     } else {
@@ -141,56 +154,37 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
                     }
                 }
             );
-        }
-    }
 
-    protected onRemoved(parent:PIXI.Container):void {
-        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (this.isAddedToStage) {
-            let isStageParent:boolean;
-            DisplayObjectTools.processAllParents(
-                this,
-                (parent:IDisplayObjectContainerWrapper) => {
-                    if (parent === EngineAdapter.instance.stage) {
-                        isStageParent = true;
-
-                        return false;
-                    }
-                }
-            );
-
-            if (!isStageParent) {
-                this.isAddedToStage = false;
-            }
+            this.isAddedToStage = tempIsAdded;
         }
     }
 
     protected onPixiClick(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.CLICK);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.CLICK, DisplayObjectWrapperMouseEvent.CLICK);
     }
 
     protected onPixiTap(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.CLICK);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.CLICK, DisplayObjectWrapperMouseEvent.CLICK);
     }
 
     protected onPixiMouseDown(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_DOWN);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_DOWN, DisplayObjectWrapperMouseEvent.MOUSE_DOWN);
     }
 
     protected onPixiMouseUp(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_UP);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_UP, DisplayObjectWrapperMouseEvent.MOUSE_UP);
     }
 
     protected onPixiMouseUpOutside(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE, DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE);
     }
 
     protected onPixiMouseOver(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.ROLL_OVER);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.ROLL_OVER, DisplayObjectWrapperMouseEvent.ROLL_OVER);
     }
 
     protected onPixiMouseOut(event:PIXI.interaction.InteractionEvent):void {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent.ROLL_OUT);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent.ROLL_OUT, DisplayObjectWrapperMouseEvent.ROLL_OUT);
     }
 
 
@@ -361,9 +355,9 @@ export class PixiDisplayObjectWrapper extends BaseClassWrapper implements IDispl
         this._isAddedToStage = value;
 
         if (this.isAddedToStage) {
-            this.dispatchEvent(DisplayObjectWrapperEvent.ADDED_TO_STAGE);
+            this.dispatchEvent(DisplayObjectWrapperEvent.ADDED_TO_STAGE, DisplayObjectWrapperEvent.ADDED_TO_STAGE);
         } else {
-            this.dispatchEvent(DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
+            this.dispatchEvent(DisplayObjectWrapperEvent.REMOVED_FROM_STAGE, DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
         }
     }
 }

@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var EngineAdapter_1 = require("../../../abstract/EngineAdapter");
 var PixiDisplayObjectWrapper_1 = require("./PixiDisplayObjectWrapper");
+var DisplayObjectWrapperEvent_1 = require("../../../abstract/wrapper/events/DisplayObjectWrapperEvent");
 // import {PIXI} from "../../typings/index";
 var PixiDisplayObjectContainerWrapper = (function (_super) {
     __extends(PixiDisplayObjectContainerWrapper, _super);
@@ -14,6 +15,22 @@ var PixiDisplayObjectContainerWrapper = (function (_super) {
         _this.isDisplayObjectContainerWrapper = true;
         return _this;
     }
+    PixiDisplayObjectContainerWrapper.prototype.addListeners = function () {
+        var _this = this;
+        _super.prototype.addListeners.call(this);
+        this.eventListenerHelper.addEventListener(this, DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.ADDED_TO_STAGE, function () {
+            _this.updateChildrenAddedToStage(true);
+        });
+        this.eventListenerHelper.addEventListener(this, DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.REMOVED_FROM_STAGE, function () {
+            _this.updateChildrenAddedToStage(false);
+        });
+    };
+    PixiDisplayObjectContainerWrapper.prototype.updateChildrenAddedToStage = function (isAdded) {
+        var childrenCount = this.nativeChildren.length;
+        for (var childIndex = 0; childIndex < childrenCount; childIndex++) {
+            this.getChildAt(childIndex).updateAddedToStage(isAdded);
+        }
+    };
     PixiDisplayObjectContainerWrapper.prototype.commitData = function () {
         _super.prototype.commitData.call(this);
         this.pixiContainer = this.object;

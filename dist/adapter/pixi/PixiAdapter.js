@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var index_1 = require("fcore/dist/index");
+var fcore_1 = require("fcore");
 var PixiTickerWrapper_1 = require("./wrapper/ticker/PixiTickerWrapper");
 var EngineAdapter_1 = require("../abstract/EngineAdapter");
 var EngineAdapterEvent_1 = require("../abstract/EngineAdapterEvent");
@@ -15,6 +15,7 @@ var PixiDisplayObjectWrapper_1 = require("./wrapper/display/PixiDisplayObjectWra
 var PixiGraphicsWrapper_1 = require("./wrapper/display/PixiGraphicsWrapper");
 var DisplayObjectWithNameVO_1 = require("../../tools/display/DisplayObjectWithNameVO");
 var PixiMouseEvent_1 = require("./wrapper/events/PixiMouseEvent");
+var DisplayObjectWrapperTools_1 = require("../../tools/display/DisplayObjectWrapperTools");
 var PixiAdapter = (function (_super) {
     __extends(PixiAdapter, _super);
     function PixiAdapter() {
@@ -24,12 +25,12 @@ var PixiAdapter = (function (_super) {
         }
         var _this = _super.apply(this, args) || this;
         _this.cachedPoint = new PIXI.Point();
-        index_1.Logger.log("PixiAdapter: ", _this);
+        fcore_1.Logger.log("PixiAdapter: ", _this);
         return _this;
     }
     PixiAdapter.prototype.construction = function (initData) {
         _super.prototype.construction.call(this, initData);
-        this.rendererSize = new index_1.Point();
+        this.rendererSize = new fcore_1.Point();
         this.tickerWrapper = new PixiTickerWrapper_1.PixiTickerWrapper();
         this.tickerWrapper.object = PIXI.ticker.shared;
         if (initData) {
@@ -146,50 +147,74 @@ var PixiAdapter = (function (_super) {
         return result;
     };
     PixiAdapter.prototype.createTextWrapper = function (object) {
-        var result = new PixiTextWrapper_1.PixiTextWrapper();
         if (!object) {
             object = new PIXI.Text("", { fill: 0xFFFFFF });
         }
-        result.object = object;
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            result = new PixiTextWrapper_1.PixiTextWrapper();
+            result.object = object;
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     PixiAdapter.prototype.createSpriteWrapper = function (object) {
-        var result = new PixiSpriteWrapper_1.PixiSpriteWrapper();
         if (!object) {
             object = new PIXI.Sprite();
         }
-        result.object = object;
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            result = new PixiSpriteWrapper_1.PixiSpriteWrapper();
+            result.object = object;
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     PixiAdapter.prototype.createDisplayObjectContainerWrapper = function (object) {
-        var result = new PixiDisplayObjectContainerWrapper_1.PixiDisplayObjectContainerWrapper();
         if (!object) {
             object = new PIXI.Container();
         }
-        result.object = object;
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            result = new PixiDisplayObjectContainerWrapper_1.PixiDisplayObjectContainerWrapper();
+            result.object = object;
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     PixiAdapter.prototype.createPerformanceDisplayObjectContainerWrapper = function (object) {
         if (!object) {
             object = new PIXI.particles.ParticleContainer();
         }
-        var result = this.createDisplayObjectContainerWrapper(object);
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            result = this.createDisplayObjectContainerWrapper(object);
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     PixiAdapter.prototype.createDisplayObjectWrapper = function (object) {
-        var result = new PixiDisplayObjectWrapper_1.PixiDisplayObjectWrapper();
         if (!object) {
             object = new PIXI.DisplayObject();
         }
-        result.object = object;
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            result = new PixiDisplayObjectWrapper_1.PixiDisplayObjectWrapper();
+            result.object = object;
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     PixiAdapter.prototype.createGraphicsWrapper = function (object) {
-        var result = new PixiGraphicsWrapper_1.PixiGraphicsWrapper();
         if (!object) {
             object = new PIXI.Graphics();
         }
-        result.object = object;
+        var result = DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.getObjectWrapper(object);
+        if (!result) {
+            var result = new PixiGraphicsWrapper_1.PixiGraphicsWrapper();
+            result.object = object;
+            DisplayObjectWrapperTools_1.DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
         return result;
     };
     Object.defineProperty(PixiAdapter.prototype, "globalMouseX", {

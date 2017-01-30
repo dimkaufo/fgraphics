@@ -98,55 +98,52 @@ var PixiDisplayObjectWrapper = (function (_super) {
         pixiObject.removeListener(PixiMouseEvent_1.PixiMouseEvent.MOUSE_OUT, this.onPixiMouseOut, this);
     };
     PixiDisplayObjectWrapper.prototype.onAdded = function (parent) {
-        var _this = this;
         // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
         if (!this.isAddedToStage) {
+            this.updateAddedToStage(true);
+        }
+    };
+    PixiDisplayObjectWrapper.prototype.onRemoved = function (parent) {
+        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
+        if (this.isAddedToStage) {
+            this.updateAddedToStage(false);
+        }
+    };
+    PixiDisplayObjectWrapper.prototype.updateAddedToStage = function (isAdded) {
+        if (isAdded !== this.isAddedToStage) {
+            var tempIsAdded_1 = false;
             DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
                 if (parent.object === EngineAdapter_1.EngineAdapter.instance.stage.object) {
-                    _this.isAddedToStage = true;
+                    tempIsAdded_1 = true;
                     return false;
                 }
                 else {
                     return true;
                 }
             });
-        }
-    };
-    PixiDisplayObjectWrapper.prototype.onRemoved = function (parent) {
-        // console.log("PixiDisplayObjectWrapper | onAdded __ parent: ", parent);
-        if (this.isAddedToStage) {
-            var isStageParent_1;
-            DisplayObjectTools_1.DisplayObjectTools.processAllParents(this, function (parent) {
-                if (parent === EngineAdapter_1.EngineAdapter.instance.stage) {
-                    isStageParent_1 = true;
-                    return false;
-                }
-            });
-            if (!isStageParent_1) {
-                this.isAddedToStage = false;
-            }
+            this.isAddedToStage = tempIsAdded_1;
         }
     };
     PixiDisplayObjectWrapper.prototype.onPixiClick = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
     };
     PixiDisplayObjectWrapper.prototype.onPixiTap = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.CLICK);
     };
     PixiDisplayObjectWrapper.prototype.onPixiMouseDown = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_DOWN);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_DOWN, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_DOWN);
     };
     PixiDisplayObjectWrapper.prototype.onPixiMouseUp = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP);
     };
     PixiDisplayObjectWrapper.prototype.onPixiMouseUpOutside = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.MOUSE_UP_OUTSIDE);
     };
     PixiDisplayObjectWrapper.prototype.onPixiMouseOver = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OVER);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OVER, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OVER);
     };
     PixiDisplayObjectWrapper.prototype.onPixiMouseOut = function (event) {
-        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OUT);
+        this.dispatchEvent(DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OUT, DisplayObjectWrapperMouseEvent_1.DisplayObjectWrapperMouseEvent.ROLL_OUT);
     };
     Object.defineProperty(PixiDisplayObjectWrapper.prototype, "pixiDisplayObject", {
         get: function () {
@@ -327,10 +324,10 @@ var PixiDisplayObjectWrapper = (function (_super) {
             }
             this._isAddedToStage = value;
             if (this.isAddedToStage) {
-                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.ADDED_TO_STAGE);
+                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.ADDED_TO_STAGE, DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.ADDED_TO_STAGE);
             }
             else {
-                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
+                this.dispatchEvent(DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.REMOVED_FROM_STAGE, DisplayObjectWrapperEvent_1.DisplayObjectWrapperEvent.REMOVED_FROM_STAGE);
             }
         },
         enumerable: true,

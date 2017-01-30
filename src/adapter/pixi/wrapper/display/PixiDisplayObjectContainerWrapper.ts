@@ -2,6 +2,7 @@ import {IDisplayObjectContainerWrapper} from "../../../abstract/wrapper/display/
 import {IDisplayObjectWrapper} from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import {EngineAdapter} from "../../../abstract/EngineAdapter";
 import {PixiDisplayObjectWrapper} from "./PixiDisplayObjectWrapper";
+import {DisplayObjectWrapperEvent} from "../../../abstract/wrapper/events/DisplayObjectWrapperEvent";
 
 // import {PIXI} from "../../typings/index";
 
@@ -12,6 +13,33 @@ export class PixiDisplayObjectContainerWrapper extends PixiDisplayObjectWrapper 
 
     constructor() {
         super();
+    }
+
+    protected addListeners():void {
+        super.addListeners();
+
+        this.eventListenerHelper.addEventListener(
+            this,
+            DisplayObjectWrapperEvent.ADDED_TO_STAGE,
+            () => {
+                this.updateChildrenAddedToStage(true);
+            }
+        );
+        this.eventListenerHelper.addEventListener(
+            this,
+            DisplayObjectWrapperEvent.REMOVED_FROM_STAGE,
+            () => {
+                this.updateChildrenAddedToStage(false);
+            }
+        );
+    }
+
+
+    protected updateChildrenAddedToStage(isAdded:boolean):void {
+        let childrenCount:number = this.nativeChildren.length;
+        for (let childIndex:number = 0; childIndex < childrenCount; childIndex++) {
+            this.getChildAt(childIndex).updateAddedToStage(isAdded);
+        }
     }
 
 

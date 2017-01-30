@@ -20,4 +20,5 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
     toGlobal(position: Point): Point;
     toLocal(position: Point): Point;
     checkIfParamIsParent(paramName: string): boolean;
+    updateAddedToStage(isAdded: boolean): void;
 }

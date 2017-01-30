@@ -9,6 +9,7 @@ __export(require("./adapter/abstract/EngineAdapterEvent"));
 __export(require("./adapter/pixi/PixiAdapter"));
 __export(require("./tools/display/DisplayObjectTools"));
 __export(require("./tools/display/DisplayObjectWithNameVO"));
+__export(require("./tools/display/DisplayObjectWrapperTools"));
 __export(require("./tools/display/MovieClipTools"));
 __export(require("./tools/text/TextTools"));
 __export(require("./tools/text/TextTruncateType"));
