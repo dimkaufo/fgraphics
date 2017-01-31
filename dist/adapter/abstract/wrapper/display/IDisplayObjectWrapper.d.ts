@@ -12,6 +12,7 @@ export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatch
     visible: boolean;
     interactive: boolean;
     buttonMode: boolean;
+    cursor: string;
     cache: boolean;
     parent: IDisplayObjectContainerWrapper;
     isAddedToStage: boolean;

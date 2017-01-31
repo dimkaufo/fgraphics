@@ -255,6 +255,16 @@ var PixiDisplayObjectWrapper = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PixiDisplayObjectWrapper.prototype, "cursor", {
+        get: function () {
+            return this.pixiDisplayObject.defaultCursor;
+        },
+        set: function (value) {
+            this.pixiDisplayObject.defaultCursor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PixiDisplayObjectWrapper.prototype, "parent", {
         get: function () {
             if (!this.pixiDisplayObject.parent) {

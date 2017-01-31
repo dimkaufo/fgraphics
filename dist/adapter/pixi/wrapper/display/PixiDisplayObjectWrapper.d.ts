@@ -34,6 +34,7 @@ export declare class PixiDisplayObjectWrapper extends BaseClassWrapper implement
     visible: boolean;
     interactive: boolean;
     buttonMode: boolean;
+    cursor: string;
     readonly parent: IDisplayObjectContainerWrapper;
     getGlobalBounds(): Rectangle;
     getLocalBounds(): Rectangle;
