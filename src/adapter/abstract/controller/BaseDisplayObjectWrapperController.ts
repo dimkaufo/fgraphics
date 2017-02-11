@@ -4,7 +4,9 @@ import {DisplayObjectWrapperEvent} from "../wrapper/events/DisplayObjectWrapperE
 
 export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectWrapper> extends BaseEventListenerObject {
 
-    protected resizeSize:Point = new Point();
+    protected resizeSize:Point;
+    protected minSize:Point;
+    protected maxSize:Point;
 
     private _view:ViewType;
     protected viewAddToStageEventListenerHelper:EventListenerHelper<string>;
@@ -16,6 +18,10 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
 
     protected construction(...args):void {
         super.construction(...args);
+
+        this.resizeSize = new Point();
+        this.minSize = new Point();
+        this.maxSize = new Point();
 
         this.viewEventListenerHelper = new EventListenerHelper(this);
         this.viewAddToStageEventListenerHelper = new EventListenerHelper(this);
@@ -99,6 +105,30 @@ export class BaseDisplayObjectWrapperController<ViewType extends IDisplayObjectW
     public resize(width:number, height:number):void {
         this.resizeSize.x = width;
         this.resizeSize.y = height;
+
+        // Min size
+        if (this.minSize.x) {
+            if (this.resizeSize.x < this.minSize.x) {
+                this.resizeSize.x = this.minSize.x;
+            }
+        }
+        if (this.minSize.y) {
+            if (this.resizeSize.y < this.minSize.y) {
+                this.resizeSize.y = this.minSize.y;
+            }
+        }
+
+        // Max size
+        if (this.maxSize.x) {
+            if (this.resizeSize.x > this.maxSize.x) {
+                this.resizeSize.x = this.maxSize.x;
+            }
+        }
+        if (this.maxSize.y) {
+            if (this.resizeSize.y > this.maxSize.y) {
+                this.resizeSize.y = this.maxSize.y;
+            }
+        }
 
         this.arrange();
     }
