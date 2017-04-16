@@ -1,0 +1,470 @@
+import {Point, Logger, Dictionary} from "fcore";
+
+import {PixiTickerWrapper} from "./wrapper/ticker/PixiTickerWrapper";
+import {IEngineAdapter, IObjectUnderPointVO} from "../abstract/IEngineAdapter";
+import {EngineAdapter} from "../abstract/EngineAdapter";
+import {IDisplayObjectContainerWrapper} from "../abstract/wrapper/display/IDisplayObjectContainerWrapper";
+import {EngineAdapterEvent} from "../abstract/EngineAdapterEvent";
+import {ITickerWrapper} from "../abstract/wrapper/ticker/ITickerWrapper";
+import {IDisplayObjectWrapper} from "../abstract/wrapper/display/IDisplayObjectWrapper";
+import {ITextWrapper} from "../abstract/wrapper/display/ITextWrapper";
+import {PixiTextWrapper} from "./wrapper/display/PixiTextWrapper";
+import {ISpriteWrapper} from "../abstract/wrapper/display/ISpriteWrapper";
+import {PixiSpriteWrapper} from "./wrapper/display/PixiSpriteWrapper";
+import {PixiDisplayObjectContainerWrapper} from "./wrapper/display/PixiDisplayObjectContainerWrapper";
+import {PixiDisplayObjectWrapper} from "./wrapper/display/PixiDisplayObjectWrapper";
+import {IGraphicsWrapper} from "../abstract/wrapper/display/IGraphicsWrapper";
+import {PixiGraphicsWrapper} from "./wrapper/display/PixiGraphicsWrapper";
+import {DisplayObjectWithNameVO} from "../../tools/display/DisplayObjectWithNameVO";
+import {IPixiAdapterInitData} from "./IPixiAdapterInitData";
+import {PixiMouseEvent} from "./wrapper/events/PixiMouseEvent";
+import {DisplayObjectWrapperTools} from "../../tools/display/DisplayObjectWrapperTools";
+
+export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
+
+    protected renderer:PIXI.SystemRenderer;
+    protected _stage:PixiDisplayObjectContainerWrapper;
+    protected tickerWrapper:PixiTickerWrapper;
+    protected rendererSize:Point;
+    private cachedPoint:PIXI.Point = new PIXI.Point();
+    private lastInteractionGlobalPoint:PIXI.Point;
+
+    constructor(...args) {
+        super(...args);
+
+        Logger.log("PixiAdapter: ", this);
+    }
+
+    protected construction(initData?:IPixiAdapterInitData):void {
+        super.construction(initData);
+
+        this.rendererSize = new Point();
+
+        this.tickerWrapper = new PixiTickerWrapper();
+        this.tickerWrapper.object = PIXI.ticker.shared;
+
+        if (initData) {
+            this.renderer = initData.renderer;
+        }
+
+        if (initData && initData.nativeStage) {
+            this._stage = (this.createDisplayObjectContainerWrapper(initData.nativeStage) as PixiDisplayObjectContainerWrapper);
+        } else {
+            this._stage = (this.createDisplayObjectContainerWrapper() as PixiDisplayObjectContainerWrapper);
+        }
+
+        if (!this.renderer) {
+            let tempRendererSettings:PIXI.RendererOptions = {};
+            if (initData && initData.rendererSettings) {
+                tempRendererSettings = initData.rendererSettings;
+            }
+
+            this.renderer = PIXI.autoDetectRenderer(
+                initData.rendererWidth,
+                initData.rendererHeight,
+                tempRendererSettings
+            );
+        }
+    }
+
+    protected addListeners():void {
+        super.addListeners();
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_START,
+            this.onTouchStart,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_END,
+            this.onTouchEnd,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.addListener(
+            PixiMouseEvent.TOUCH_END_OUTSIDE,
+            this.onTouchEndOutside,
+            this
+        );
+    }
+
+    protected removeListeners():void {
+        super.removeListeners();
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_START,
+            this.onTouchStart,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_END,
+            this.onTouchEnd,
+            this
+        );
+
+        (this.renderer as any).plugins.interaction.removeListener(
+            PixiMouseEvent.TOUCH_END_OUTSIDE,
+            this.onTouchEndOutside,
+            this
+        );
+    }
+
+
+    private onTouchStart(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
+    private onTouchEnd(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
+    private onTouchEndOutside(eventData:any):void {
+        this.lastInteractionGlobalPoint = eventData.data.global;
+    }
+
+
+
+    public get stage():IDisplayObjectContainerWrapper {
+        return this._stage;
+    }
+
+    public get canvas():HTMLCanvasElement {
+        return this.renderer.view;
+    }
+
+    public set canvas(value:HTMLCanvasElement) {
+        alert("PixiAdapter | set canvas __ WARNING! The canvas setter is not implemented!");
+    }
+
+    public get rendererWidth():number {
+        return this.renderer.width;
+    }
+
+    public get rendererHeight():number {
+        return this.renderer.height;
+    }
+
+    public get mainTicker():ITickerWrapper {
+        return this.tickerWrapper;
+    }
+
+    public get BaseDisplayObjectClass():any {
+        return PIXI.DisplayObject;
+    }
+
+
+    public renderGraphics():void {
+        this.renderer.render(this._stage.object as PIXI.Container);
+    }
+
+    public changeRenderSize(width:number, height:number):void {
+        this.renderer.resize(width, height);
+
+        //
+        this.dispatchEvent(EngineAdapterEvent.RENDER_SIZE_CHANGE);
+    }
+
+    public createDisplayWrapperBasedOnObject<WrapperType extends IDisplayObjectWrapper>(object:any):WrapperType {
+        var result:WrapperType;
+
+        if (object instanceof PIXI.Text) {
+            result = (this.createTextWrapper(object) as any);
+
+        } else if (object instanceof PIXI.Sprite) {
+            result = (this.createSpriteWrapper(object) as any);
+
+        } else if (object instanceof PIXI.Graphics) {
+            result = (this.createGraphicsWrapper(object) as any);
+
+        } else if (object instanceof PIXI.particles.ParticleContainer) {
+            result = (this.createPerformanceDisplayObjectContainerWrapper(object) as any);
+
+        } else if (object instanceof PIXI.Container) {
+            result = (this.createDisplayObjectContainerWrapper(object) as any);
+
+        } else if (object instanceof PIXI.DisplayObject) {
+            result = (this.createDisplayObjectWrapper(object) as any);
+        }
+
+        return result;
+    }
+
+
+    public createTextWrapper(object?:any):ITextWrapper {
+        if (!object) {
+            object = new PIXI.Text("", {fill: 0xFFFFFF});
+        }
+
+        var result:PixiTextWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiTextWrapper);
+        if (!result) {
+            result = new PixiTextWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+    public createSpriteWrapper(object?:any):ISpriteWrapper {
+        if (!object) {
+            object = new PIXI.Sprite();
+        }
+
+        var result:PixiSpriteWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiSpriteWrapper);
+        if (!result) {
+            result = new PixiSpriteWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+    public createDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
+        if (!object) {
+            object = new PIXI.Container();
+        }
+
+        var result:PixiDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectContainerWrapper);
+        if (!result) {
+            result = new PixiDisplayObjectContainerWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+    public createPerformanceDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
+        if (!object) {
+            object = new PIXI.particles.ParticleContainer();
+        }
+
+        var result:IDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as IDisplayObjectContainerWrapper);
+        if (!result) {
+            result = this.createDisplayObjectContainerWrapper(object);
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+    public createDisplayObjectWrapper(object?:any):IDisplayObjectWrapper {
+        if (!object) {
+            object = new PIXI.DisplayObject();
+        }
+
+        var result:PixiDisplayObjectWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectWrapper);
+        if (!result) {
+            result = new PixiDisplayObjectWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+    public createGraphicsWrapper(object?:any):IGraphicsWrapper {
+
+        if (!object) {
+            object = new PIXI.Graphics();
+        }
+
+        var result:PixiGraphicsWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiGraphicsWrapper);
+        if (!result) {
+            var result:PixiGraphicsWrapper = new PixiGraphicsWrapper();
+            result.object = object;
+
+            DisplayObjectWrapperTools.addObjectWrapper(object, result);
+        }
+
+        return result;
+    }
+
+
+    public get globalMouseX():number {
+        if (this.lastInteractionGlobalPoint) {
+            return this.lastInteractionGlobalPoint.x;
+        } else {
+            return (this.renderer as any).plugins.interaction.mouse.global.x;
+        }
+    }
+
+    public get globalMouseY():number {
+        if (this.lastInteractionGlobalPoint) {
+            return this.lastInteractionGlobalPoint.y;
+        } else {
+            return (this.renderer as any).plugins.interaction.mouse.global.y;
+        }
+    }
+
+
+    /*public setFieldTextsByNameInHierarchy(nativeContainer:any,
+     params:any = null):void {
+     var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
+
+     var tempText:string;
+     var tempTextWrapper:ITextWrapper = this.createTextWrapper();
+     var tempField:PIXI.Text;
+     pixiContainer.children.forEach(
+     (item:PIXI.DisplayObject, index:number, array:PIXI.DisplayObject[]):void => {
+     if (item instanceof PIXI.Text) {
+     tempField = (item as PIXI.Text);
+
+     tempText = this.localeManager.getText(tempField.name, params);
+     if (tempText) {
+     tempTextWrapper.object = tempText;
+     TextFieldTools.setText(tempTextWrapper, tempText);
+     }
+
+     } else if (item instanceof PIXI.Container) {
+     this.setFieldTextsByNameInHierarchy((item as PIXI.Container), params);
+     }
+     }
+     );
+
+     tempTextWrapper.destruction();
+     }*/
+
+
+    public findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer:any,
+                                                                           namePart:string,
+                                                                           isRecursive:boolean):DisplayObjectWithNameVO<ChildType>[] {
+
+        var result:DisplayObjectWithNameVO<ChildType>[] = [];
+
+        var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
+        var tempDisplayObject:PIXI.DisplayObject;
+        var tempDisplayObjectWrapper:ChildType;
+        var tempContainer:PIXI.Container;
+        var tempData:DisplayObjectWithNameVO<ChildType>;
+        var propName:string;
+        for (propName in pixiContainer) {
+            if (pixiContainer[propName] == pixiContainer.parent) {
+                // Do nothing to prevent wrong recursion
+                continue;
+
+            } else if (propName.indexOf(namePart) != -1) {
+                tempDisplayObject = (pixiContainer[propName] as PIXI.DisplayObject);
+                if (tempDisplayObject && (tempDisplayObject instanceof PIXI.DisplayObject)) {
+                    tempDisplayObjectWrapper = this.createDisplayWrapperBasedOnObject<ChildType>(tempDisplayObject);
+
+                    tempData = new DisplayObjectWithNameVO<ChildType>();
+                    tempData.object = tempDisplayObjectWrapper;
+                    tempData.name = propName;
+
+                    result.push(tempData);
+                }
+
+            } else if (isRecursive) {
+                tempContainer = (pixiContainer[propName] as PIXI.Container);
+                if (tempContainer && (tempContainer instanceof PIXI.Container)) {
+                    var tempItems:DisplayObjectWithNameVO<ChildType>[] = this.findChildrenByNamePart<ChildType>(
+                        tempContainer,
+                        namePart,
+                        isRecursive
+                    );
+
+                    result = result.concat(tempItems);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer:any,
+                                                                    childName:string,
+                                                                    isRecursive:boolean):ChildType {
+
+        var result:ChildType;
+
+        var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
+        if (pixiContainer[childName] instanceof PIXI.DisplayObject) {
+            result = this.createDisplayWrapperBasedOnObject<ChildType>(pixiContainer[childName]);
+
+        } else if (isRecursive) {
+            var tempChildContainer:PIXI.Container;
+            var everyResult:boolean;
+            pixiContainer.children.every(
+                (item:PIXI.DisplayObject, index:number, array:PIXI.DisplayObject[]):boolean => {
+                    everyResult = true;
+
+                    if (item instanceof PIXI.Container) {
+                        tempChildContainer = (item as PIXI.Container);
+                        result = this.findChildByName<ChildType>(tempChildContainer, childName, isRecursive);
+                        if (result) {
+                            everyResult = false;
+                        }
+                    }
+
+                    return everyResult;
+                }
+            );
+        }
+
+        return result;
+    }
+
+
+    public getNativeObjectsUnderPoint(root:PIXI.DisplayObject,
+                                      x:number,
+                                      y:number):IObjectUnderPointVO {
+
+        let result:IObjectUnderPointVO;
+
+        if (root.visible && root.renderable) {
+            let rootContainer:PIXI.Container = (root as PIXI.Container);
+            // If the object is a container
+            if (rootContainer.children && rootContainer.children.length > 0) {
+                let tempChildren:IObjectUnderPointVO[] = [];
+                let tempChild:any;
+                let tempChildResult:any;
+                let childrenCount:number = rootContainer.children.length;
+                for (let childIndex:number = 0; childIndex < childrenCount; childIndex++) {
+                    tempChild = rootContainer.children[childIndex];
+                    tempChildResult = this.getNativeObjectsUnderPoint(tempChild, x, y);
+                    if (tempChildResult) {
+                        tempChildren.push(tempChildResult);
+                    }
+                }
+
+                // The container might be added only if at least one of its children is under cursor
+                if (tempChildren.length > 0) {
+                    result = {object: root, children: tempChildren};
+                }
+
+                // If the object isn't a container
+            } else {
+
+                let isUnderPoint:boolean = false;
+                if ((root as any).containsPoint) {
+                    this.cachedPoint.x = x;
+                    this.cachedPoint.y = y;
+                    if ((root as any).containsPoint(this.cachedPoint)) {
+                        isUnderPoint = true;
+                    }
+
+                } else {
+                    let tempBounds:PIXI.Rectangle = root.getBounds();
+                    if (tempBounds.contains(x, y)) {
+                        isUnderPoint = true;
+                    }
+                }
+
+                if (isUnderPoint) {
+                    result = {object: root};
+                }
+            }
+        }
+
+        return result;
+    }
+}
