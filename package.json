@@ -14,6 +14,8 @@
     "fcore": "0.0.45"
   },
   "devDependencies": {
+    "@types/pixi.js": "4.x",
+    "@types/es6-promise": "0.0.32",
     "fs": "0.0.1-security",
     "gulp": "^3.9.1",
     "gulp-file": "0.3.0",
@@ -33,7 +35,7 @@
     "run-sequence": "1.2.2",
     "systemjs": "0.19.31",
     "tsd": "0.6.5",
-    "typescript": "^2.1.4",
+    "typescript": "2.1.x",
     "vinyl-fs": "2.4.3",
     "yargs": "5.0.0"
   }

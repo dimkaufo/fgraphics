@@ -10,6 +10,9 @@ export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper impleme
 
     protected pixiSprite:PIXI.Sprite;
 
+    protected wrapperAnchor: Point = new Point();
+    protected wrapperTextureId: string;
+
     constructor() {
         super();
     }
@@ -31,20 +34,40 @@ export class PixiSpriteWrapper extends PixiDisplayObjectContainerWrapper impleme
     public get texture():any {
         return this.pixiSprite.texture;
     }
-
     public set texture(value:any) {
         this.pixiSprite.texture = value;
     }
 
 
-    public get anchor():Point {
-        return new Point(
-            this.pixiSprite.anchor.x,
-            this.pixiSprite.anchor.y
-        );
+    public get textureId():any {
+        return this.wrapperTextureId;
+    }
+    public set textureId(value:any) {
+        if (value === this.wrapperTextureId) {
+            return;
+        }
+
+        this.wrapperTextureId = value;
+
+        this.texture = PIXI.Texture.from(this.textureId);
     }
 
+
+    public get anchor():Point {
+        /*return new Point(
+            this.pixiSprite.anchor.x,
+            this.pixiSprite.anchor.y
+        );*/
+
+        this.wrapperAnchor.x = this.pixiSprite.anchor.x;
+        this.wrapperAnchor.y = this.pixiSprite.anchor.y;
+
+        return this.wrapperAnchor;
+    }
     public set anchor(value:Point) {
+        this.wrapperAnchor.x = value.x;
+        this.wrapperAnchor.y = value.y;
+
         this.pixiSprite.anchor.set(value.x, value.y);
     }
 }

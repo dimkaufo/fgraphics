@@ -20,8 +20,7 @@ var PixiTextWrapper = (function (_super) {
         if (!this.pixiText) {
             return;
         }
-        var tempStyle = {};
-        fcore_1.ObjectTools.copyProps(tempStyle, this.pixiText.style, true);
+        var tempStyle = new PIXI.TextStyle(this.pixiText.style);
         if (this.color) {
             tempStyle.fill = this.color;
         }
@@ -32,15 +31,15 @@ var PixiTextWrapper = (function (_super) {
             tempStyle.align = "";
         }
         /*tempStyle.font = "";
-        if (this.fontFamily) {
-            tempStyle.font += this.fontFamily;
-        }
-        if (this.size) {
-            if (tempStyle.font) {
-                tempStyle.font += " ";
-            }
-            tempStyle.font += this.size + "px";
-        }*/
+         if (this.fontFamily) {
+         tempStyle.font += this.fontFamily;
+         }
+         if (this.size) {
+         if (tempStyle.font) {
+         tempStyle.font += " ";
+         }
+         tempStyle.font += this.size + "px";
+         }*/
         if (this.fontFamily) {
             tempStyle.fontFamily = this.fontFamily;
         }

@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";
 import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import { PixiDisplayObjectWrapper } from "./PixiDisplayObjectWrapper";

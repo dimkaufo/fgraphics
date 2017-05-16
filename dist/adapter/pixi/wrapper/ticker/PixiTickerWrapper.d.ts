@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { ITickerWrapper } from "../../../abstract/wrapper/ticker/ITickerWrapper";
 import { BaseClassWrapper } from "fcore/dist/index";
 export declare class PixiTickerWrapper extends BaseClassWrapper implements ITickerWrapper {

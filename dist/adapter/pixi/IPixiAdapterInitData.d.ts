@@ -1,6 +1,7 @@
+/// <reference types="pixi.js" />
 export interface IPixiAdapterInitData {
     renderer?: PIXI.SystemRenderer;
-    rendererSettings?: PIXI.RendererOptions;
+    rendererSettings?: any;
     rendererWidth?: number;
     rendererHeight?: number;
     nativeStage?: PIXI.Container;

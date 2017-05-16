@@ -5,6 +5,7 @@ export interface ISpriteWrapper extends IDisplayObjectContainerWrapper {
     isSpriteWrapper: boolean;
 
 
+    textureId: string;
     texture: any;
     //gotoAndStop(frame: number): void;
 

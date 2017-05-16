@@ -1,6 +1,6 @@
-import { IBaseClassWrapper, IEventDispatcher, Rectangle, Point } from "fcore/dist/index";
+import { IBaseClassWrapper, Rectangle, Point } from "fcore/dist/index";
 import { IDisplayObjectContainerWrapper } from "./IDisplayObjectContainerWrapper";
-export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatcher<string> {
+export interface IDisplayObjectWrapper extends IBaseClassWrapper {
     isDisplayObjectWrapper: boolean;
     alpha: number;
     x: number;

@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { ITextWrapper } from "../../../abstract/wrapper/display/ITextWrapper";
 import { PixiSpriteWrapper } from "./PixiSpriteWrapper";
 export declare class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {

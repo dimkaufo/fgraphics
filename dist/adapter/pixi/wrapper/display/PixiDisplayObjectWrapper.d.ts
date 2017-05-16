@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { BaseClassWrapper, Rectangle, Point } from "fcore/dist/index";
 import { IDisplayObjectWrapper } from "../../../abstract/wrapper/display/IDisplayObjectWrapper";
 import { IDisplayObjectContainerWrapper } from "../../../abstract/wrapper/display/IDisplayObjectContainerWrapper";

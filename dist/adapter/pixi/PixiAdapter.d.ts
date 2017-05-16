@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { Point } from "fcore";
 import { PixiTickerWrapper } from "./wrapper/ticker/PixiTickerWrapper";
 import { IEngineAdapter, IObjectUnderPointVO } from "../abstract/IEngineAdapter";

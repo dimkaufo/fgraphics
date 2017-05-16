@@ -15,15 +15,15 @@ __export(require("./tools/text/TextTools"));
 __export(require("./tools/text/TextTruncateType"));
 __export(require("./adapter/abstract/controller/BaseDisplayObjectWrapperController"));
 __export(require("./adapter/abstract/wrapper/display/AnimatableSpriteWrapperEvent"));
+__export(require("./adapter/abstract/wrapper/ticker/TickerEvent"));
 __export(require("./adapter/abstract/wrapper/events/DisplayObjectWrapperEvent"));
 __export(require("./adapter/abstract/wrapper/events/DisplayObjectWrapperMouseEvent"));
-__export(require("./adapter/abstract/wrapper/ticker/TickerEvent"));
 __export(require("./adapter/pixi/wrapper/display/PixiDisplayObjectContainerWrapper"));
 __export(require("./adapter/pixi/wrapper/display/PixiDisplayObjectWrapper"));
 __export(require("./adapter/pixi/wrapper/display/PixiGraphicsWrapper"));
 __export(require("./adapter/pixi/wrapper/display/PixiSpriteWrapper"));
 __export(require("./adapter/pixi/wrapper/display/PixiTextWrapper"));
+__export(require("./adapter/pixi/wrapper/ticker/PixiTickerWrapper"));
 __export(require("./adapter/pixi/wrapper/events/PixiDisplayObjectEvent"));
 __export(require("./adapter/pixi/wrapper/events/PixiMouseEvent"));
-__export(require("./adapter/pixi/wrapper/ticker/PixiTickerWrapper"));
 //# sourceMappingURL=index.js.map

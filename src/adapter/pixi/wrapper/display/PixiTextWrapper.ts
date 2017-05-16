@@ -3,20 +3,20 @@ import {PixiSpriteWrapper} from "./PixiSpriteWrapper";
 import {ObjectTools, Align} from "fcore";
 
 export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
-    public isTextWrapper:boolean = true;
+    public isTextWrapper: boolean = true;
 
-    protected pixiText:PIXI.Text;
-    private _fontFamily:string = "";
-    private _size:number;
-    private _color:number;
-    private _align:string;
+    protected pixiText: PIXI.Text;
+    private _fontFamily: string = "";
+    private _size: number;
+    private _color: number;
+    private _align: string;
 
     constructor() {
         super();
     }
 
 
-    protected commitData():void {
+    protected commitData(): void {
         super.commitData();
 
         this.pixiText = (this.object as PIXI.Text);
@@ -24,9 +24,7 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
             return;
         }
 
-        let tempStyle:PIXI.TextStyle = {};
-        ObjectTools.copyProps(tempStyle, this.pixiText.style, true);
-
+        let tempStyle: PIXI.TextStyle = new PIXI.TextStyle(this.pixiText.style);
         if (this.color) {
             tempStyle.fill = this.color;
         }
@@ -38,15 +36,15 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
         }
 
         /*tempStyle.font = "";
-        if (this.fontFamily) {
-            tempStyle.font += this.fontFamily;
-        }
-        if (this.size) {
-            if (tempStyle.font) {
-                tempStyle.font += " ";
-            }
-            tempStyle.font += this.size + "px";
-        }*/
+         if (this.fontFamily) {
+         tempStyle.font += this.fontFamily;
+         }
+         if (this.size) {
+         if (tempStyle.font) {
+         tempStyle.font += " ";
+         }
+         tempStyle.font += this.size + "px";
+         }*/
         if (this.fontFamily) {
             (tempStyle as any).fontFamily = this.fontFamily;
         }
@@ -58,19 +56,19 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
         this.pixiText.style = tempStyle;
     }
 
-    public get text():string {
+    public get text(): string {
         return this.pixiText.text;
     }
 
-    public set text(value:string) {
+    public set text(value: string) {
         this.pixiText.text = value;
     }
 
-    public get fontFamily():string {
+    public get fontFamily(): string {
         return this._fontFamily;
     }
 
-    public set fontFamily(value:string) {
+    public set fontFamily(value: string) {
         if (value == this.fontFamily) {
             return;
         }
@@ -80,11 +78,11 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
         this.commitData();
     }
 
-    public get size():number {
+    public get size(): number {
         return this._size;
     }
 
-    public set size(value:number) {
+    public set size(value: number) {
         if (value == this.size) {
             return;
         }
@@ -94,11 +92,11 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
         this.commitData();
     }
 
-    public get color():number {
+    public get color(): number {
         return this._color;
     }
 
-    public set color(value:number) {
+    public set color(value: number) {
         if (value == this.color) {
             return;
         }
@@ -108,10 +106,11 @@ export class PixiTextWrapper extends PixiSpriteWrapper implements ITextWrapper {
         this.commitData();
     }
 
-    public get align():string {
+    public get align(): string {
         return this._align;
     }
-    public set align(value:string) {
+
+    public set align(value: string) {
         if (value == this.align) {
             return;
         }

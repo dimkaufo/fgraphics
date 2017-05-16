@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 import { IGraphicsWrapper } from "../../../abstract/wrapper/display/IGraphicsWrapper";
 import { PixiDisplayObjectContainerWrapper } from "./PixiDisplayObjectContainerWrapper";
 export declare class PixiGraphicsWrapper extends PixiDisplayObjectContainerWrapper implements IGraphicsWrapper {

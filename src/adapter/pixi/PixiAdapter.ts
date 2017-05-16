@@ -22,12 +22,12 @@ import {DisplayObjectWrapperTools} from "../../tools/display/DisplayObjectWrappe
 
 export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
 
-    protected renderer:PIXI.SystemRenderer;
-    protected _stage:PixiDisplayObjectContainerWrapper;
-    protected tickerWrapper:PixiTickerWrapper;
-    protected rendererSize:Point;
-    private cachedPoint:PIXI.Point = new PIXI.Point();
-    private lastInteractionGlobalPoint:PIXI.Point;
+    protected renderer: PIXI.SystemRenderer;
+    protected _stage: PixiDisplayObjectContainerWrapper;
+    protected tickerWrapper: PixiTickerWrapper;
+    protected rendererSize: Point;
+    private cachedPoint: PIXI.Point = new PIXI.Point();
+    private lastInteractionGlobalPoint: PIXI.Point;
 
     constructor(...args) {
         super(...args);
@@ -35,7 +35,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         Logger.log("PixiAdapter: ", this);
     }
 
-    protected construction(initData?:IPixiAdapterInitData):void {
+    protected construction(initData?: IPixiAdapterInitData): void {
         super.construction(initData);
 
         this.rendererSize = new Point();
@@ -54,7 +54,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         }
 
         if (!this.renderer) {
-            let tempRendererSettings:PIXI.RendererOptions = {};
+            let tempRendererSettings: any = {};
             if (initData && initData.rendererSettings) {
                 tempRendererSettings = initData.rendererSettings;
             }
@@ -67,7 +67,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         }
     }
 
-    protected addListeners():void {
+    protected addListeners(): void {
         super.addListeners();
 
         (this.renderer as any).plugins.interaction.addListener(
@@ -89,7 +89,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         );
     }
 
-    protected removeListeners():void {
+    protected removeListeners(): void {
         super.removeListeners();
 
         (this.renderer as any).plugins.interaction.removeListener(
@@ -112,62 +112,61 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     }
 
 
-    private onTouchStart(eventData:any):void {
+    private onTouchStart(eventData: any): void {
         this.lastInteractionGlobalPoint = eventData.data.global;
     }
 
-    private onTouchEnd(eventData:any):void {
+    private onTouchEnd(eventData: any): void {
         this.lastInteractionGlobalPoint = eventData.data.global;
     }
 
-    private onTouchEndOutside(eventData:any):void {
+    private onTouchEndOutside(eventData: any): void {
         this.lastInteractionGlobalPoint = eventData.data.global;
     }
 
 
-
-    public get stage():IDisplayObjectContainerWrapper {
+    public get stage(): IDisplayObjectContainerWrapper {
         return this._stage;
     }
 
-    public get canvas():HTMLCanvasElement {
+    public get canvas(): HTMLCanvasElement {
         return this.renderer.view;
     }
 
-    public set canvas(value:HTMLCanvasElement) {
+    public set canvas(value: HTMLCanvasElement) {
         alert("PixiAdapter | set canvas __ WARNING! The canvas setter is not implemented!");
     }
 
-    public get rendererWidth():number {
+    public get rendererWidth(): number {
         return this.renderer.width;
     }
 
-    public get rendererHeight():number {
+    public get rendererHeight(): number {
         return this.renderer.height;
     }
 
-    public get mainTicker():ITickerWrapper {
+    public get mainTicker(): ITickerWrapper {
         return this.tickerWrapper;
     }
 
-    public get BaseDisplayObjectClass():any {
+    public get BaseDisplayObjectClass(): any {
         return PIXI.DisplayObject;
     }
 
 
-    public renderGraphics():void {
+    public renderGraphics(): void {
         this.renderer.render(this._stage.object as PIXI.Container);
     }
 
-    public changeRenderSize(width:number, height:number):void {
+    public changeRenderSize(width: number, height: number): void {
         this.renderer.resize(width, height);
 
         //
         this.dispatchEvent(EngineAdapterEvent.RENDER_SIZE_CHANGE);
     }
 
-    public createDisplayWrapperBasedOnObject<WrapperType extends IDisplayObjectWrapper>(object:any):WrapperType {
-        var result:WrapperType;
+    public createDisplayWrapperBasedOnObject<WrapperType extends IDisplayObjectWrapper>(object: any): WrapperType {
+        var result: WrapperType;
 
         if (object instanceof PIXI.Text) {
             result = (this.createTextWrapper(object) as any);
@@ -192,12 +191,12 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     }
 
 
-    public createTextWrapper(object?:any):ITextWrapper {
+    public createTextWrapper(object?: any): ITextWrapper {
         if (!object) {
             object = new PIXI.Text("", {fill: 0xFFFFFF});
         }
 
-        var result:PixiTextWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiTextWrapper);
+        var result: PixiTextWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiTextWrapper);
         if (!result) {
             result = new PixiTextWrapper();
             result.object = object;
@@ -208,12 +207,12 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createSpriteWrapper(object?:any):ISpriteWrapper {
+    public createSpriteWrapper(object?: any): ISpriteWrapper {
         if (!object) {
             object = new PIXI.Sprite();
         }
 
-        var result:PixiSpriteWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiSpriteWrapper);
+        var result: PixiSpriteWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiSpriteWrapper);
         if (!result) {
             result = new PixiSpriteWrapper();
             result.object = object;
@@ -224,12 +223,12 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
+    public createDisplayObjectContainerWrapper(object?: any): IDisplayObjectContainerWrapper {
         if (!object) {
             object = new PIXI.Container();
         }
 
-        var result:PixiDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectContainerWrapper);
+        var result: PixiDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectContainerWrapper);
         if (!result) {
             result = new PixiDisplayObjectContainerWrapper();
             result.object = object;
@@ -240,12 +239,12 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createPerformanceDisplayObjectContainerWrapper(object?:any):IDisplayObjectContainerWrapper {
+    public createPerformanceDisplayObjectContainerWrapper(object?: any): IDisplayObjectContainerWrapper {
         if (!object) {
             object = new PIXI.particles.ParticleContainer();
         }
 
-        var result:IDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as IDisplayObjectContainerWrapper);
+        var result: IDisplayObjectContainerWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as IDisplayObjectContainerWrapper);
         if (!result) {
             result = this.createDisplayObjectContainerWrapper(object);
 
@@ -255,12 +254,12 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createDisplayObjectWrapper(object?:any):IDisplayObjectWrapper {
+    public createDisplayObjectWrapper(object?: any): IDisplayObjectWrapper {
         if (!object) {
             object = new PIXI.DisplayObject();
         }
 
-        var result:PixiDisplayObjectWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectWrapper);
+        var result: PixiDisplayObjectWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiDisplayObjectWrapper);
         if (!result) {
             result = new PixiDisplayObjectWrapper();
             result.object = object;
@@ -271,15 +270,15 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public createGraphicsWrapper(object?:any):IGraphicsWrapper {
+    public createGraphicsWrapper(object?: any): IGraphicsWrapper {
 
         if (!object) {
             object = new PIXI.Graphics();
         }
 
-        var result:PixiGraphicsWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiGraphicsWrapper);
+        var result: PixiGraphicsWrapper = (DisplayObjectWrapperTools.getObjectWrapper(object) as PixiGraphicsWrapper);
         if (!result) {
-            var result:PixiGraphicsWrapper = new PixiGraphicsWrapper();
+            var result: PixiGraphicsWrapper = new PixiGraphicsWrapper();
             result.object = object;
 
             DisplayObjectWrapperTools.addObjectWrapper(object, result);
@@ -289,7 +288,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     }
 
 
-    public get globalMouseX():number {
+    public get globalMouseX(): number {
         if (this.lastInteractionGlobalPoint) {
             return this.lastInteractionGlobalPoint.x;
         } else {
@@ -297,7 +296,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         }
     }
 
-    public get globalMouseY():number {
+    public get globalMouseY(): number {
         if (this.lastInteractionGlobalPoint) {
             return this.lastInteractionGlobalPoint.y;
         } else {
@@ -334,18 +333,18 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
      }*/
 
 
-    public findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer:any,
-                                                                           namePart:string,
-                                                                           isRecursive:boolean):DisplayObjectWithNameVO<ChildType>[] {
+    public findChildrenByNamePart<ChildType extends IDisplayObjectWrapper>(nativeContainer: any,
+                                                                           namePart: string,
+                                                                           isRecursive: boolean): DisplayObjectWithNameVO<ChildType>[] {
 
-        var result:DisplayObjectWithNameVO<ChildType>[] = [];
+        var result: DisplayObjectWithNameVO<ChildType>[] = [];
 
-        var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
-        var tempDisplayObject:PIXI.DisplayObject;
-        var tempDisplayObjectWrapper:ChildType;
-        var tempContainer:PIXI.Container;
-        var tempData:DisplayObjectWithNameVO<ChildType>;
-        var propName:string;
+        var pixiContainer: PIXI.Container = (nativeContainer as PIXI.Container);
+        var tempDisplayObject: PIXI.DisplayObject;
+        var tempDisplayObjectWrapper: ChildType;
+        var tempContainer: PIXI.Container;
+        var tempData: DisplayObjectWithNameVO<ChildType>;
+        var propName: string;
         for (propName in pixiContainer) {
             if (pixiContainer[propName] == pixiContainer.parent) {
                 // Do nothing to prevent wrong recursion
@@ -366,7 +365,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
             } else if (isRecursive) {
                 tempContainer = (pixiContainer[propName] as PIXI.Container);
                 if (tempContainer && (tempContainer instanceof PIXI.Container)) {
-                    var tempItems:DisplayObjectWithNameVO<ChildType>[] = this.findChildrenByNamePart<ChildType>(
+                    var tempItems: DisplayObjectWithNameVO<ChildType>[] = this.findChildrenByNamePart<ChildType>(
                         tempContainer,
                         namePart,
                         isRecursive
@@ -380,21 +379,21 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
         return result;
     }
 
-    public findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer:any,
-                                                                    childName:string,
-                                                                    isRecursive:boolean):ChildType {
+    public findChildByName<ChildType extends IDisplayObjectWrapper>(nativeContainer: any,
+                                                                    childName: string,
+                                                                    isRecursive: boolean): ChildType {
 
-        var result:ChildType;
+        var result: ChildType;
 
-        var pixiContainer:PIXI.Container = (nativeContainer as PIXI.Container);
+        var pixiContainer: PIXI.Container = (nativeContainer as PIXI.Container);
         if (pixiContainer[childName] instanceof PIXI.DisplayObject) {
             result = this.createDisplayWrapperBasedOnObject<ChildType>(pixiContainer[childName]);
 
         } else if (isRecursive) {
-            var tempChildContainer:PIXI.Container;
-            var everyResult:boolean;
+            var tempChildContainer: PIXI.Container;
+            var everyResult: boolean;
             pixiContainer.children.every(
-                (item:PIXI.DisplayObject, index:number, array:PIXI.DisplayObject[]):boolean => {
+                (item: PIXI.DisplayObject, index: number, array: PIXI.DisplayObject[]): boolean => {
                     everyResult = true;
 
                     if (item instanceof PIXI.Container) {
@@ -414,21 +413,21 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
     }
 
 
-    public getNativeObjectsUnderPoint(root:PIXI.DisplayObject,
-                                      x:number,
-                                      y:number):IObjectUnderPointVO {
+    public getNativeObjectsUnderPoint(root: PIXI.DisplayObject,
+                                      x: number,
+                                      y: number): IObjectUnderPointVO {
 
-        let result:IObjectUnderPointVO;
+        let result: IObjectUnderPointVO;
 
         if (root.visible && root.renderable) {
-            let rootContainer:PIXI.Container = (root as PIXI.Container);
+            let rootContainer: PIXI.Container = (root as PIXI.Container);
             // If the object is a container
             if (rootContainer.children && rootContainer.children.length > 0) {
-                let tempChildren:IObjectUnderPointVO[] = [];
-                let tempChild:any;
-                let tempChildResult:any;
-                let childrenCount:number = rootContainer.children.length;
-                for (let childIndex:number = 0; childIndex < childrenCount; childIndex++) {
+                let tempChildren: IObjectUnderPointVO[] = [];
+                let tempChild: any;
+                let tempChildResult: any;
+                let childrenCount: number = rootContainer.children.length;
+                for (let childIndex: number = 0; childIndex < childrenCount; childIndex++) {
                     tempChild = rootContainer.children[childIndex];
                     tempChildResult = this.getNativeObjectsUnderPoint(tempChild, x, y);
                     if (tempChildResult) {
@@ -444,7 +443,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
                 // If the object isn't a container
             } else {
 
-                let isUnderPoint:boolean = false;
+                let isUnderPoint: boolean = false;
                 if ((root as any).containsPoint) {
                     this.cachedPoint.x = x;
                     this.cachedPoint.y = y;
@@ -453,7 +452,7 @@ export class PixiAdapter extends EngineAdapter implements IEngineAdapter {
                     }
 
                 } else {
-                    let tempBounds:PIXI.Rectangle = root.getBounds();
+                    let tempBounds: PIXI.Rectangle = root.getBounds();
                     if (tempBounds.contains(x, y)) {
                         isUnderPoint = true;
                     }

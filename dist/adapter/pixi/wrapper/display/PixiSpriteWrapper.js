@@ -12,6 +12,7 @@ var PixiSpriteWrapper = (function (_super) {
     function PixiSpriteWrapper() {
         var _this = _super.call(this) || this;
         _this.isSpriteWrapper = true;
+        _this.wrapperAnchor = new index_1.Point();
         return _this;
     }
     PixiSpriteWrapper.prototype.commitData = function () {
@@ -32,11 +33,33 @@ var PixiSpriteWrapper = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PixiSpriteWrapper.prototype, "anchor", {
+    Object.defineProperty(PixiSpriteWrapper.prototype, "textureId", {
         get: function () {
-            return new index_1.Point(this.pixiSprite.anchor.x, this.pixiSprite.anchor.y);
+            return this.wrapperTextureId;
         },
         set: function (value) {
+            if (value === this.wrapperTextureId) {
+                return;
+            }
+            this.wrapperTextureId = value;
+            this.texture = PIXI.Texture.from(this.textureId);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PixiSpriteWrapper.prototype, "anchor", {
+        get: function () {
+            /*return new Point(
+                this.pixiSprite.anchor.x,
+                this.pixiSprite.anchor.y
+            );*/
+            this.wrapperAnchor.x = this.pixiSprite.anchor.x;
+            this.wrapperAnchor.y = this.pixiSprite.anchor.y;
+            return this.wrapperAnchor;
+        },
+        set: function (value) {
+            this.wrapperAnchor.x = value.x;
+            this.wrapperAnchor.y = value.y;
             this.pixiSprite.anchor.set(value.x, value.y);
         },
         enumerable: true,

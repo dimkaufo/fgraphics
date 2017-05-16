@@ -2,7 +2,7 @@ import {IBaseClassWrapper, IEventDispatcher, Rectangle, Point} from "fcore/dist/
 import {IDisplayObjectContainerWrapper} from "./IDisplayObjectContainerWrapper";
 
 
-export interface IDisplayObjectWrapper extends IBaseClassWrapper, IEventDispatcher<string> {
+export interface IDisplayObjectWrapper extends IBaseClassWrapper {
     // A way to check if object is an instance of the IDisplayObjectWrapper
     isDisplayObjectWrapper: boolean;
 
