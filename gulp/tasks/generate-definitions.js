@@ -65,7 +65,8 @@ gulp.task(
                     () => {
                         fs.writeFile(
                             argv.outDir + outFileName,
-                            resultDeclarationText
+                            resultDeclarationText,
+                            () => {}
                         );
                     }
                 );
